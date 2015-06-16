@@ -1,0 +1,3 @@
+Neos:
+  CrowdClient:
+    crowdBaseUri: 'https://crowd.neos.io/'

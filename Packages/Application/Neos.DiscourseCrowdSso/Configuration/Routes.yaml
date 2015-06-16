@@ -1,0 +1,16 @@
+#                                                                        #
+# Default subroutes configuration for the NeosDiscouresSso package       #
+#                                                                        #
+
+##
+# Default route to the Login Controller
+
+-
+  name: 'Default Login Action'
+  uriPattern: 'discourse(/{@action})'
+  defaults:
+    '@package':    'Neos.DiscourseCrowdSso'
+    '@controller': 'DiscourseCrowdSso'
+    '@action':     'login'
+    '@format':     'html'
+

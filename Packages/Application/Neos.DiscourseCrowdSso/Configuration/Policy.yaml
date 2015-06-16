@@ -1,0 +1,17 @@
+#                                                                        #
+# Security policy for the Neos.DiscourseCrowdSso package                 #
+#                                                                        #
+
+privilegeTargets:
+  'TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+
+    Neos_DiscourseCrowdSso_Login:
+      matcher: method(Neos\DiscourseCrowdSso\Controller\DiscourseCrowdSsoController->authenticateDiscourseUserAction())
+
+roles:
+
+  'Neos.DiscourseCrowdSso:DiscourseUser':
+    privileges:
+      -
+        privilegeTarget: Neos_DiscourseCrowdSso_Login
+        permission: GRANT

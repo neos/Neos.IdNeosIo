@@ -1,0 +1,24 @@
+Neos:
+  DiscourseCrowdSso:
+    ssoSecret: 'soojusae5jahLei8Ohthoh3iengoeSiusaht7sequeidif6un3im5ahfoopahQu4'
+    discourseSsoUrl: 'http://discuss.neos.io/session/sso_login'
+
+
+TYPO3:
+  Flow:
+    security:
+      authentication:
+        providers:
+          CrowdProvider:
+            provider: 'Neos\CrowdClient\Security\Authentication\Provider\CrowdProvider'
+            providerOptions:
+              crowdApplicationName: 'discourse'
+              crowdApplicationPassword: 'discourse'
+              authenticateRole: 'Neos.DiscourseCrowdSso:DiscourseUser'
+            entryPoint: 'WebRedirect'
+            entryPointOptions:
+              routeValues:
+                '@package':    'Neos.DiscourseCrowdSso'
+                '@controller': 'DiscourseCrowdSso'
+                '@action':     'login'
+                '@format':     'html'

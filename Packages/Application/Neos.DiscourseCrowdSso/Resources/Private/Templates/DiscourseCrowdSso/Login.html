@@ -1,0 +1,17 @@
+<f:layout name="Default" />
+
+<f:section name="Title">Index view of Standard controller</f:section>
+
+<f:section name="Content">
+
+	<f:form name="login" action="authenticateDiscourseUser">
+
+		<f:form.textfield required="required" id="username" type="text" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" additionalAttributes="{autofocus:'autofocus'}" />
+
+		<f:form.textfield required="required" id="password" type="password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" />
+
+		<f:form.button type="submit">Login</f:form.button>
+
+	</f:form>
+
+</f:section>
