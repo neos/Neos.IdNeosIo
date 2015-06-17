@@ -6,18 +6,12 @@ namespace Neos\DiscourseCrowdSso\Controller;
  *                                                                         *
  *                                                                         */
 
-use Neos\CrowdClient\Domain\Service\CrowdClient;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Security\Cryptography\Algorithms;
 use TYPO3\Party\Domain\Model\Person;
 use TYPO3\Party\Domain\Service\PartyService;
 
 class DiscourseCrowdSsoController extends \TYPO3\Flow\Mvc\Controller\ActionController {
-
-	/**
-	 * @var CrowdClient
-	 */
-	protected $crowdClient;
 
 	/**
 	 * @var \TYPO3\Flow\Security\Context
@@ -60,7 +54,7 @@ class DiscourseCrowdSsoController extends \TYPO3\Flow\Mvc\Controller\ActionContr
 		if ($sso === '' && $sig === '') {
 			$argumentsOfInterceptedRequest = $this->securityContext->getInterceptedRequest()->getArguments();
 			if (!isset($argumentsOfInterceptedRequest['sso']) || !isset($argumentsOfInterceptedRequest['sig'])) {
-				return 'This page needs to be called with valid sso and sig arguments!';
+				return 'This page needs to be called with valid sso and sig arguments from crowd!';
 			}
 			$sso = $argumentsOfInterceptedRequest['sso'];
 			$sig = $argumentsOfInterceptedRequest['sig'];
@@ -79,16 +73,15 @@ class DiscourseCrowdSsoController extends \TYPO3\Flow\Mvc\Controller\ActionContr
 					'email' => $crowdUser->getPrimaryElectronicAddress()->getIdentifier(),
 					'external_id' => $currentAccount->getAccountIdentifier()
 				), '', '&', PHP_QUERY_RFC3986));
-			$signature = hash_hmac('sha256', $outgoingPayload, $this->ssoSecret);
 
-			$this->redirectToUri(sprintf(
-					'%s?%s',
-					$this->discourseSsoUrl,
+			$outgoingSignature = hash_hmac('sha256', $outgoingPayload, $this->ssoSecret);
+
+			$this->redirectToUri(sprintf('%s?%s', $this->discourseSsoUrl,
 					http_build_query(array(
 						'sso' => $outgoingPayload,
-						'sig' => $signature
+						'sig' => $outgoingSignature
 						), '', '&', PHP_QUERY_RFC3986)
-			), 0, 302);
+				), 0, 302);
 		}
 
 		return 'Sorry, we couldn\'t log you in';

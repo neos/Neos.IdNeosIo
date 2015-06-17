@@ -1,0 +1,22 @@
+#                                                                        #
+# Routes configuration                                                   #
+#                                                                        #
+# This file contains the configuration for the MVC router.               #
+# Just add your own modifications as necessary.                          #
+#                                                                        #
+# Please refer to the Flow manual for possible configuration options.    #
+#                                                                        #
+
+-
+  name: 'DiscourseCrowdSso'
+  uriPattern: '<DiscourseCrowdSsoSubroutes>'
+  subRoutes:
+    DiscourseCrowdSsoSubroutes:
+      package: Neos.DiscourseCrowdSso
+
+-
+  name: 'CrowdClient'
+  uriPattern: '<CrowdClientSubroutes>'
+  subRoutes:
+    CrowdClientSubroutes:
+      package: Neos.CrowdClient
