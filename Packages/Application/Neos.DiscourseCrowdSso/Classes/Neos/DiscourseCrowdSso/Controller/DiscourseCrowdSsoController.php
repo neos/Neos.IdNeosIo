@@ -71,6 +71,8 @@ class DiscourseCrowdSsoController extends \TYPO3\Flow\Mvc\Controller\ActionContr
 			$outgoingPayload = base64_encode(http_build_query(array(
 					'nonce' => $incomingPayload['nonce'],
 					'email' => $crowdUser->getPrimaryElectronicAddress()->getIdentifier(),
+					'name' => $crowdUser->getName()->getFullName(),
+					'username' => $currentAccount->getAccountIdentifier(),
 					'external_id' => $currentAccount->getAccountIdentifier()
 				), '', '&', PHP_QUERY_RFC3986));
 
