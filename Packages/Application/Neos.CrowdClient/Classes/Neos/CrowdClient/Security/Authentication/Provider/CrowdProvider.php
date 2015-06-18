@@ -120,7 +120,20 @@ class CrowdProvider extends AbstractProvider {
 
 				$crowdUser = $this->partyService->getAssignedPartyOfAccount($account);
 
-				if ($crowdUser === NULL) {
+				if ($crowdUser instanceof Person) {
+					if ($crowdUser->getName()->getFirstName() !== $crowdAuthenticationResponse['first-name']) {
+						$crowdUser->getName()->setFirstName($crowdAuthenticationResponse['first-name']);
+						$this->partyRepository->update($crowdUser);
+					}
+					if ($crowdUser->getName()->getLastName() !== $crowdAuthenticationResponse['last-name']) {
+						$crowdUser->getName()->setLastName($crowdAuthenticationResponse['last-name']);
+						$this->partyRepository->update($crowdUser);
+					}
+					if ($crowdUser->getPrimaryElectronicAddress()->getIdentifier() !== $crowdAuthenticationResponse['email']) {
+						$crowdUser->getPrimaryElectronicAddress()->setIdentifier($crowdAuthenticationResponse['email']);
+						$this->partyRepository->update($crowdUser);
+					}
+				} else {
 					$crowdUser = new Person();
 					$crowdUser->setName(new PersonName('', $crowdAuthenticationResponse['first-name'], '', $crowdAuthenticationResponse['last-name']));
 					$email = new ElectronicAddress();
