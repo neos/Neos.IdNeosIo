@@ -1,0 +1,15 @@
+{
+	"defaults": {
+		"type": "gerrit",
+		"gerrit_api_endpoint": "https://review.typo3.org/",
+		"gerrit_git": "git.typo3.org"
+	},
+	"changes": [
+		{
+			"name": "[BUGFIX][WIP] Invalidate first leve roles cache on authentication",
+			"type": "gerrit",
+			"path": "Packages/Framework/TYPO3.Flow",
+			"change_id": "40403"
+		}
+	]
+}
