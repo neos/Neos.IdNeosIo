@@ -1,0 +1,44 @@
+// Basics
+
+body {
+  padding-top: 100px;
+}
+
+
+// Navigation
+
+.navbar {
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  .navbar-brand {
+    background-image: url(../Images/logo.png);
+    background-repeat: no-repeat;
+    background-size: 100px 32px;
+    text-indent: -999px;
+    width: 135px;
+    height: 32px;
+    margin-right: 20px;
+  }
+}
+
+
+// Header
+
+header {
+  margin-bottom: 60px;
+
+  h1 {
+    text-align: center;
+    font-weight: normal;
+  }
+}
+
+
+// Form box..
+
+.form-box {
+  background-color: #fff;
+  padding: $padding-large-vertical $padding-large-horizontal $padding-large-horizontal;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+}
