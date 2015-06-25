@@ -4644,6 +4644,14 @@ header h1 {
 
 .form-control {
   -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+
+select.form-control::-ms-expand {
+  display: none;
 }
 
 .form-horizontal .has-feedback-select .form-control-feedback {
