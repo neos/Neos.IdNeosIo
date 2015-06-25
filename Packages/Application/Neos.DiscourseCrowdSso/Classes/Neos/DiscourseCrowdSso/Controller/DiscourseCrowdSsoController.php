@@ -44,6 +44,18 @@ class DiscourseCrowdSsoController extends \TYPO3\Flow\Mvc\Controller\ActionContr
 	}
 
 	/**
+	 * @return void
+	 */
+	public function loggedinAction() {
+	}
+
+	/**
+	 * @return void
+	 */
+	public function styleguideAction() {
+	}
+
+	/**
 	 * @param string $sso
 	 * @param string $sig
 	 * @return void

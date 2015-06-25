@@ -15,6 +15,7 @@
             </ul>
         </aside>
         <article class="col-md-6">
+
             <f:form name="login" action="authenticateDiscourseUser" class="form-box form-horizontal">
 
                 <div class="form-group">
@@ -40,15 +41,11 @@
                 <div class="form-group">
                     <div class="col-md-7 col-md-offset-4">
                         <f:form.button type="submit" class="btn btn-primary btn-block">Login</f:form.button>
-                        <a href="#" class="btn btn-link btn-xs btn-block">Create a new Account</a>
+                        <a href="{f:uri.action(action:'styleguide')}" class="btn btn-link btn-xs btn-block">Create a new Account</a>
                     </div>
                 </div>
 
             </f:form>
-
-            <h3><small>Notice</small></h3>
-            <p><small>This login screen probably does not inspire much confidence, but we can assure you that this is the real new Neos community login. If you have any questions, please ask them either in Slack (#ops-group) or, if you have access to it, at <a href="https://discuss.neos.io/c/the-neos-project/tools-operations">https://discuss.neos.io/c/the-neos-project/tools-operations</a>.</small></p>
-            <p><small>If you logged in to the Neos Jira before June 15th, you already do have an account at neos.io. In that case you can retrieve a new password <a href="https://crowd.neos.io/console/forgottenlogindetails!default.action">here</a>. In the future you'll be able to manage your user account (and retrieve a new password) through this site (that is, id.neos.io).</small></p>
 
         </article>
     </div>

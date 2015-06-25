@@ -2,6 +2,7 @@
 
 body {
   padding-top: 100px;
+  padding-bottom: 50px;
 }
 
 
@@ -37,8 +38,117 @@ header {
 
 // Form box..
 
-.form-box {
+.form-box,
+.nav-box{
   background-color: #fff;
   padding: $padding-large-vertical $padding-large-horizontal $padding-large-horizontal;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+}
+
+.form-control {
+  -webkit-appearance: none;
+}
+
+.form-horizontal .has-feedback-select .form-control-feedback {
+  right: 40px;
+  pointer-events: none;
+}
+
+// Select indicator based on feedback icon
+.form-control-select-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2; // Ensure icon is above input groups
+  display: block;
+  width: $input-height-base;
+  height: $input-height-base;
+  line-height: $input-height-base;
+  text-align: center;
+  pointer-events: none;
+  color: $input-border;
+}
+.input-lg + .form-control-select-indicator,
+.input-group-lg + .form-control-select-indicator,
+.form-group-lg .form-control + .form-control-select-indicator {
+  width: $input-height-large;
+  height: $input-height-large;
+  line-height: $input-height-large;
+}
+.input-sm + .form-control-select-indicator,
+.input-group-sm + .form-control-select-indicator,
+.form-group-sm .form-control + .form-control-select-indicator {
+  width: $input-height-small;
+  height: $input-height-small;
+  line-height: $input-height-small;
+}
+// Reposition icon if input has visible label above
+.has-feedback label {
+
+  & ~ .form-control-select-indicator {
+    top: ($line-height-computed + 5); // Height of the `label` and its margin
+  }
+  &.sr-only ~ .form-control-select-indicator {
+    top: 0;
+  }
+}
+.form-horizontal .form-control-select-indicator {
+  right: floor(($grid-gutter-width / 2));
+}
+
+// Checkbox indicator fixes
+.checkbox label {
+  padding-right: 20px;
+}
+
+// Nav-Items
+.nav-box {
+  position: relative;
+
+  .id-nav-item {
+    display: block;
+    padding: 20px 0 22px;
+    color: $text-color;
+    border-bottom: 1px solid $hr-border;
+
+    .col-md-3 {
+      font-weight: bold;
+      text-align: right;
+    }
+
+    &:hover {
+      color: $link-color;
+      text-decoration: none;
+
+      .glyphicon {
+        font-size: 90%;
+        right: -1px;
+      }
+      .btn {
+        .glyphicon {
+          font-size: 100%;
+          right: 0px;
+        }
+      }
+    }
+
+    &.id-nav-item-last {
+      border-bottom: none;
+      margin-bottom: -16px;
+    }
+
+  }
+}
+
+// Box back
+.box-back {
+  position: absolute;
+  top: -24px;
+  left: 16px;
+  color: $text-color;
+
+  &:hover {
+    color: $link-color;
+    text-decoration: none;
+  }
 }
