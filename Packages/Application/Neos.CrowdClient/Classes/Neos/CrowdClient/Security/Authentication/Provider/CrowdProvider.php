@@ -108,7 +108,7 @@ class CrowdProvider extends AbstractProvider {
 
 				if ($account === NULL) {
 					$account = new Account();
-					$account->setAuthenticationProviderName($this->name);
+					$account->setAuthenticationProviderName($providerName);
 					$account->setAccountIdentifier($credentials['username']);
 					$this->accountRepository->add($account);
 				}

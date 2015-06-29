@@ -1,0 +1,30 @@
+#                                                          #
+# Default subroutes configuration for the IdNeosIo package #
+#                                                          #
+
+-
+  name: 'Login Actions'
+  uriPattern: 'login(/{@action})'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'Login'
+    '@action':     'login'
+    '@format':     'html'
+
+-
+  name: 'Reset Password Actions'
+  uriPattern: 'resetpassword(/{@action})'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'ResetPassword'
+    '@action':     'index'
+    '@format':     'html'
+
+-
+  name: 'User Profile Actions'
+  uriPattern: 'user(/{@action})'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'User'
+    '@action':     'index'
+    '@format':     'html'

@@ -3,14 +3,14 @@
 #                                                                        #
 
 ##
-# Default route to the Login Controller
+# Default route to the Discourse SSO Controller
 
 -
   name: 'Default Login Action'
-  uriPattern: 'discourse(/{@action})'
+  uriPattern: 'discourse/authenticatediscourseuser'
   defaults:
     '@package':    'Neos.DiscourseCrowdSso'
     '@controller': 'DiscourseCrowdSso'
-    '@action':     'login'
+    '@action':     'authenticateDiscourseUser'
     '@format':     'html'
-
+  appendExceedingArguments: true

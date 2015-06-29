@@ -38,12 +38,6 @@ class DiscourseCrowdSsoController extends \TYPO3\Flow\Mvc\Controller\ActionContr
 	protected $discourseSsoUrl;
 
 	/**
-	 * @return void
-	 */
-	public function loginAction() {
-	}
-
-	/**
 	 * @param string $sso
 	 * @param string $sig
 	 * @return void

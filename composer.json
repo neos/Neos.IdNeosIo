@@ -12,7 +12,9 @@
         "typo3/eel": "@beta",
         "typo3/party": "@beta",
         "doctrine/migrations": "@dev",
-        "guzzlehttp/guzzle": "^6.0"
+        "guzzlehttp/guzzle": "^6.0",
+        "flownative/flow-doubleoptin": "^0.0.6",
+        "typo3/swiftmailer": "5.*"
     },
     "require-dev": {
         "typo3/kickstart": "3.0.0-beta3",

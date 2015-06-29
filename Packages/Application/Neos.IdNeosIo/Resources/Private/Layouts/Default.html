@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title><f:render section="Title" /></title>
+		<f:base />
+        <link rel="stylesheet" href="{f:uri.resource(path: 'Styles/Main.css', package: 'Neos.IdNeosIo')}" media="all" />
+    </head>
+	<body>
+
+        <div class="top-navigation-wrap navbar-fixed-top scrolling">
+
+            <nav class="navbar navbar-static-top navbar-default first-level-navigation" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/">TYPO3 Neos</a>
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+        <div class="container">
+            <header>
+                <h1><f:render section="Title" /></h1>
+            </header>
+            <section>
+                <f:render section="Content" />
+            </section>
+        </div>
+	</body>
+</html>

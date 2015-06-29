@@ -75,17 +75,21 @@ class CrowdClient {
 	 * @return array|NULL
 	 */
 	public function authenticate($username, $password) {
-		//TODO: sanitize params
+		//TODO: check if sanitizing of $username and $password is enough
 		try {
-			$response = $this->httpClient->post(rtrim($this->crowdBaseUri, '/') . '/rest/usermanagement/1/authentication?username=' . $username, array('body' => json_encode(array('value' => $password))));
+			$response = $this->httpClient->post(rtrim($this->crowdBaseUri, '/') . '/rest/usermanagement/1/authentication?username=' . urlencode($username), array('body' => json_encode(array('value' => $password))));
 			$responseData = json_decode($response->getBody()->getContents(), TRUE);
 
 			return $responseData;
 		} catch (ClientException $e) {
-			//TODO: handle different exceptions correctly
-			var_dump($e->getResponse()->getBody()->getContents());
-			throw $e;
+			$responseError = json_decode($e->getResponse()->getBody()->getContents());
+			switch ($responseError->reason) {
+				case 'INVALID_USER_AUTHENTICATION':
+					return NULL;
+					break;
+				default:
+					throw $e;
+			}
 		}
-		return NULL;
 	}
 }

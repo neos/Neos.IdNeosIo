@@ -18,7 +18,7 @@ TYPO3:
             entryPoint: 'WebRedirect'
             entryPointOptions:
               routeValues:
-                '@package':    'Neos.DiscourseCrowdSso'
-                '@controller': 'DiscourseCrowdSso'
+                '@package':    'Neos.IdNeosIo'
+                '@controller': 'Login'
                 '@action':     'login'
                 '@format':     'html'

@@ -15,8 +15,8 @@
       package: Neos.DiscourseCrowdSso
 
 -
-  name: 'CrowdClient'
-  uriPattern: '<CrowdClientSubroutes>'
+  name: 'id.neos.io'
+  uriPattern: '<IdNeosIoSubroutes>'
   subRoutes:
-    CrowdClientSubroutes:
-      package: Neos.CrowdClient
+    IdNeosIoSubroutes:
+      package: Neos.IdNeosIo
