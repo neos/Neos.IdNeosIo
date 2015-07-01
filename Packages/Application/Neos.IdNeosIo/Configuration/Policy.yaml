@@ -1,0 +1,26 @@
+#                                                                        #
+# Security policy for the Neos.DiscourseCrowdSso package                 #
+#                                                                        #
+
+privilegeTargets:
+  'TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+
+    Neos_IdNeosIo_Profile:
+      matcher: 'method(Neos\IdNeosIo\Controller\UserController->indexAction())'
+
+    Neos_IdNeosIo_ResetPassword:
+      matcher: 'method(Neos\IdNeosIo\Controller\ResetPasswordController->(resetForm|reset)Action())'
+
+roles:
+
+  'Neos.IdNeosIo:NeosCommunityMember':
+    privileges:
+      -
+        privilegeTarget: 'Neos_IdNeosIo_Profile'
+        permission: GRANT
+      -
+        privilegeTarget: 'Neos_DiscourseCrowdSso_Login'
+        permission: GRANT
+      -
+        privilegeTarget: 'Neos_IdNeosIo_ResetPassword'
+        permission: GRANT

@@ -1,0 +1,31 @@
+<f:layout name="Default" />
+
+<f:section name="Title">Your Neos Community Profile</f:section>
+
+<f:section name="Content">
+
+	<div class="row">
+		<aside class="col-md-4 col-md-offset-1">
+			<p>This is your profile ....</p>
+		</aside>
+		<article class="col-md-6">
+
+			<div class="nav-box">
+				<p class="id-nav-item clearfix">
+					<span class="col-md-3 col-md-offset-1">Username</span>
+					<span class="col-md-8">{account.accountIdentifier}</span>
+				</p>
+				<p class="id-nav-item clearfix">
+					<span class="col-md-3 col-md-offset-1">Name</span>
+					<span class="col-md-8">{person.name}</span>
+				</p>
+				<p class="id-nav-item clearfix">
+					<span class="col-md-3 col-md-offset-1">E-Mail</span>
+					<span class="col-md-8">{person.primaryElectronicAddress}</span>
+				</p>
+			</div>
+
+		</article>
+	</div>
+
+</f:section>

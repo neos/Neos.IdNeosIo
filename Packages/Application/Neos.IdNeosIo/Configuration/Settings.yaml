@@ -1,0 +1,61 @@
+TYPO3:
+  Flow:
+    security:
+      authentication:
+        providers:
+          CrowdProvider:
+            provider: 'Neos\CrowdClient\Security\Authentication\Provider\CrowdProvider'
+            providerOptions:
+              crowdApplicationName: 'idneosio'
+              crowdApplicationPassword: 'verysecretapplicationpasswordgoeshere'
+              authenticateRole: 'Neos.IdNeosIo:NeosCommunityMember'
+            entryPoint: 'WebRedirect'
+            entryPointOptions:
+              routeValues:
+                '@package':    'Neos.IdNeosIo'
+                '@controller': 'Login'
+                '@action':     'login'
+                '@format':     'html'
+
+Neos:
+  IdNeosIo:
+    crowdApplicationName: 'idneosio'
+    crowdApplicationPassword: 'verysecretapplicationpasswordgoeshere'
+    authenticationProviderName: 'CrowdProvider'
+
+Flownative:
+  DoubleOptIn:
+    presets:
+      'id.neos.io registration':
+        activation:
+          uri:
+            '@package': 'Neos.IdNeosIo'
+            '@controller': 'User'
+            '@format': 'html'
+            '@action': 'create'
+            arguments:
+              'token': '-tokenhash-'
+        mail:
+          from:
+            name: 'Neos Community Registration'
+            address: 'no-reply@neos.io'
+          subject: 'Activate your Neos community account'
+          message:
+            plaintext: 'resource://Neos.IdNeosIo/Private/Templates/User/ActivationMail.txt'
+
+      'id.neos.io reset password':
+        activation:
+          uri:
+            '@package': 'Neos.IdNeosIo'
+            '@controller': 'ResetPassword'
+            '@format': 'html'
+            '@action': 'onetimeLogin'
+            arguments:
+              'token': '-tokenhash-'
+        mail:
+          from:
+            name: 'Neos Community Login'
+            address: 'no-reply@neos.io'
+          subject: 'Reset password for your Neos community account'
+          message:
+            plaintext: 'resource://Neos.IdNeosIo/Private/Templates/ResetPassword/ResetPasswordMail.txt'

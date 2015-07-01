@@ -42,19 +42,14 @@
 							</p>
 						</f:for>
 					</f:flashMessages>
-					<p class="text-danger">
-						<strong><f:flashMessages class="flashmessages" /></strong>
-					</p>
 				</div>
 
 
                 <div class="form-group">
                     <div class="col-md-7 col-md-offset-4">
                         <f:form.button type="submit" class="btn btn-primary btn-block">Login</f:form.button>
-                        <f:comment>
                         	<a href="{f:uri.action(controller: 'User', action: 'new')}" class="btn btn-link btn-xs btn-block">Create a new Account</a>
 							<a href="{f:uri.action(controller: 'ResetPassword', action: 'index')}" class="btn btn-link btn-xs btn-block">Reset Password</a>
-						</f:comment>
                     </div>
                 </div>
 

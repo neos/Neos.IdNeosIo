@@ -92,4 +92,67 @@ class CrowdClient {
 			}
 		}
 	}
+
+	/**
+	 * @param $username
+	 * @return mixed
+	 */
+	public function getUser($username) {
+		//TODO: check if sanitizing of $username is enough
+		try {
+			$response = $this->httpClient->get(rtrim($this->crowdBaseUri, '/') . '/rest/usermanagement/1/user?username=' . urlencode($username));
+			$responseData = json_decode($response->getBody()->getContents(), TRUE);
+
+			return $responseData;
+		} catch (ClientException $e) {
+			//TODO: handle different exceptions correctly
+			var_dump($e->getResponse()->getBody()->getContents());
+			throw $e;
+		}
+	}
+
+	/**
+	 * @param string $firstname
+	 * @param string $lastname
+	 * @param string $email
+	 * @param string $username
+	 * @param string $password
+	 * @return mixed
+	 */
+	public function addUser($firstname, $lastname, $email, $username, $password) {
+		//TODO: check if sanitizing is enough
+		try {
+			$userData = [
+				'name' => $username,
+				'first-name' => $firstname,
+				'last-name' => $lastname,
+				'email' => $email,
+				'password' => [
+					'value' => $password
+				],
+				'active' => TRUE
+			];
+			$response = $this->httpClient->post(rtrim($this->crowdBaseUri, '/') . '/rest/usermanagement/1/user', array('body' => json_encode($userData)));
+			$responseData = json_decode($response->getBody()->getContents(), TRUE);
+			return $responseData;
+		} catch (ClientException $e) {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * @param string $username
+	 * @param $password
+	 * @return mixed
+	 */
+	public function setPasswordForUser($username, $password) {
+		//TODO: check if sanitizing is enough
+		try {
+			$response = $this->httpClient->put(rtrim($this->crowdBaseUri, '/') . '/rest/usermanagement/1/user/password?username=' . urlencode($username), array('body' => json_encode(array('value' => $password))));
+			$responseData = json_decode($response->getBody()->getContents(), TRUE);
+			return $responseData;
+		} catch (ClientException $e) {
+			return FALSE;
+		}
+	}
 }
