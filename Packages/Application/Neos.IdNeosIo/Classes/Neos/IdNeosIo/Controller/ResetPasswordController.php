@@ -9,6 +9,7 @@ use Flownative\DoubleOptIn\Token;
 use Flownative\DoubleOptIn\Helper;
 use Neos\CrowdClient\Domain\Service\CrowdClient;
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Error\Message;
 use TYPO3\Flow\Security\Authentication\TokenInterface;
 
 class ResetPasswordController extends \TYPO3\Flow\Mvc\Controller\ActionController {
@@ -62,9 +63,11 @@ class ResetPasswordController extends \TYPO3\Flow\Mvc\Controller\ActionControlle
 	}
 
 	/**
+	 * @param string $username
 	 * @return void
 	 */
-	public function indexAction() {
+	public function indexAction($username = '') {
+		$this->view->assign('username', $username);
 	}
 
 	/**
@@ -78,24 +81,24 @@ class ResetPasswordController extends \TYPO3\Flow\Mvc\Controller\ActionControlle
 			$this->doubleOptInHelper->setRequest($this->request);
 			$this->doubleOptInHelper->sendActivationMail($userData['email'], $token);
 
-			$this->redirect('resetPasswordMailSent');
-
+			$this->addFlashMessage('We\'ve sent you an email with a link to reset your password.', 'Email sent');
+			$this->redirect('index', 'User');
 		}
-		//TODO: error handling
-	}
 
-
-	/**
-	 * @return void
-	 */
-	public function resetPasswordMailSentAction() {
+		$this->addFlashMessage('The given username was not found. Please check your spelling or create a new account.', 'User not found', Message::SEVERITY_ERROR);
+		$this->forward('index', NULL, NULL, array('username' => $username));
 	}
 
 	/**
 	 * @param Token $token
 	 * @return void
 	 */
-	public function onetimeLoginAction(Token $token) {
+	public function onetimeLoginAction(Token $token = NULL) {
+		if ($token === NULL) {
+			$this->addFlashMessage('Please request a new email to reset your password.', 'Invalid password reset link.', Message::SEVERITY_ERROR);
+			$this->redirect('index');
+		}
+
 		$username = $token->getMeta()['name'];
 
 		/** @var $account \TYPO3\Flow\Security\Account */
@@ -143,7 +146,7 @@ class ResetPasswordController extends \TYPO3\Flow\Mvc\Controller\ActionControlle
 	 * display no flash message at all on errors. Override this to customize
 	 * the flash message in your action controller.
 	 *
-	 * @return \TYPO3\Flow\Error\Message The flash message or FALSE if no flash message should be set
+	 * @return Message The flash message or FALSE if no flash message should be set
 	 * @api
 	 */
 	protected function getErrorFlashMessage() {

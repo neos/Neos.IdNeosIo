@@ -16,6 +16,8 @@
 		</aside>
 		<article class="col-md-6">
 
+			<f:render partial="FlashMessages" />
+
 			<f:form name="resetPassword" action="reset" class="form-box form-horizontal">
 
 				<div class="form-group">
@@ -30,16 +32,6 @@
 					<div class="col-md-7">
 						<f:form.textfield required="required" id="passwordConfirmation" type="password" name="passwordConfirmation" class="form-control" placeholder="Confirm password" />
 					</div>
-				</div>
-
-				<div class="col-md-7 col-md-offset-4">
-					<f:flashMessages as="flashMessages">
-						<f:for each="{flashMessages}" as="flashMessage">
-							<p class="text-danger">
-								<strong>{flashMessage}</strong>
-							</p>
-						</f:for>
-					</f:flashMessages>
 				</div>
 
 				<div class="form-group">
