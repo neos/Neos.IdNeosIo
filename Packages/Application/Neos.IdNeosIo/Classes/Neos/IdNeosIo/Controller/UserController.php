@@ -8,19 +8,21 @@ namespace Neos\IdNeosIo\Controller;
 use Flownative\DoubleOptIn\Token;
 use Flownative\DoubleOptIn\Helper;
 use Neos\CrowdClient\Domain\Service\CrowdClient;
+use Neos\IdNeosIo\Domain\Model\UserDto;
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Error\Message;
 use TYPO3\Party\Domain\Service\PartyService;
 
 class UserController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 
 	/**
-	 * @var string $crowdApplicationName
+	 * @var string
 	 * @Flow\Inject(setting="crowdApplicationName")
 	 */
 	protected $crowdApplicationName;
 
 	/**
-	 * @var string $crowdApplicationPassword
+	 * @var string
 	 * @Flow\Inject(setting="crowdApplicationPassword")
 	 */
 	protected $crowdApplicationPassword;
@@ -71,52 +73,45 @@ class UserController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	}
 
 	/**
-	 * @param string $firstname
-	 * @param string $lastname
-	 * @param string $email
-	 * @param string $username
-	 * @param string $password
-	 * @param string $passwordConfirmation
+	 * @param UserDto $user
 	 * @return void
 	 */
-	public function sendActivationEmailAction($firstname, $lastname, $email, $username, $password, $passwordConfirmation) {
-		if ($password === '' || $password !== $passwordConfirmation) {
-			$this->flashMessageContainer->addMessage(new \TYPO3\Flow\Error\Error('Passwords didn\'t match!', 1435750717));
-			return $this->errorAction();
-		}
-
-		$userData = [
-			'firstname' => $firstname,
-			'lastname' => $lastname,
-			'email' => $email,
-			'username' => $username,
-			'password' => $password
-		];
-
-		$token = $this->doubleOptInHelper->generateToken($email, 'id.neos.io registration', $userData);
+	public function sendActivationEmailAction(UserDto $user) {
+		$token = $this->doubleOptInHelper->generateToken($user->getEmail(), 'id.neos.io registration', ['user' => $user]);
 		$this->doubleOptInHelper->setRequest($this->request);
-		$this->doubleOptInHelper->sendActivationMail($email, $token);
+		$this->doubleOptInHelper->sendActivationMail($user->getEmail(), $token);
 
-		$this->redirect('activationMailSent');
+		$this->addFlashMessage('We\'ve sent you an email with a link to activate your account!', '', Message::SEVERITY_OK);
+		$this->redirect('index');
 	}
 
 	/**
+	 * @param Token $token
 	 * @return void
 	 */
-	public function activationMailSentAction() {
-	}
-
-	/**
-	 * @param Token
-	 * @return void
-	 */
-	public function createAction(Token $token) {
-		$userData = $token->getMeta();
-		if ($this->crowdClient->addUser($userData['firstname'], $userData['lastname'], $userData['email'], $userData['username'], $userData['password']) !== FALSE) {
-			//TODO: show nice success message
-			$this->redirect('index');
+	public function createAction(Token $token = NULL) {
+		if ($token === NULL) {
+			$this->addFlashMessage('The activation link is not valid.', '', Message::SEVERITY_ERROR);
+			$this->forward('createError');
 		}
-		//TODO: Error
+
+		$user = $token->getMeta()['user'];
+		$result = $this->crowdClient->addUser($user->getFirstname(), $user->getLastname(), $user->getEmail(), $user->getUsername(), $user->getPassword());
+		if (!$result->hasErrors()) {
+			$this->addFlashMessage('Your account was created successfully. You can now sing in with your credentials.', 'Account created', Message::SEVERITY_OK);
+			$this->redirect('index');
+		} else {
+			$error = $result->getFirstError();
+			$this->addFlashMessage($error->getMessage(), $error->getTitle(), Message::SEVERITY_ERROR);
+			$this->forward('createError');
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function createErrorAction() {
+
 	}
 
 	/**

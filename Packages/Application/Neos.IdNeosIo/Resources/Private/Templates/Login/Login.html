@@ -1,61 +1,72 @@
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
-<f:section name="Title">Neos Community Login</f:section>
+<f:section name="Title">Neos Community</f:section>
 
 <f:section name="Content">
 
-    <div class="row">
-        <aside class="col-md-4 col-md-offset-1">
+	<div class="row">
+		<aside class="col-md-4 col-md-offset-1">
 			<h3>Notice</h3>
-			<p>If you have any questions, please ask them either in Slack (#ops-group) or, if you have access to it, at <a href="https://discuss.neos.io/c/the-neos-project/tools-operations">https://discuss.neos.io/c/the-neos-project/tools-operations</a>.</p>
-			<p>If you logged in to the Neos Jira before June 15th, you already do have an account at neos.io. In that case you can retrieve a new password <a href="https://crowd.neos.io/console/forgottenlogindetails!default.action">here</a>. In the future you'll be able to manage your user account (and retrieve a new password) through this site (that is, id.neos.io).</p>
-        </aside>
-        <article class="col-md-6">
 
-            <f:form name="login" action="authenticate" class="form-box form-horizontal">
+			<p>If you have any questions, please ask them either in Slack (#ops-group) or, if you have access to it, at
+				<a href="https://discuss.neos.io/c/the-neos-project/tools-operations">https://discuss.neos.io/c/the-neos-project/tools-operations</a>.
+			</p>
 
-                <div class="form-group">
-                    <div class="col-md-7 col-md-offset-4">
-                        <div class="form-control-static">Enter your login credentials</div>
-                    </div>
-                </div>
+			<p>If you logged in to the Neos Jira before June 15th, you already do have an account at neos.io. In that
+				case you can retrieve a new password <a
+						href="https://crowd.neos.io/console/forgottenlogindetails!default.action">here</a>. In the
+				future you'll be able to manage your user account (and retrieve a new password) through this site (that
+				is, id.neos.io).</p>
+		</aside>
+		<div class="col-md-6">
 
-                <div class="form-group">
-                    <label for="username" class="col-md-3 col-md-offset-1 control-label">Username</label>
-                    <div class="col-md-7">
-                        <f:form.textfield required="required" id="username" type="text" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" additionalAttributes="{autofocus:'autofocus'}" class="form-control" placeholder="Username" />
-                    </div>
-                </div>
+			<f:render partial="FlashMessages" />
 
-                <div class="form-group">
-                    <label for="password" class="col-md-3 col-md-offset-1 control-label">Password</label>
-                    <div class="col-md-7">
-                        <f:form.textfield required="required" id="password" type="password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" class="form-control" placeholder="Password" />
-                    </div>
-                </div>
+			<div class="panel panel-default">
+				<div class="panel-heading">I have a Neos community account</div>
+				<div class="panel-body">
+					<f:form name="login" action="authenticate" class="form-horizontal">
+						<div class="form-group">
+							<label for="username" class="col-md-3 col-md-offset-1 control-label">Username</label>
 
-				<div class="col-md-7 col-md-offset-4">
-					<f:flashMessages as="flashMessages">
-						<f:for each="{flashMessages}" as="flashMessage">
-							<p class="text-danger">
-								<strong>{flashMessage}</strong>
-							</p>
-						</f:for>
-					</f:flashMessages>
+							<div class="col-md-7">
+								<f:form.textfield required="required" id="username" type="text"
+												  name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]"
+												  additionalAttributes="{autofocus:'autofocus'}" class="form-control"
+												  placeholder="Username"/>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="col-md-3 col-md-offset-1 control-label">Password</label>
+
+							<div class="col-md-7">
+								<f:form.textfield required="required" id="password" type="password"
+												  name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]"
+												  class="form-control" placeholder="Password"/>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-7 col-md-offset-4">
+								<f:form.button type="submit" class="btn btn-primary btn-block">Sign in</f:form.button>
+								<a href="{f:uri.action(controller: 'ResetPassword', action: 'index')}"
+								   class="btn btn-link btn-xs btn-block">Forgot your password?</a>
+							</div>
+						</div>
+					</f:form>
 				</div>
+			</div>
 
+			<div class="panel panel-default">
+				<div class="panel-heading">I don't have a Neos community account yet</div>
+				<div class="panel-body">
+					<a href="{f:uri.action(controller: 'User', action: 'new')}"
+					   class="btn btn-primary">Create new account</a>
+				</div>
+			</div>
 
-                <div class="form-group">
-                    <div class="col-md-7 col-md-offset-4">
-                        <f:form.button type="submit" class="btn btn-primary btn-block">Login</f:form.button>
-                        	<a href="{f:uri.action(controller: 'User', action: 'new')}" class="btn btn-link btn-xs btn-block">Create a new Account</a>
-							<a href="{f:uri.action(controller: 'ResetPassword', action: 'index')}" class="btn btn-link btn-xs btn-block">Reset Password</a>
-                    </div>
-                </div>
-
-            </f:form>
-
-        </article>
-    </div>
+		</div>
+	</div>
 
 </f:section>

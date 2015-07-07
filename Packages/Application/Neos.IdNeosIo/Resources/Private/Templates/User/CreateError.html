@@ -1,0 +1,21 @@
+<f:layout name="Default" />
+
+<f:section name="Title">Create New Account</f:section>
+
+<f:section name="Content">
+
+	<div class="row">
+		<aside class="col-md-4 col-md-offset-1">
+			<p>How to get help if an error ocurred...</p>
+		</aside>
+		<article class="col-md-6">
+			<f:render partial="FlashMessages" />
+
+			<p>
+				There was an error creating your account. Please retry to <a href="{f:uri.action(controller: 'User', action: 'new')}">create the account</a>.
+				If you continue to get this error please get in contact with our Slack channel (#ops-group) or write an email to <a href="mailto:hello@neos.io">hello@neos.io</a>.
+			</p>
+		</article>
+	</div>
+
+</f:section>
