@@ -9,6 +9,11 @@ namespace Neos\CrowdClient\Domain\Service;
 use GuzzleHttp\Exception\ClientException;
 use TYPO3\Flow\Annotations as Flow;
 use GuzzleHttp\Client as HttpClient;
+use TYPO3\Flow\Configuration\ConfigurationManager;
+use TYPO3\Flow\Persistence\PersistenceManagerInterface;
+use TYPO3\Flow\Reflection\ObjectAccess;
+use TYPO3\Flow\Security\Account;
+use TYPO3\Flow\Security\Policy\PolicyService;
 
 /**
  * Class CrowdClient
@@ -16,9 +21,10 @@ use GuzzleHttp\Client as HttpClient;
 class CrowdClient {
 
 	/**
-	 * @var array
+	 * @var ConfigurationManager
+	 * @Flow\Inject
 	 */
-	protected $settings = array();
+	protected $configurationManager;
 
 	/**
 	 * @var HttpClient
@@ -46,6 +52,30 @@ class CrowdClient {
 	 * @var \TYPO3\Flow\Log\SystemLoggerInterface
 	 */
 	protected $systemLogger;
+
+	/**
+	 * @var \TYPO3\Flow\Security\Context
+	 * @Flow\Inject
+	 */
+	protected $securityContext;
+
+	/**
+	 * @var PolicyService
+	 * @Flow\Inject
+	 */
+	protected $policyService;
+
+	/**
+	 * @var \TYPO3\Flow\Security\AccountRepository
+	 * @Flow\Inject
+	 */
+	protected $accountRepository;
+
+	/**
+	 * @var PersistenceManagerInterface
+	 * @Flow\Inject
+	 */
+	protected $persistenceManager;
 
 	/**
 	 * Constructor
@@ -116,6 +146,33 @@ class CrowdClient {
 			}
 			throw $e;
 		}
+	}
+
+	/**
+	 * @param string $username Crowd Username
+	 * @param string $providerName Name of the authentication provider, this account should be used with
+	 * @return Account
+	 */
+	public function getLocalAccountForCrowdUser($username, $providerName) {
+		$accountRepository = $this->accountRepository;
+		$this->securityContext->withoutAuthorizationChecks(function() use ($username, $providerName, $accountRepository, &$account) {
+			$account = $accountRepository->findActiveByAccountIdentifierAndAuthenticationProviderName($username, $providerName);
+		});
+
+		if ($account === NULL) {
+			if ($this->getUser($username) === NULL) {
+				return NULL;
+			}
+			$account = new Account();
+			$account->setAuthenticationProviderName($providerName);
+			$account->setAccountIdentifier($username);
+			$roleIdentifier = $this->configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'TYPO3.Flow.security.authentication.providers.' . $providerName . '.providerOptions.authenticateRole');
+			$account->addRole($this->policyService->getRole($roleIdentifier));
+			$this->accountRepository->add($account);
+			$this->persistenceManager->persistAll();
+		}
+
+		return $account;
 	}
 
 	/**
