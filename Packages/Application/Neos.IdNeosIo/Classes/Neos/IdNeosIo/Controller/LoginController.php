@@ -16,12 +16,15 @@ class LoginController extends \TYPO3\Flow\Security\Authentication\Controller\Abs
 	protected $securityContext;
 
 	/**
-	 * Is called if authentication was successful. If there has been an
-	 * intercepted request due to security restrictions, it redirects to
-	 * this, otherwise redirects to the user's profile page.
-	 *
-	 * @param \TYPO3\Flow\Mvc\ActionRequest $originalRequest The request that was intercepted by the security framework, NULL if there was none
-	 * @return string
+	 * {@inheritdoc}
+	 */
+	public function logoutAction() {
+		$this->authenticationManager->logout();
+		$this->redirect('index', 'User');
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	protected function onAuthenticationSuccess(\TYPO3\Flow\Mvc\ActionRequest $originalRequest = NULL) {
 		if ($originalRequest !== NULL) {
@@ -29,5 +32,18 @@ class LoginController extends \TYPO3\Flow\Security\Authentication\Controller\Abs
 		}
 
 		$this->redirect('index', 'User');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onAuthenticationFailure(\TYPO3\Flow\Security\Exception\AuthenticationRequiredException $exception = NULL) {
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function getErrorFlashMessage() {
+		return new \TYPO3\Flow\Error\Error('Please check your username and password', NULL, array(), 'Authentication failed');
 	}
 }

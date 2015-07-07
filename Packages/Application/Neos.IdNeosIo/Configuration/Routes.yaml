@@ -2,6 +2,16 @@
 # Default subroutes configuration for the IdNeosIo package #
 #                                                          #
 
+
+-
+  name: 'Homepage'
+  uriPattern: ''
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'Welcome'
+    '@action':     'welcome'
+    '@format':     'html'
+
 -
   name: 'Login Actions'
   uriPattern: 'login(/{@action})'
@@ -10,6 +20,26 @@
     '@controller': 'Login'
     '@action':     'login'
     '@format':     'html'
+
+-
+  name: 'Activate account'
+  uriPattern: 'user/activate/{token}'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'User'
+    '@action':     'create'
+    '@format':     'html'
+    'token':       ''
+
+-
+  name: 'Reset password link'
+  uriPattern: 'user/onetimelogin/{token}'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'ResetPassword'
+    '@action':     'onetimeLogin'
+    '@format':     'html'
+    'token':       ''
 
 -
   name: 'Reset Password Actions'

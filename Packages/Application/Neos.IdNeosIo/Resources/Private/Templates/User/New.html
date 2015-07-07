@@ -1,0 +1,213 @@
+<f:layout name="Default" />
+
+<f:section name="Title">Create New Account</f:section>
+
+<f:section name="Content">
+
+	<div class="row">
+		<aside class="col-md-4 col-md-offset-1">
+			<p>Your new account can be used to access the following services:</p>
+			<ul>
+				<li><a href="http://discuss.neos.io/">discuss.neos.io</a></li>
+				<li><a href="http://jira.neos.io/">jira.neos.io</a></li>
+			</ul>
+		</aside>
+		<article class="col-md-6">
+
+			<f:form name="createAccount" action="sendActivationEmail" objectName="user" class="form-box form-horizontal">
+
+				<div class="form-group">
+					<div class="col-md-7 col-md-offset-4">
+						<div class="form-control-static">Please fill in the following fields:</div>
+					</div>
+				</div>
+
+				<hr />
+
+				<f:validation.results>
+					<f:if condition="{validationResults.flattenedErrors}">
+						<div class="col-md-7 col-md-offset-4">
+							<p class="text-danger">
+								<strong>There are some errors in the form.</strong>
+							</p>
+						</div>
+					</f:if>
+				</f:validation.results>
+
+				<f:validation.results for="user.firstname">
+					<f:if condition="{validationResults.flattenedErrors}">
+						<f:then>
+							<div class="form-group has-error has-feedback">
+								<label class="col-md-3 col-md-offset-1 control-label">Firstname</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="firstname" type="text" property="firstname" class="form-control" placeholder="Firstname" />
+									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+									<span class="help-block">
+										<f:for each="{validationResults.errors}" as="error">
+											{error}
+										</f:for>
+									</span>
+								</div>
+							</div>
+						</f:then>
+						<f:else>
+							<div class="form-group">
+								<label class="col-md-3 col-md-offset-1 control-label">Firstname</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="firstname" type="text" property="firstname" class="form-control" placeholder="Firstname" />
+								</div>
+							</div>
+						</f:else>
+					</f:if>
+				</f:validation.results>
+
+				<f:validation.results for="user.lastname">
+					<f:if condition="{validationResults.flattenedErrors}">
+						<f:then>
+							<div class="form-group has-error has-feedback">
+								<label class="col-md-3 col-md-offset-1 control-label">Lastname</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="lastname" type="text" property="lastname" class="form-control" placeholder="Lastname" />
+									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+									<span class="help-block">
+										<f:for each="{validationResults.errors}" as="error">
+											{error}
+										</f:for>
+									</span>
+								</div>
+							</div>
+						</f:then>
+						<f:else>
+							<div class="form-group">
+								<label class="col-md-3 col-md-offset-1 control-label">Lastname</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="lastname" type="text" property="lastname" class="form-control" placeholder="Lastname" />
+								</div>
+							</div>
+						</f:else>
+					</f:if>
+				</f:validation.results>
+
+				<f:validation.results for="user.email">
+					<f:if condition="{validationResults.flattenedErrors}">
+						<f:then>
+							<div class="form-group has-error has-feedback">
+								<label class="col-md-3 col-md-offset-1 control-label">Email address</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="email" type="text" property="email" class="form-control" placeholder="Email address" />
+									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+									<span class="help-block">
+										<f:for each="{validationResults.errors}" as="error">
+											{error}
+										</f:for>
+									</span>
+								</div>
+							</div>
+						</f:then>
+						<f:else>
+							<div class="form-group">
+								<label class="col-md-3 col-md-offset-1 control-label">Email address</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="email" type="text" property="email" class="form-control" placeholder="Email address" />
+								</div>
+							</div>
+						</f:else>
+					</f:if>
+				</f:validation.results>
+
+				<hr />
+
+				<f:validation.results for="user.username">
+					<f:if condition="{validationResults.flattenedErrors}">
+						<f:then>
+							<div class="form-group has-error has-feedback">
+								<label class="col-md-3 col-md-offset-1 control-label">Username</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="username" type="text" property="username" class="form-control" placeholder="Username" />
+									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+									<span class="help-block">
+										<f:for each="{validationResults.errors}" as="error">
+											{error}
+										</f:for>
+									</span>
+								</div>
+							</div>
+						</f:then>
+						<f:else>
+							<div class="form-group">
+								<label class="col-md-3 col-md-offset-1 control-label">Username</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="username" type="text" property="username" class="form-control" placeholder="Username" />
+									<span class="help-block">This needs to be unique and will be visible to other users.</span>
+								</div>
+							</div>
+						</f:else>
+					</f:if>
+				</f:validation.results>
+
+				<f:validation.results for="user.password">
+					<f:if condition="{validationResults.flattenedErrors}">
+						<f:then>
+							<div class="form-group has-error has-feedback">
+								<label class="col-md-3 col-md-offset-1 control-label">Password</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="password" type="password" property="password" class="form-control" placeholder="Password" />
+									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+									<span class="help-block">
+										<f:for each="{validationResults.errors}" as="error">
+											{error}
+										</f:for>
+									</span>
+								</div>
+							</div>
+						</f:then>
+						<f:else>
+							<div class="form-group">
+								<label class="col-md-3 col-md-offset-1 control-label">Password</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="password" type="password" property="password" class="form-control" placeholder="Password" />
+									<span class="help-block">Please choose a strong password with at least 8 characters.</span>
+								</div>
+							</div>
+						</f:else>
+					</f:if>
+				</f:validation.results>
+
+				<f:validation.results for="user.passwordConfirmation">
+					<f:if condition="{validationResults.flattenedErrors}">
+						<f:then>
+							<div class="form-group has-error has-feedback">
+								<label class="col-md-3 col-md-offset-1 control-label">Confirm password</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="passwordConfirmation" type="password" property="passwordConfirmation" class="form-control" placeholder="Confirm password" />
+									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+									<span class="help-block">
+										<f:for each="{validationResults.errors}" as="error">
+											{error}
+										</f:for>
+									</span>
+								</div>
+							</div>
+						</f:then>
+						<f:else>
+							<div class="form-group">
+								<label class="col-md-3 col-md-offset-1 control-label">Password</label>
+								<div class="col-md-7">
+									<f:form.textfield required="required" id="passwordConfirmation" type="password" property="passwordConfirmation" class="form-control" placeholder="Confirm password" />
+								</div>
+							</div>
+						</f:else>
+					</f:if>
+				</f:validation.results>
+
+				<div class="form-group">
+					<div class="col-md-7 col-md-offset-4">
+						<f:form.button type="submit" class="btn btn-primary btn-block">Create Account</f:form.button>
+					</div>
+				</div>
+			</f:form>
+
+		</article>
+	</div>
+
+</f:section>

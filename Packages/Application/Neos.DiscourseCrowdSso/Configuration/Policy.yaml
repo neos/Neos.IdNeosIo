@@ -6,7 +6,7 @@ privilegeTargets:
   'TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
 
     Neos_DiscourseCrowdSso_Login:
-      matcher: method(Neos\DiscourseCrowdSso\Controller\DiscourseCrowdSsoController->authenticateDiscourseUserAction())
+      matcher: 'method(Neos\DiscourseCrowdSso\Controller\DiscourseCrowdSsoController->authenticateDiscourseUserAction())'
 
 roles:
 

@@ -1,8 +1,51 @@
+<f:layout name="Default" />
 
-<f:form name="send-reset-link" action="sendResetLink">
+<f:section name="Title">Reset Password</f:section>
 
-	<f:form.textfield required="required" id="username" type="text" name="username" additionalAttributes="{autofocus:'autofocus'}" />
+<f:section name="Content">
 
-	<f:form.button type="submit">Send</f:form.button>
+	<div class="row">
+		<aside class="col-md-4 col-md-offset-1">
+			<h3>Notice</h3>
+			<p>If you have any questions, please ask them either in Slack (#ops-group) or, if you have access to it, at <a href="https://discuss.neos.io/c/the-neos-project/tools-operations">https://discuss.neos.io/c/the-neos-project/tools-operations</a>.</p>
+			<p>If you logged in to the Neos Jira before June 15th, you already do have an account at neos.io. In that case you can retrieve a new password <a href="https://crowd.neos.io/console/forgottenlogindetails!default.action">here</a>. In the future you'll be able to manage your user account (and retrieve a new password) through this site (that is, id.neos.io).</p>
+		</aside>
+		<article class="col-md-6">
 
-</f:form>
+			<f:form name="resetPassword" action="sendResetLink" class="form-box form-horizontal">
+
+				<div class="form-group">
+					<div class="col-md-7 col-md-offset-4">
+						<div class="form-control-static">Enter your username</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="username" class="col-md-3 col-md-offset-1 control-label">Username</label>
+					<div class="col-md-7">
+						<f:form.textfield required="required" id="username" type="text" name="username" additionalAttributes="{autofocus:'autofocus'}" class="form-control" placeholder="Username" />
+					</div>
+				</div>
+
+				<div class="col-md-7 col-md-offset-4">
+					<f:flashMessages as="flashMessages">
+						<f:for each="{flashMessages}" as="flashMessage">
+							<p class="text-danger">
+								<strong>{flashMessage}</strong>
+							</p>
+						</f:for>
+					</f:flashMessages>
+				</div>
+
+				<div class="form-group">
+					<div class="col-md-7 col-md-offset-4">
+						<f:form.button type="submit" class="btn btn-primary btn-block">Send</f:form.button>
+					</div>
+				</div>
+
+			</f:form>
+
+		</article>
+	</div>
+
+</f:section>

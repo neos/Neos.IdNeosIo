@@ -1,0 +1,41 @@
+<f:layout name="Default" />
+
+<f:section name="Title">Your Neos Community Profile</f:section>
+
+<f:section name="Content">
+
+	<div class="row">
+		<aside class="col-md-4 col-md-offset-1">
+			<p>This account can be used to access the following services:</p>
+			<ul>
+				<li><a href="http://discuss.neos.io/">discuss.neos.io</a></li>
+				<li><a href="http://jira.neos.io/">jira.neos.io</a></li>
+			</ul>
+		</aside>
+		<article class="col-md-6">
+
+			<div class="nav-box">
+				<p class="id-nav-item clearfix">
+					<span class="col-md-3 col-md-offset-1">Username</span>
+					<span class="col-md-8">{account.accountIdentifier}</span>
+				</p>
+				<p class="id-nav-item clearfix">
+					<span class="col-md-3 col-md-offset-1">Name</span>
+					<span class="col-md-8">{person.name}</span>
+				</p>
+				<p class="id-nav-item clearfix">
+					<span class="col-md-3 col-md-offset-1">E-Mail</span>
+					<span class="col-md-8">{person.primaryElectronicAddress}</span>
+				</p>
+				<p class="id-nav-item clearfix">
+					<span class="col-md-3 col-md-offset-1"></span>
+					<span class="col-md-8">
+						<a href="{f:uri.action(controller: 'Login', action: 'logout')}" class="btn btn-primary">Sign out</a>
+					</span>
+				</p>
+			</div>
+
+		</article>
+	</div>
+
+</f:section>
