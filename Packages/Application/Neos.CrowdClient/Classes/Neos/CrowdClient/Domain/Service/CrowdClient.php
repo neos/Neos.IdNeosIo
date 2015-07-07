@@ -160,7 +160,9 @@ class CrowdClient {
 		});
 
 		if ($account === NULL) {
-			$this->getUser($username);
+			if ($this->getUser($username) === NULL) {
+				return NULL;
+			}
 			$account = new Account();
 			$account->setAuthenticationProviderName($providerName);
 			$account->setAccountIdentifier($username);

@@ -99,6 +99,11 @@ class ResetPasswordController extends \TYPO3\Flow\Mvc\Controller\ActionControlle
 
 		$account = $this->crowdClient->getLocalAccountForCrowdUser($username, $this->authenticationProviderName);
 
+		if ($account === NULL) {
+			$this->addFlashMessage('Sorry, we could not find this user. Please try to reset your password again.', 'User not found', Message::SEVERITY_ERROR);
+			$this->redirect('index');
+		}
+
 		foreach ($this->securityContext->getAuthenticationTokens() as $authenticationToken) {
 			if ($authenticationToken->getAuthenticationProviderName() === $this->authenticationProviderName) {
 				$authenticationToken->setAuthenticationStatus(TokenInterface::AUTHENTICATION_SUCCESSFUL);
