@@ -10,7 +10,9 @@ use Flownative\DoubleOptIn\Helper;
 use Neos\CrowdClient\Domain\Service\CrowdClient;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Error\Message;
+use TYPO3\Flow\Security\Account;
 use TYPO3\Flow\Security\Authentication\TokenInterface;
+use TYPO3\Flow\Security\Policy\PolicyService;
 
 class ResetPasswordController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 
@@ -42,12 +44,6 @@ class ResetPasswordController extends \TYPO3\Flow\Mvc\Controller\ActionControlle
 	 * @Flow\Inject
 	 */
 	protected $doubleOptInHelper;
-
-	/**
-	 * @var \TYPO3\Flow\Security\AccountRepository
-	 * @Flow\Inject
-	 */
-	protected $accountRepository;
 
 	/**
 	 * @var \TYPO3\Flow\Security\Context
@@ -101,16 +97,10 @@ class ResetPasswordController extends \TYPO3\Flow\Mvc\Controller\ActionControlle
 
 		$username = $token->getMeta()['name'];
 
-		/** @var $account \TYPO3\Flow\Security\Account */
-		$account = NULL;
-		$providerName = $this->authenticationProviderName;
-		$accountRepository = $this->accountRepository;
-		$this->securityContext->withoutAuthorizationChecks(function() use ($username, $providerName, $accountRepository, &$account) {
-			$account = $accountRepository->findActiveByAccountIdentifierAndAuthenticationProviderName($username, $providerName);
-		});
+		$account = $this->crowdClient->getLocalAccountForCrowdUser($username, $this->authenticationProviderName);
 
 		foreach ($this->securityContext->getAuthenticationTokens() as $authenticationToken) {
-			if ($authenticationToken->getAuthenticationProviderName() === $providerName) {
+			if ($authenticationToken->getAuthenticationProviderName() === $this->authenticationProviderName) {
 				$authenticationToken->setAuthenticationStatus(TokenInterface::AUTHENTICATION_SUCCESSFUL);
 				$authenticationToken->setAccount($account);
 				break;
