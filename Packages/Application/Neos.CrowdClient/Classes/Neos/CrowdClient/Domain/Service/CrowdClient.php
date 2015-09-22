@@ -124,6 +124,8 @@ class CrowdClient {
 						return NULL;
 					case 'USER_NOT_FOUND':
 						return NULL;
+					case 'EXPIRED_CREDENTIAL':
+						return NULL;
 				}
 			}
 			throw $e;
