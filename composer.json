@@ -1,24 +1,20 @@
 {
-    "name": "typo3/flow-base-distribution",
-    "description" : "TYPO3 Flow Base Distribution",
-    "license": "LGPL-3.0+",
+    "name": "neos/idneosio",
+    "description" : "Distribution for id.neos.io",
+    "license": "GPL-3.0+",
     "config": {
         "vendor-dir": "Packages/Libraries",
         "bin-dir": "bin"
     },
     "require": {
-        "typo3/flow": "3.0.0-beta3",
-        "typo3/fluid": "@beta",
-        "typo3/eel": "@beta",
-        "typo3/party": "@beta",
-        "doctrine/migrations": "@dev",
+        "neos/flow-development-collection": "@dev",
+        "typo3/party": "@dev",
         "guzzlehttp/guzzle": "^6.0",
         "flownative/flow-doubleoptin": "^0.0.6",
         "typo3/swiftmailer": "5.*"
     },
     "require-dev": {
-        "typo3/kickstart": "3.0.0-beta3",
-        "typo3/buildessentials": "3.0.0-beta3",
+        "typo3/buildessentials": "@dev",
         "phpunit/phpunit": "4.6.*",
         "mikey179/vfsstream": "1.5.*"
     },
