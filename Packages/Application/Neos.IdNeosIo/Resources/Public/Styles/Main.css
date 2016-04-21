@@ -5034,9 +5034,8 @@ body {
   background-repeat: no-repeat;
   background-size: 80%;
   text-indent: -999px;
-  width: 135px;
-  margin-right: 20px;
-  margin-top: 20px;
+  width: 250px;
+  margin: 10px;
 }
 
 header {
