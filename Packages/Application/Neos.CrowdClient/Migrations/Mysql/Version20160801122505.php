@@ -46,7 +46,6 @@ class Version20160801122505 extends AbstractMigration {
 		$this->addSql('TRUNCATE TABLE typo3_party_domain_model_abstractparty_accounts_join');
 		$this->addSql('TRUNCATE TABLE typo3_party_domain_model_abstractparty');
 	}
-	}
 
 	/**
 	 * @param Schema $schema
