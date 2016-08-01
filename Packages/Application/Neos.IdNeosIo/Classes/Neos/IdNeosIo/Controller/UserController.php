@@ -5,13 +5,13 @@ namespace Neos\IdNeosIo\Controller;
  * This script belongs to the Flow package "Neos.IdNeosIo". *
  *                                                          */
 
-use Flownative\DoubleOptIn\Token;
 use Flownative\DoubleOptIn\Helper;
+use Flownative\DoubleOptIn\Token;
+use Neos\CrowdClient\Domain\Repository\UserRepository;
 use Neos\CrowdClient\Domain\Service\CrowdClient;
 use Neos\IdNeosIo\Domain\Model\UserDto;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Error\Message;
-use TYPO3\Party\Domain\Service\PartyService;
 
 class UserController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 
@@ -45,10 +45,10 @@ class UserController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	protected $securityContext;
 
 	/**
-	 * @var PartyService
+	 * @var UserRepository
 	 * @Flow\Inject
 	 */
-	protected $partyService;
+	protected $userRepository;
 
 	/**
 	 * @return void
@@ -63,7 +63,7 @@ class UserController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	public function indexAction() {
 		$account = $this->securityContext->getAccount();
 		$this->view->assign('account', $account);
-		$this->view->assign('person', $this->partyService->getAssignedPartyOfAccount($account));
+		$this->view->assign('user', $this->userRepository->findOneByAccount($account));
 	}
 
 	/**

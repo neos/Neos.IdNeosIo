@@ -40,7 +40,7 @@ class DiscourseCrowdSsoController extends \TYPO3\Flow\Mvc\Controller\ActionContr
 	/**
 	 * @param string $sso
 	 * @param string $sig
-	 * @return void
+	 * @return string
 	 * @Flow\SkipCsrfProtection
 	 */
 	public function authenticateDiscourseUserAction($sso = '', $sig = '') {
@@ -54,32 +54,31 @@ class DiscourseCrowdSsoController extends \TYPO3\Flow\Mvc\Controller\ActionContr
 			$sig = $argumentsOfInterceptedRequest['sig'];
 		}
 
-		if (hash_hmac('sha256', $sso, $this->ssoSecret) === $sig) {
-
-			parse_str(base64_decode($sso), $incomingPayload);
-
-			$currentAccount = $this->securityContext->getAccount();
-			/** @var Person $crowdUser */
-			$crowdUser = $this->partyService->getAssignedPartyOfAccount($currentAccount);
-
-			$outgoingPayload = base64_encode(http_build_query(array(
-					'nonce' => $incomingPayload['nonce'],
-					'email' => $crowdUser->getPrimaryElectronicAddress()->getIdentifier(),
-					'name' => $crowdUser->getName()->getFullName(),
-					'username' => $currentAccount->getAccountIdentifier(),
-					'external_id' => $currentAccount->getAccountIdentifier()
-				), '', '&', PHP_QUERY_RFC3986));
-
-			$outgoingSignature = hash_hmac('sha256', $outgoingPayload, $this->ssoSecret);
-
-			$this->redirectToUri(sprintf('%s?%s', $this->discourseSsoUrl,
-					http_build_query(array(
-						'sso' => $outgoingPayload,
-						'sig' => $outgoingSignature
-						), '', '&', PHP_QUERY_RFC3986)
-				), 0, 302);
+		if ($sig !== hash_hmac('sha256', $sso, $this->ssoSecret)) {
+			return 'Sorry, we couldn\'t log you in';
 		}
 
-		return 'Sorry, we couldn\'t log you in';
+		parse_str(base64_decode($sso), $incomingPayload);
+
+		$currentAccount = $this->securityContext->getAccount();
+		/** @var Person $crowdUser */
+		$crowdUser = $this->partyService->getAssignedPartyOfAccount($currentAccount);
+
+		$outgoingPayload = base64_encode(http_build_query(array(
+				'nonce' => $incomingPayload['nonce'],
+				'email' => $crowdUser->getPrimaryElectronicAddress()->getIdentifier(),
+				'name' => $crowdUser->getName()->getFullName(),
+				'username' => $currentAccount->getAccountIdentifier(),
+				'external_id' => $currentAccount->getAccountIdentifier()
+			), '', '&', PHP_QUERY_RFC3986));
+
+		$outgoingSignature = hash_hmac('sha256', $outgoingPayload, $this->ssoSecret);
+
+		$this->redirectToUri(sprintf('%s?%s', $this->discourseSsoUrl,
+				http_build_query(array(
+					'sso' => $outgoingPayload,
+					'sig' => $outgoingSignature
+					), '', '&', PHP_QUERY_RFC3986)
+			), 0, 302);
 	}
 }
