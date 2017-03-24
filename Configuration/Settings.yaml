@@ -1,0 +1,24 @@
+TYPO3:
+  Flow:
+    security:
+      authentication:
+        providers:
+          CrowdProvider:
+            providerOptions:
+              crowdApplicationPassword: '%env:CROWD_APPLICATION_PASSWORD%'
+
+  SwiftMailer:
+    transport:
+      type: 'Swift_SmtpTransport'
+      options:
+        host: 'smtp.mailgun.org'
+        port: 2525
+        username: '%env:SWIFTMAILER_USERNAME%'
+        password: '%env:SWIFTMAILER_PASSWORD%'
+
+Neos:
+  DiscourseCrowdSso:
+    ssoSecret: '%env:DISCOURSE_CROWD_SSO%'
+
+  IdNeosIo:
+    crowdApplicationPassword: '%env:CROWD_APPLICATION_PASSWORD%'
