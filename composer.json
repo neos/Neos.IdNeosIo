@@ -7,16 +7,11 @@
         "bin-dir": "bin"
     },
     "require": {
-        "neos/flow-development-collection": "@dev",
-        "typo3/party": "@dev",
+        "typo3/flow": "~3.0",
+        "typo3/party": "*",
         "guzzlehttp/guzzle": "^6.0",
         "flownative/flow-doubleoptin": "^0.0.6",
         "typo3/swiftmailer": "5.*"
-    },
-    "require-dev": {
-        "typo3/buildessentials": "@dev",
-        "phpunit/phpunit": "4.6.*",
-        "mikey179/vfsstream": "1.5.*"
     },
     "suggest": {
         "ext-pdo_sqlite": "For running functional tests out-of-the-box this is required"
