@@ -8,9 +8,9 @@
     },
     "require": {
         "typo3/flow": "~3.0",
-        "typo3/party": "*",
+        "typo3/party": "~3.0",
         "guzzlehttp/guzzle": "^6.0",
-        "flownative/flow-doubleoptin": "^0.0.6",
+        "flownative/flow-doubleoptin": "~1.0",
         "typo3/swiftmailer": "5.*"
     },
     "suggest": {
