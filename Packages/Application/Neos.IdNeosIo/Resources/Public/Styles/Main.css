@@ -5026,8 +5026,8 @@ body {
 }
 
 .navbar {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .navbar .navbar-brand {
   background-image: url(../Images/logo.svg);

@@ -9,7 +9,6 @@
 			<p>Your new account can be used to access the following services:</p>
 			<ul>
 				<li><a href="http://discuss.neos.io/">discuss.neos.io</a></li>
-				<li><a href="http://jira.neos.io/">jira.neos.io</a></li>
 			</ul>
 		</aside>
 		<article class="col-md-6">
@@ -38,9 +37,9 @@
 					<f:if condition="{validationResults.flattenedErrors}">
 						<f:then>
 							<div class="form-group has-error has-feedback">
-								<label class="col-md-3 col-md-offset-1 control-label">Firstname</label>
+								<label class="col-md-3 col-md-offset-1 control-label">First name</label>
 								<div class="col-md-7">
-									<f:form.textfield required="required" id="firstname" type="text" property="firstname" class="form-control" placeholder="Firstname" />
+									<f:form.textfield required="required" id="firstname" type="text" property="firstname" class="form-control" placeholder="First name" />
 									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
 									<span class="help-block">
 										<f:for each="{validationResults.errors}" as="error">
@@ -52,9 +51,9 @@
 						</f:then>
 						<f:else>
 							<div class="form-group">
-								<label class="col-md-3 col-md-offset-1 control-label">Firstname</label>
+								<label class="col-md-3 col-md-offset-1 control-label">First name</label>
 								<div class="col-md-7">
-									<f:form.textfield required="required" id="firstname" type="text" property="firstname" class="form-control" placeholder="Firstname" />
+									<f:form.textfield required="required" id="firstname" type="text" property="firstname" class="form-control" placeholder="First name" />
 								</div>
 							</div>
 						</f:else>
@@ -65,9 +64,9 @@
 					<f:if condition="{validationResults.flattenedErrors}">
 						<f:then>
 							<div class="form-group has-error has-feedback">
-								<label class="col-md-3 col-md-offset-1 control-label">Lastname</label>
+								<label class="col-md-3 col-md-offset-1 control-label">Last name</label>
 								<div class="col-md-7">
-									<f:form.textfield required="required" id="lastname" type="text" property="lastname" class="form-control" placeholder="Lastname" />
+									<f:form.textfield required="required" id="lastname" type="text" property="lastname" class="form-control" placeholder="Last name" />
 									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
 									<span class="help-block">
 										<f:for each="{validationResults.errors}" as="error">
@@ -79,9 +78,9 @@
 						</f:then>
 						<f:else>
 							<div class="form-group">
-								<label class="col-md-3 col-md-offset-1 control-label">Lastname</label>
+								<label class="col-md-3 col-md-offset-1 control-label">Last name</label>
 								<div class="col-md-7">
-									<f:form.textfield required="required" id="lastname" type="text" property="lastname" class="form-control" placeholder="Lastname" />
+									<f:form.textfield required="required" id="lastname" type="text" property="lastname" class="form-control" placeholder="Last name" />
 								</div>
 							</div>
 						</f:else>

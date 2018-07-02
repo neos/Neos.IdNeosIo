@@ -1,5 +1,7 @@
 /Build/
-/Configuration/
+/Configuration/Development
+/Configuration/Production
+/Configuration/Testing
 /Data/
 /Packages/Application/TYPO3.Party/
 /Packages/Application/TYPO3.Swiftmailer/
@@ -16,3 +18,5 @@
 /flow.bat
 beard.lock
 Packages/Application/Neos.IdNeosIo/Resources/Private/Styles/.sass-cache
+Configuration/README
+Configuration/Settings.yaml.example
