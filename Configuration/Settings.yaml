@@ -1,5 +1,7 @@
 TYPO3:
   Flow:
+    http:
+      baseUri: '%env:BASE_URI%'
     security:
       authentication:
         providers:
