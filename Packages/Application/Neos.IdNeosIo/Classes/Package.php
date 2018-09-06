@@ -41,7 +41,7 @@ class Package extends BasePackage
                 /** @var DiscourseService $discourseService */
                 $discourseService = $objectManager->get(DiscourseService::class);
                 $customFields = [
-                    'name' => $newValues['name'] ?? $crowdUser->getFullName(),
+                    'name' => isset($newValues['first-name']) && isset($newValues['last-name']) ? $newValues['first-name'] . ' ' . $newValues['last-name'] : $crowdUser->getFullName(),
                     'email' => $newValues['email'] ?? $crowdUser->getEmail(),
                 ];
                 try {
