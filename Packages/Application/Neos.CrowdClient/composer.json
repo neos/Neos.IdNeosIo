@@ -1,9 +1,9 @@
 {
     "name": "neos/crowdclient",
-    "type": "typo3-flow-package",
-    "description": "Add description here",
+    "type": "neos-package",
+    "description": "Atlassian Crowd Client",
     "require": {
-        "typo3/flow": "*"
+        "neos/flow": "^5.1"
     },
     "autoload": {
         "psr-0": {

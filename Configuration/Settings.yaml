@@ -1,4 +1,4 @@
-TYPO3:
+Neos:
   Flow:
     security:
       authentication:
@@ -16,7 +16,6 @@ TYPO3:
         username: '%env:SWIFTMAILER_USERNAME%'
         password: '%env:SWIFTMAILER_PASSWORD%'
 
-Neos:
   DiscourseCrowdSso:
     ssoSecret: '%env:DISCOURSE_CROWD_SSO%'
 

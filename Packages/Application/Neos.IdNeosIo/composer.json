@@ -1,9 +1,9 @@
 {
     "name": "neos/idneosio",
-    "type": "typo3-flow-package",
-    "description": "Add description here",
+    "type": "neos-package",
+    "description": "Controllers and UI for the id.neos.io website",
     "require": {
-        "typo3/flow": "*"
+        "neos/flow": "^5.1"
     },
     "autoload": {
         "psr-0": {

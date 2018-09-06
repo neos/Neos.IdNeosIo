@@ -7,7 +7,7 @@
         "bin-dir": "bin"
     },
     "require": {
-        "neos/flow": "^5.0",
+        "neos/flow": "^5.1",
         "guzzlehttp/guzzle": "^6.3",
         "flownative/flow-doubleoptin": "^2.1",
         "neos/swiftmailer": "^6.0"

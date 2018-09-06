@@ -1,4 +1,4 @@
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="Title">Create New Account</f:section>
 
@@ -12,8 +12,9 @@
 			</ul>
 		</aside>
 		<article class="col-md-6">
+			<f:render partial="FlashMessages"/>
 
-			<f:form name="createAccount" action="sendActivationEmail" objectName="user" class="form-box form-horizontal">
+			<f:form action="sendActivationEmail" objectName="addUser" class="form-box form-horizontal">
 
 				<div class="form-group">
 					<div class="col-md-7 col-md-offset-4">
@@ -21,7 +22,7 @@
 					</div>
 				</div>
 
-				<hr />
+				<hr/>
 
 				<f:validation.results>
 					<f:if condition="{validationResults.flattenedErrors}">
@@ -33,170 +34,118 @@
 					</f:if>
 				</f:validation.results>
 
-				<f:validation.results for="user.firstname">
-					<f:if condition="{validationResults.flattenedErrors}">
-						<f:then>
-							<div class="form-group has-error has-feedback">
-								<label class="col-md-3 col-md-offset-1 control-label">First name</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="firstname" type="text" property="firstname" class="form-control" placeholder="First name" />
-									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-									<span class="help-block">
-										<f:for each="{validationResults.errors}" as="error">
-											{error}
-										</f:for>
-									</span>
-								</div>
-							</div>
-						</f:then>
-						<f:else>
-							<div class="form-group">
-								<label class="col-md-3 col-md-offset-1 control-label">First name</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="firstname" type="text" property="firstname" class="form-control" placeholder="First name" />
-								</div>
-							</div>
-						</f:else>
-					</f:if>
+				<f:validation.results for="addUser.firstName">
+					<div class="form-group{f:if(condition: validationResults.flattenedErrors, then: ' has-error has-feedback')}">
+						<label class="col-md-3 col-md-offset-1 control-label">First name</label>
+						<div class="col-md-7">
+							<f:form.textfield required="required" id="first-name" type="text" property="firstName" class="form-control" placeholder="First name"/>
+							<f:if condition="{validationResults.flattenedErrors}">
+								<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+								<span class="help-block">
+									<f:for each="{validationResults.errors}" as="error">
+										{error}
+									</f:for>
+								</span>
+							</f:if>
+						</div>
+					</div>
 				</f:validation.results>
 
-				<f:validation.results for="user.lastname">
-					<f:if condition="{validationResults.flattenedErrors}">
-						<f:then>
-							<div class="form-group has-error has-feedback">
-								<label class="col-md-3 col-md-offset-1 control-label">Last name</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="lastname" type="text" property="lastname" class="form-control" placeholder="Last name" />
-									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-									<span class="help-block">
-										<f:for each="{validationResults.errors}" as="error">
-											{error}
-										</f:for>
-									</span>
-								</div>
-							</div>
-						</f:then>
-						<f:else>
-							<div class="form-group">
-								<label class="col-md-3 col-md-offset-1 control-label">Last name</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="lastname" type="text" property="lastname" class="form-control" placeholder="Last name" />
-								</div>
-							</div>
-						</f:else>
-					</f:if>
+				<f:validation.results for="addUser.lastName">
+					<div class="form-group{f:if(condition: validationResults.flattenedErrors, then: ' has-error has-feedback')}">
+						<label class="col-md-3 col-md-offset-1 control-label">Last name</label>
+						<div class="col-md-7">
+							<f:form.textfield required="required" id="last-name" type="text" property="lastName" class="form-control" placeholder="Last name"/>
+							<f:if condition="{validationResults.flattenedErrors}">
+								<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+								<span class="help-block">
+									<f:for each="{validationResults.errors}" as="error">
+										{error}
+									</f:for>
+								</span>
+							</f:if>
+						</div>
+					</div>
 				</f:validation.results>
 
-				<f:validation.results for="user.email">
-					<f:if condition="{validationResults.flattenedErrors}">
-						<f:then>
-							<div class="form-group has-error has-feedback">
-								<label class="col-md-3 col-md-offset-1 control-label">Email address</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="email" type="text" property="email" class="form-control" placeholder="Email address" />
-									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-									<span class="help-block">
-										<f:for each="{validationResults.errors}" as="error">
-											{error}
-										</f:for>
-									</span>
-								</div>
-							</div>
-						</f:then>
-						<f:else>
-							<div class="form-group">
-								<label class="col-md-3 col-md-offset-1 control-label">Email address</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="email" type="text" property="email" class="form-control" placeholder="Email address" />
-								</div>
-							</div>
-						</f:else>
-					</f:if>
+				<f:validation.results for="addUser.email">
+					<div class="form-group{f:if(condition: validationResults.flattenedErrors, then: ' has-error has-feedback')}">
+						<label class="col-md-3 col-md-offset-1 control-label">Email address</label>
+						<div class="col-md-7">
+							<f:form.textfield required="required" id="email" type="email" property="email" class="form-control" placeholder="Email address"/>
+							<f:if condition="{validationResults.flattenedErrors}">
+								<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+								<span class="help-block">
+									<f:for each="{validationResults.errors}" as="error">
+										{error}
+									</f:for>
+								</span>
+							</f:if>
+						</div>
+					</div>
 				</f:validation.results>
 
-				<hr />
+				<hr/>
 
-				<f:validation.results for="user.username">
-					<f:if condition="{validationResults.flattenedErrors}">
-						<f:then>
-							<div class="form-group has-error has-feedback">
-								<label class="col-md-3 col-md-offset-1 control-label">Username</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="username" type="text" property="username" class="form-control" placeholder="Username" />
+				<f:validation.results for="addUser.username">
+					<div class="form-group{f:if(condition: validationResults.flattenedErrors, then: ' has-error has-feedback')}">
+						<label class="col-md-3 col-md-offset-1 control-label">Username</label>
+						<div class="col-md-7">
+							<f:form.textfield required="required" id="username" type="text" property="username" class="form-control" placeholder="Username"/>
+							<f:if condition="{validationResults.flattenedErrors}">
+								<f:then>
 									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
 									<span class="help-block">
 										<f:for each="{validationResults.errors}" as="error">
 											{error}
 										</f:for>
 									</span>
-								</div>
-							</div>
-						</f:then>
-						<f:else>
-							<div class="form-group">
-								<label class="col-md-3 col-md-offset-1 control-label">Username</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="username" type="text" property="username" class="form-control" placeholder="Username" />
+								</f:then>
+								<f:else>
 									<span class="help-block">This needs to be unique and will be visible to other users.</span>
-								</div>
-							</div>
-						</f:else>
-					</f:if>
+								</f:else>
+							</f:if>
+						</div>
+					</div>
 				</f:validation.results>
 
-				<f:validation.results for="user.password">
-					<f:if condition="{validationResults.flattenedErrors}">
-						<f:then>
-							<div class="form-group has-error has-feedback">
-								<label class="col-md-3 col-md-offset-1 control-label">Password</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="password" type="password" property="password" class="form-control" placeholder="Password" />
+				<f:validation.results for="addUser.password">
+					<div class="form-group{f:if(condition: validationResults.flattenedErrors, then: ' has-error has-feedback')}">
+						<label class="col-md-3 col-md-offset-1 control-label">Password</label>
+						<div class="col-md-7">
+							<f:form.textfield required="required" id="password" type="password" property="password" class="form-control" placeholder="Password"/>
+							<f:if condition="{validationResults.flattenedErrors}">
+								<f:then>
 									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
 									<span class="help-block">
 										<f:for each="{validationResults.errors}" as="error">
 											{error}
 										</f:for>
 									</span>
-								</div>
-							</div>
-						</f:then>
-						<f:else>
-							<div class="form-group">
-								<label class="col-md-3 col-md-offset-1 control-label">Password</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="password" type="password" property="password" class="form-control" placeholder="Password" />
+								</f:then>
+								<f:else>
 									<span class="help-block">Please choose a strong password with at least 8 characters.</span>
-								</div>
-							</div>
-						</f:else>
-					</f:if>
+								</f:else>
+							</f:if>
+						</div>
+					</div>
 				</f:validation.results>
 
-				<f:validation.results for="user.passwordConfirmation">
-					<f:if condition="{validationResults.flattenedErrors}">
-						<f:then>
-							<div class="form-group has-error has-feedback">
-								<label class="col-md-3 col-md-offset-1 control-label">Confirm password</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="passwordConfirmation" type="password" property="passwordConfirmation" class="form-control" placeholder="Confirm password" />
-									<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-									<span class="help-block">
-										<f:for each="{validationResults.errors}" as="error">
-											{error}
-										</f:for>
-									</span>
-								</div>
-							</div>
-						</f:then>
-						<f:else>
-							<div class="form-group">
-								<label class="col-md-3 col-md-offset-1 control-label">Password</label>
-								<div class="col-md-7">
-									<f:form.textfield required="required" id="passwordConfirmation" type="password" property="passwordConfirmation" class="form-control" placeholder="Confirm password" />
-								</div>
-							</div>
-						</f:else>
-					</f:if>
+				<f:validation.results for="addUser.passwordConfirmation">
+					<div class="form-group{f:if(condition: validationResults.flattenedErrors, then: ' has-error has-feedback')}">
+						<label class="col-md-3 col-md-offset-1 control-label">Password</label>
+						<div class="col-md-7">
+							<f:form.textfield required="required" id="password-confirmation" type="password" property="passwordConfirmation" class="form-control" placeholder="Confirm password"/>
+							<f:if condition="{validationResults.flattenedErrors}">
+								<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+								<span class="help-block">
+									<f:for each="{validationResults.errors}" as="error">
+										{error}
+									</f:for>
+								</span>
+							</f:if>
+						</div>
+					</div>
 				</f:validation.results>
 
 				<div class="form-group">

@@ -1,22 +1,13 @@
 <f:flashMessages as="flashMessages">
 	<f:for each="{flashMessages}" as="flashMessage">
-		<f:if condition="{flashMessage.severity}=='Error'">
-			<div class="alert alert-danger" role="alert">
-				<strong>{flashMessage.title}</strong>
-				{flashMessage}
-			</div>
-		</f:if>
-		<f:if condition="{flashMessage.severity}=='OK'">
-			<div class="alert alert-success" role="alert">
-				<strong>{flashMessage.title}</strong>
-				{flashMessage}
-			</div>
-		</f:if>
-		<f:if condition="{flashMessage.severity}=='Warning'">
-			<div class="alert alert-warning" role="alert">
-				<strong>{flashMessage.title}</strong>
-				{flashMessage}
-			</div>
-		</f:if>
+		<div class="alert alert-{f:render(section: 'class_{flashMessage.severity}')}" role="alert">
+			<strong>{flashMessage.title}</strong>
+			{flashMessage}
+		</div>
 	</f:for>
 </f:flashMessages>
+
+<f:section name="class_Notice">info</f:section>
+<f:section name="class_Warning">warning</f:section>
+<f:section name="class_Error">danger</f:section>
+<f:section name="class_OK">success</f:section>

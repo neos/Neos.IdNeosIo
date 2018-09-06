@@ -18,10 +18,7 @@
 							<label for="username" class="col-md-3 col-md-offset-1 control-label">Username</label>
 
 							<div class="col-md-7">
-								<f:form.textfield required="required" id="username" type="text"
-												  name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]"
-												  additionalAttributes="{autofocus:'autofocus'}" class="form-control"
-												  placeholder="Username"/>
+								<f:form.textfield required="required" id="username" type="text" name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][username]" additionalAttributes="{autofocus:'autofocus'}" class="form-control" placeholder="Username"/>
 							</div>
 						</div>
 
@@ -29,17 +26,14 @@
 							<label for="password" class="col-md-3 col-md-offset-1 control-label">Password</label>
 
 							<div class="col-md-7">
-								<f:form.textfield required="required" id="password" type="password"
-												  name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]"
-												  class="form-control" placeholder="Password"/>
+								<f:form.textfield required="required" id="password" type="password" name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][password]" class="form-control" placeholder="Password"/>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-md-7 col-md-offset-4">
 								<f:form.button type="submit" class="btn btn-primary btn-block">Sign in</f:form.button>
-								<a href="{f:uri.action(controller: 'ResetPassword', action: 'index')}"
-								   class="btn btn-link btn-xs btn-block">Forgot your password?</a>
+								<a href="{f:uri.action(controller: 'ResetPassword', action: 'index')}" class="btn btn-link btn-xs btn-block">Forgot your password?</a>
 							</div>
 						</div>
 					</f:form>
@@ -49,8 +43,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">I don't have a Neos community account yet</div>
 				<div class="panel-body">
-					<a href="{f:uri.action(controller: 'User', action: 'new')}"
-					   class="btn btn-primary">Create new account</a>
+					<a href="{f:uri.action(controller: 'User', action: 'new')}">Create new account</a>
 				</div>
 			</div>
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "436e7cc7941afad707796eebd05aaf28",
+    "content-hash": "f7952dcafea12c820a6c88b681cdd75a",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -76,16 +76,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.7.1",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "b3217d58609e9c8e661cd41357a54d926c4a2a1a"
+                "reference": "d768d58baee9a4862ca783840eca1b9add7a7f57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/b3217d58609e9c8e661cd41357a54d926c4a2a1a",
-                "reference": "b3217d58609e9c8e661cd41357a54d926c4a2a1a",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/d768d58baee9a4862ca783840eca1b9add7a7f57",
+                "reference": "d768d58baee9a4862ca783840eca1b9add7a7f57",
                 "shasum": ""
             },
             "require": {
@@ -96,8 +96,9 @@
             },
             "require-dev": {
                 "alcaeus/mongo-php-adapter": "^1.1",
+                "doctrine/coding-standard": "^4.0",
                 "mongodb/mongodb": "^1.1",
-                "phpunit/phpunit": "^5.7",
+                "phpunit/phpunit": "^7.0",
                 "predis/predis": "~1.0"
             },
             "suggest": {
@@ -106,7 +107,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7.x-dev"
+                    "dev-master": "1.8.x-dev"
                 }
             },
             "autoload": {
@@ -141,12 +142,12 @@
                 }
             ],
             "description": "Caching library offering an object-oriented API for many cache backends",
-            "homepage": "http://www.doctrine-project.org",
+            "homepage": "https://www.doctrine-project.org",
             "keywords": [
                 "cache",
                 "caching"
             ],
-            "time": "2017-08-25T07:02:50+00:00"
+            "time": "2018-08-21T18:01:43+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -949,16 +950,16 @@
         },
         {
             "name": "neos/cache",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/cache.git",
-                "reference": "f0d8cc984beb13cd04db88bd25e34f1648eb04b8"
+                "reference": "a693fe38610d92d29bfff85837190030a0e35707"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/cache/zipball/f0d8cc984beb13cd04db88bd25e34f1648eb04b8",
-                "reference": "f0d8cc984beb13cd04db88bd25e34f1648eb04b8",
+                "url": "https://api.github.com/repos/neos/cache/zipball/a693fe38610d92d29bfff85837190030a0e35707",
+                "reference": "a693fe38610d92d29bfff85837190030a0e35707",
                 "shasum": ""
             },
             "require": {
@@ -999,7 +1000,7 @@
             ],
             "description": "Neos Cache Framework",
             "homepage": "http://flow.neos.io",
-            "time": "2018-06-25T19:47:11+00:00"
+            "time": "2018-08-29T08:24:06+00:00"
         },
         {
             "name": "neos/composer-plugin",
@@ -1036,21 +1037,21 @@
         },
         {
             "name": "neos/eel",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/eel.git",
-                "reference": "29dd46bfcce246c21750afc4060045def0505914"
+                "reference": "8fe4f5d1ebf5f2e0e3e2851c0c2b7f956b3c98e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/eel/zipball/29dd46bfcce246c21750afc4060045def0505914",
-                "reference": "29dd46bfcce246c21750afc4060045def0505914",
+                "url": "https://api.github.com/repos/neos/eel/zipball/8fe4f5d1ebf5f2e0e3e2851c0c2b7f956b3c98e7",
+                "reference": "8fe4f5d1ebf5f2e0e3e2851c0c2b7f956b3c98e7",
                 "shasum": ""
             },
             "require": {
                 "neos/cache": "*",
-                "neos/flow": "~5.0.0",
+                "neos/flow": "~5.1.0",
                 "neos/utility-objecthandling": "*",
                 "neos/utility-unicode": "*"
             },
@@ -1073,20 +1074,20 @@
                 "MIT"
             ],
             "description": "The Embedded Expression Language (Eel) is a building block for creating Domain Specific Languages",
-            "time": "2018-04-20T14:30:04+00:00"
+            "time": "2018-08-22T15:15:31+00:00"
         },
         {
             "name": "neos/error-messages",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/error-messages.git",
-                "reference": "972d3146dbca67aa041602a7272cc41a94309287"
+                "reference": "9c8ea6b492b57521ba0cd6f97938e2071a664ff6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/error-messages/zipball/972d3146dbca67aa041602a7272cc41a94309287",
-                "reference": "972d3146dbca67aa041602a7272cc41a94309287",
+                "url": "https://api.github.com/repos/neos/error-messages/zipball/9c8ea6b492b57521ba0cd6f97938e2071a664ff6",
+                "reference": "9c8ea6b492b57521ba0cd6f97938e2071a664ff6",
                 "shasum": ""
             },
             "require": {
@@ -1107,20 +1108,20 @@
             ],
             "description": "Flow error messages",
             "homepage": "http://flow.neos.io",
-            "time": "2018-04-10T11:09:42+00:00"
+            "time": "2018-06-27T10:03:23+00:00"
         },
         {
             "name": "neos/flow",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/flow.git",
-                "reference": "e2871bfe2c9dcab4ff8551f8131124f43bf63bcd"
+                "reference": "4947767febf83272d5676ae106f35e8f9515510d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/flow/zipball/e2871bfe2c9dcab4ff8551f8131124f43bf63bcd",
-                "reference": "e2871bfe2c9dcab4ff8551f8131124f43bf63bcd",
+                "url": "https://api.github.com/repos/neos/flow/zipball/4947767febf83272d5676ae106f35e8f9515510d",
+                "reference": "4947767febf83272d5676ae106f35e8f9515510d",
                 "shasum": ""
             },
             "require": {
@@ -1132,21 +1133,21 @@
                 "ext-reflection": "*",
                 "ext-spl": "*",
                 "ext-zlib": "*",
-                "neos/cache": "~5.0.0",
+                "neos/cache": "~5.1.0",
                 "neos/composer-plugin": "^2.0.0",
-                "neos/eel": "~5.0.0",
-                "neos/error-messages": "~5.0.0",
-                "neos/flow-log": "~5.0.0",
-                "neos/fluid-adaptor": "~5.0.0",
-                "neos/utility-arrays": "~5.0.0",
-                "neos/utility-files": "~5.0.0",
-                "neos/utility-lock": "~5.0.0",
-                "neos/utility-mediatypes": "~5.0.0",
-                "neos/utility-objecthandling": "~5.0.0",
-                "neos/utility-opcodecache": "~5.0.0",
-                "neos/utility-pdo": "~5.0.0",
-                "neos/utility-schema": "~5.0.0",
-                "neos/utility-unicode": "~5.0.0",
+                "neos/eel": "~5.1.0",
+                "neos/error-messages": "~5.1.0",
+                "neos/flow-log": "~5.1.0",
+                "neos/fluid-adaptor": "~5.1.0",
+                "neos/utility-arrays": "~5.1.0",
+                "neos/utility-files": "~5.1.0",
+                "neos/utility-lock": "~5.1.0",
+                "neos/utility-mediatypes": "~5.1.0",
+                "neos/utility-objecthandling": "~5.1.0",
+                "neos/utility-opcodecache": "~5.1.0",
+                "neos/utility-pdo": "~5.1.0",
+                "neos/utility-schema": "~5.1.0",
+                "neos/utility-unicode": "~5.1.0",
                 "php": "~7.1",
                 "psr/container": "~1.0.0",
                 "psr/http-message": "~1.0.0",
@@ -1186,20 +1187,20 @@
             ],
             "description": "Flow Application Framework",
             "homepage": "http://flow.neos.io",
-            "time": "2018-08-02T10:22:28+00:00"
+            "time": "2018-08-30T17:36:27+00:00"
         },
         {
             "name": "neos/flow-log",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/flow-log.git",
-                "reference": "8299f890d67f159db3d4de7cbab9c77b54daa7b9"
+                "reference": "79e2a9ffd1c8c9c1b4816b38b26121a577427177"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/flow-log/zipball/8299f890d67f159db3d4de7cbab9c77b54daa7b9",
-                "reference": "8299f890d67f159db3d4de7cbab9c77b54daa7b9",
+                "url": "https://api.github.com/repos/neos/flow-log/zipball/79e2a9ffd1c8c9c1b4816b38b26121a577427177",
+                "reference": "79e2a9ffd1c8c9c1b4816b38b26121a577427177",
                 "shasum": ""
             },
             "require": {
@@ -1230,25 +1231,25 @@
             ],
             "description": "Flow Framework Logger",
             "homepage": "http://flow.neos.io",
-            "time": "2018-07-23T08:53:43+00:00"
+            "time": "2018-08-22T14:00:10+00:00"
         },
         {
             "name": "neos/fluid-adaptor",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/fluidadaptor.git",
-                "reference": "580cb7c0e26f93fab0dcf4e009e37ee7d3f7deff"
+                "reference": "2c602d959cdb880b66a210eb8eeac2095317e9de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/fluidadaptor/zipball/580cb7c0e26f93fab0dcf4e009e37ee7d3f7deff",
-                "reference": "580cb7c0e26f93fab0dcf4e009e37ee7d3f7deff",
+                "url": "https://api.github.com/repos/neos/fluidadaptor/zipball/2c602d959cdb880b66a210eb8eeac2095317e9de",
+                "reference": "2c602d959cdb880b66a210eb8eeac2095317e9de",
                 "shasum": ""
             },
             "require": {
                 "neos/cache": "*",
-                "neos/flow": "~5.0.0",
+                "neos/flow": "~5.1.0",
                 "neos/utility-files": "*",
                 "neos/utility-objecthandling": "*",
                 "psr/log": "^1.0",
@@ -1265,7 +1266,7 @@
                 "MIT"
             ],
             "description": "Fluid Templating Framework Adaptor",
-            "time": "2018-04-26T10:53:22+00:00"
+            "time": "2018-08-22T15:15:31+00:00"
         },
         {
             "name": "neos/swiftmailer",
@@ -1333,16 +1334,16 @@
         },
         {
             "name": "neos/utility-arrays",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/utility-arrays.git",
-                "reference": "f625aa7c4a79c412aa47336e2ec8739b6b39110a"
+                "reference": "13e13742cb9b2073f37a825e109615824bc7ecd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/utility-arrays/zipball/f625aa7c4a79c412aa47336e2ec8739b6b39110a",
-                "reference": "f625aa7c4a79c412aa47336e2ec8739b6b39110a",
+                "url": "https://api.github.com/repos/neos/utility-arrays/zipball/13e13742cb9b2073f37a825e109615824bc7ecd6",
+                "reference": "13e13742cb9b2073f37a825e109615824bc7ecd6",
                 "shasum": ""
             },
             "require": {
@@ -1370,20 +1371,20 @@
             ],
             "description": "Flow Array Utilities",
             "homepage": "http://flow.neos.io",
-            "time": "2018-04-10T11:09:42+00:00"
+            "time": "2018-06-27T10:03:23+00:00"
         },
         {
             "name": "neos/utility-files",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/utility-files.git",
-                "reference": "cee089729de0eceb776f4fa33093f34982cb4e3e"
+                "reference": "a9a10334da7c438f28634540747ff70bf405cff2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/utility-files/zipball/cee089729de0eceb776f4fa33093f34982cb4e3e",
-                "reference": "cee089729de0eceb776f4fa33093f34982cb4e3e",
+                "url": "https://api.github.com/repos/neos/utility-files/zipball/a9a10334da7c438f28634540747ff70bf405cff2",
+                "reference": "a9a10334da7c438f28634540747ff70bf405cff2",
                 "shasum": ""
             },
             "require": {
@@ -1411,20 +1412,20 @@
             ],
             "description": "Flow Files Utilities",
             "homepage": "http://flow.neos.io",
-            "time": "2018-04-10T11:09:42+00:00"
+            "time": "2018-08-22T13:58:18+00:00"
         },
         {
             "name": "neos/utility-lock",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/utility-lock.git",
-                "reference": "5541785dfa686e2226cc1b1d1c86a6b02cea68fa"
+                "reference": "b9a59db6cf3d1876aeed88fca7df44d7ccf5c8f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/utility-lock/zipball/5541785dfa686e2226cc1b1d1c86a6b02cea68fa",
-                "reference": "5541785dfa686e2226cc1b1d1c86a6b02cea68fa",
+                "url": "https://api.github.com/repos/neos/utility-lock/zipball/b9a59db6cf3d1876aeed88fca7df44d7ccf5c8f1",
+                "reference": "b9a59db6cf3d1876aeed88fca7df44d7ccf5c8f1",
                 "shasum": ""
             },
             "require": {
@@ -1448,20 +1449,20 @@
             ],
             "description": "Flow Locking Implementation",
             "homepage": "http://flow.neos.io",
-            "time": "2018-04-10T11:09:42+00:00"
+            "time": "2018-06-27T10:03:23+00:00"
         },
         {
             "name": "neos/utility-mediatypes",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/utility-mediatypes.git",
-                "reference": "f1e7b442b8d46939ac11ae132c512a2bcd41903d"
+                "reference": "b954f3cafad4eb6bde3a99ccf8632447673c3307"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/utility-mediatypes/zipball/f1e7b442b8d46939ac11ae132c512a2bcd41903d",
-                "reference": "f1e7b442b8d46939ac11ae132c512a2bcd41903d",
+                "url": "https://api.github.com/repos/neos/utility-mediatypes/zipball/b954f3cafad4eb6bde3a99ccf8632447673c3307",
+                "reference": "b954f3cafad4eb6bde3a99ccf8632447673c3307",
                 "shasum": ""
             },
             "require": {
@@ -1489,20 +1490,20 @@
             ],
             "description": "Flow Media Types Utilities",
             "homepage": "http://flow.neos.io",
-            "time": "2018-04-10T11:09:42+00:00"
+            "time": "2018-08-29T08:23:00+00:00"
         },
         {
             "name": "neos/utility-objecthandling",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/utility-objecthandling.git",
-                "reference": "fc4acf2a9b9ed9b1ffcd4278b929d7606bccb21b"
+                "reference": "604bbfda049b1b3bc752bcc6a8363f2ac3734fc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/utility-objecthandling/zipball/fc4acf2a9b9ed9b1ffcd4278b929d7606bccb21b",
-                "reference": "fc4acf2a9b9ed9b1ffcd4278b929d7606bccb21b",
+                "url": "https://api.github.com/repos/neos/utility-objecthandling/zipball/604bbfda049b1b3bc752bcc6a8363f2ac3734fc7",
+                "reference": "604bbfda049b1b3bc752bcc6a8363f2ac3734fc7",
                 "shasum": ""
             },
             "require": {
@@ -1530,11 +1531,11 @@
             ],
             "description": "Flow array/object property and type utilities",
             "homepage": "http://flow.neos.io",
-            "time": "2018-04-15T20:15:30+00:00"
+            "time": "2018-06-27T10:03:23+00:00"
         },
         {
             "name": "neos/utility-opcodecache",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/utility-opcodecache.git",
@@ -1570,7 +1571,7 @@
         },
         {
             "name": "neos/utility-pdo",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/utility-pdo.git",
@@ -1606,16 +1607,16 @@
         },
         {
             "name": "neos/utility-schema",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/utility-schema.git",
-                "reference": "dc09ea01deef1197ba7c25195f1d6536e3f32f1b"
+                "reference": "212f4830ab6977fe628106a49b772651c52f53b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/utility-schema/zipball/dc09ea01deef1197ba7c25195f1d6536e3f32f1b",
-                "reference": "dc09ea01deef1197ba7c25195f1d6536e3f32f1b",
+                "url": "https://api.github.com/repos/neos/utility-schema/zipball/212f4830ab6977fe628106a49b772651c52f53b3",
+                "reference": "212f4830ab6977fe628106a49b772651c52f53b3",
                 "shasum": ""
             },
             "require": {
@@ -1643,20 +1644,20 @@
             ],
             "description": "Flow Schema Utilities",
             "homepage": "http://flow.neos.io",
-            "time": "2018-04-18T12:49:56+00:00"
+            "time": "2018-06-27T10:03:08+00:00"
         },
         {
             "name": "neos/utility-unicode",
-            "version": "5.0.6",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neos/utility-unicode.git",
-                "reference": "ca7a8f9d47c7bda9a14785636bcfbbf9ca9b7a4d"
+                "reference": "06c406587c384bb938ecfa299c69953793e9a23b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neos/utility-unicode/zipball/ca7a8f9d47c7bda9a14785636bcfbbf9ca9b7a4d",
-                "reference": "ca7a8f9d47c7bda9a14785636bcfbbf9ca9b7a4d",
+                "url": "https://api.github.com/repos/neos/utility-unicode/zipball/06c406587c384bb938ecfa299c69953793e9a23b",
+                "reference": "06c406587c384bb938ecfa299c69953793e9a23b",
                 "shasum": ""
             },
             "require": {
@@ -1679,7 +1680,7 @@
             ],
             "description": "Flow Unicode Utilities",
             "homepage": "http://flow.neos.io",
-            "time": "2018-04-20T11:14:15+00:00"
+            "time": "2018-06-27T10:03:23+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -2562,16 +2563,16 @@
         },
         {
             "name": "zendframework/zend-code",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-code.git",
-                "reference": "6b1059db5b368db769e4392c6cb6cc139e56640d"
+                "reference": "c21db169075c6ec4b342149f446e7b7b724f95eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-code/zipball/6b1059db5b368db769e4392c6cb6cc139e56640d",
-                "reference": "6b1059db5b368db769e4392c6cb6cc139e56640d",
+                "url": "https://api.github.com/repos/zendframework/zend-code/zipball/c21db169075c6ec4b342149f446e7b7b724f95eb",
+                "reference": "c21db169075c6ec4b342149f446e7b7b724f95eb",
                 "shasum": ""
             },
             "require": {
@@ -2592,8 +2593,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev",
-                    "dev-develop": "3.3-dev"
+                    "dev-master": "3.3.x-dev",
+                    "dev-develop": "3.4.x-dev"
                 }
             },
             "autoload": {
@@ -2611,7 +2612,7 @@
                 "code",
                 "zf2"
             ],
-            "time": "2017-10-20T15:21:32+00:00"
+            "time": "2018-08-13T20:36:59+00:00"
         },
         {
             "name": "zendframework/zend-eventmanager",
