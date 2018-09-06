@@ -79,7 +79,8 @@ final class DiscourseService
             'sig' => hash_hmac('sha256', $outgoingPayloadEncoded, $this->ssoSecret),
         ];
         return (new Uri($this->discourseBaseUri))
-            ->withQuery(http_build_query([$queryParameters]));
+            ->withPath('/session/sso_login')
+            ->withQuery(http_build_query($queryParameters));
     }
 
     /**
