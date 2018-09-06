@@ -25,7 +25,7 @@ class Package extends BasePackage
         # Synchronize Crowd User Profile changes to discourse
         $dispatcher->connect(
             CrowdClient::class, 'userUpdated',
-            function(User $crowdUser) use ($bootstrap) {
+            function(User $crowdUser, array $newValues) use ($bootstrap) {
                 $objectManager = $bootstrap->getObjectManager();
 
                 /** @var LoggerInterface $logger */
@@ -41,8 +41,8 @@ class Package extends BasePackage
                 /** @var DiscourseService $discourseService */
                 $discourseService = $objectManager->get(DiscourseService::class);
                 $customFields = [
-                    'name' => $crowdUser->getFullName(),
-                    'email' => $crowdUser->getEmail(),
+                    'name' => $newValues['name'] ?? $crowdUser->getFullName(),
+                    'email' => $newValues['email'] ?? $crowdUser->getEmail(),
                 ];
                 try {
                     $discourseService->synchronizeUser(SsoPayload::fromAccount($account, $customFields));
