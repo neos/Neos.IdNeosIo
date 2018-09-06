@@ -232,9 +232,4 @@ class CrowdClient
     protected function emitUserUpdated(User $user, array $newValues)
     {
     }
-
-    public function activateUser(string $username)
-    {
-        $this->updateUser($username, ['active' => true]);
-    }
 }

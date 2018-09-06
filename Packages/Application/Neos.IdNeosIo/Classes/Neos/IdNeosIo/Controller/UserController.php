@@ -41,7 +41,6 @@ class UserController extends ActionController
     {
         $account = $this->securityContext->getAccount();
         $this->view->assign('crowdUser', $this->crowdClient->getUser($account->getAccountIdentifier()));
-        $this->crowdClient->activateUser($account->getAccountIdentifier());
     }
 
     public function newAction(): void
