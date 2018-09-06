@@ -1,242 +1,234 @@
 <?php
 namespace Neos\CrowdClient\Domain\Service;
 
-/*                                                                        *
- * This script belongs to the TYPO3 Flow package "Neos.CrowdClient".      *
- *                                                                        *
- *                                                                        */
-
 use GuzzleHttp\Exception\ClientException;
-use TYPO3\Flow\Annotations as Flow;
+use Neos\CrowdClient\Domain\Dto\User;
+use Neos\Error\Messages\Error;
+use Neos\Error\Messages\Result;
+use Neos\Flow\Annotations as Flow;
 use GuzzleHttp\Client as HttpClient;
-use TYPO3\Flow\Configuration\ConfigurationManager;
-use TYPO3\Flow\Persistence\PersistenceManagerInterface;
-use TYPO3\Flow\Reflection\ObjectAccess;
-use TYPO3\Flow\Security\Account;
-use TYPO3\Flow\Security\Policy\PolicyService;
+use Neos\Flow\Configuration\ConfigurationManager;
+use Neos\Flow\Persistence\PersistenceManagerInterface;
+use Neos\Flow\Security\Context;
+use Neos\Flow\Security\Policy\PolicyService;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class CrowdClient
  */
-class CrowdClient {
+class CrowdClient
+{
 
-	/**
-	 * @var ConfigurationManager
-	 * @Flow\Inject
-	 */
-	protected $configurationManager;
+    /**
+     * @var ConfigurationManager
+     * @Flow\Inject
+     */
+    protected $configurationManager;
 
-	/**
-	 * @var HttpClient
-	 */
-	protected $httpClient;
+    /**
+     * @var HttpClient
+     */
+    protected $httpClient;
 
-	/**
-	 * @var string $crowdBaseUri
-	 * @Flow\Inject(setting="crowdBaseUri")
-	 */
-	protected $crowdBaseUri;
+    /**
+     * @var string $crowdBaseUri
+     * @Flow\InjectConfiguration(path="crowdBaseUri")
+     */
+    protected $crowdBaseUri;
 
-	/**
-	 * @var string
-	 */
-	protected $applicationName;
+    /**
+     * @var string
+     */
+    protected $applicationName;
 
-	/**
-	 * @var string
-	 */
-	protected $applicationPassword;
+    /**
+     * @var string
+     */
+    protected $applicationPassword;
 
-	/**
-	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Log\SystemLoggerInterface
-	 */
-	protected $systemLogger;
+    /**
+     * @Flow\Inject
+     * @var LoggerInterface
+     */
+    protected $systemLogger;
 
-	/**
-	 * @var \TYPO3\Flow\Security\Context
-	 * @Flow\Inject
-	 */
-	protected $securityContext;
+    /**
+     * @Flow\Inject
+     * @var Context
+     */
+    protected $securityContext;
 
-	/**
-	 * @var PolicyService
-	 * @Flow\Inject
-	 */
-	protected $policyService;
+    /**
+     * @Flow\Inject
+     * @var PolicyService
+     */
+    protected $policyService;
 
-	/**
-	 * @var \TYPO3\Flow\Security\AccountRepository
-	 * @Flow\Inject
-	 */
-	protected $accountRepository;
+    /**
+     * @Flow\Inject
+     * @var PersistenceManagerInterface
+     */
+    protected $persistenceManager;
 
-	/**
-	 * @var PersistenceManagerInterface
-	 * @Flow\Inject
-	 */
-	protected $persistenceManager;
+    public function __construct(string $applicationName, string $applicationPassword)
+    {
+        $this->applicationName = $applicationName;
+        $this->applicationPassword = $applicationPassword;
+    }
 
-	/**
-	 * Constructor
-	 *
-	 * @param string $applicationName
-	 * @param string $applicationPassword
-	 */
-	public function __construct($applicationName, $applicationPassword) {
-		$this->applicationName = $applicationName;
-		$this->applicationPassword = $applicationPassword;
-	}
+    public function initializeObject(): void
+    {
+        $this->httpClient = new HttpClient([
+            'base_uri' => rtrim($this->crowdBaseUri, '/') . '/rest/usermanagement/1/',
+            'auth' => [$this->applicationName, $this->applicationPassword],
+            'headers' => [
+                'User-Agent' => 'neos/crowdclient',
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ]
+        ]);
+    }
 
-	/**
-	 * Initializes this Crowd Client
-	 *
-	 * @return void
-	 */
-	public function initializeObject() {
-		$httpDefaultConfiguration = array(
-			'base_uri' => rtrim($this->crowdBaseUri, '/') . '/rest/usermanagement/1/',
-			'auth' => array($this->applicationName, $this->applicationPassword),
-			'headers' => array(
-				'Content-Type' => 'application/json',
-				'Accept' => 'application/json'
-			)
-		);
-		$this->httpClient = new HttpClient($httpDefaultConfiguration);
-	}
+    public function authenticate(string $username, string $password): ?User
+    {
+        try {
+            $response = $this->httpClient->post('authentication?username=' . urlencode($username), ['body' => json_encode(['value' => $password])]);
+            $authenticatedUser = User::fromCrowdResponse($response->getBody()->getContents());
+            $this->emitUserAuthenticated($authenticatedUser);
+            return $authenticatedUser;
+        } catch (ClientException $exception) {
+            $responseError = json_decode($exception->getResponse()->getBody()->getContents());
+            if (isset($responseError->reason)) {
+                switch ($responseError->reason) {
+                    case 'INVALID_USER_AUTHENTICATION':
+                    case 'USER_NOT_FOUND':
+                    case 'EXPIRED_CREDENTIAL':
+                    case 'INACTIVE_ACCOUNT':
+                        return null;
+                }
+            }
+            throw $exception;
+        }
+    }
 
-	/**
-	 * @param $username
-	 * @param $password
-	 * @return array|NULL
-	 */
-	public function authenticate($username, $password) {
-		try {
-			$response = $this->httpClient->post(rtrim($this->crowdBaseUri, '/') . '/rest/usermanagement/1/authentication?username=' . urlencode($username), array('body' => json_encode(array('value' => $password))));
-			$responseData = json_decode($response->getBody()->getContents(), TRUE);
+    /**
+     * @param string $username
+     * @return User The Crowd User DTO or NULL if the user was not found
+     */
+    public function getUser($username): ?User
+    {
+        try {
+            $response = $this->httpClient->get('user?username=' . urlencode($username));
+            return User::fromCrowdResponse($response->getBody()->getContents());
+        } catch (ClientException $exception) {
+            if ($exception->getResponse()->getStatusCode() === 404) {
+                return null;
+            }
+            throw $exception;
+        }
+    }
 
-			return $responseData;
-		} catch (ClientException $e) {
-			$responseError = json_decode($e->getResponse()->getBody()->getContents());
-			if (isset($responseError->reason)) {
-				switch ($responseError->reason) {
-					case 'INVALID_USER_AUTHENTICATION':
-						return NULL;
-					case 'USER_NOT_FOUND':
-						return NULL;
-					case 'EXPIRED_CREDENTIAL':
-						return NULL;
-				}
-			}
-			throw $e;
-		}
-	}
+    public function addUser(string $firstName, string $lastName, string $emailAddress, string $username, string $password): Result
+    {
+        $result = new Result();
 
-	/**
-	 * @param string $username
-	 * @return array The raw Crowd user data or NULL if the user was not found
-	 */
-	public function getUser($username) {
-		try {
-			$response = $this->httpClient->get(rtrim($this->crowdBaseUri, '/') . '/rest/usermanagement/1/user?username=' . urlencode($username));
-			$responseData = json_decode($response->getBody()->getContents(), TRUE);
+        try {
+            $userData = [
+                'name' => $username,
+                'first-name' => $firstName,
+                'last-name' => $lastName,
+                'email' => $emailAddress,
+                'password' => [
+                    'value' => $password
+                ],
+                'active' => true
+            ];
+            $response = $this->httpClient->post('user', ['body' => json_encode($userData)]);
+            $newUser = User::fromCrowdResponse($response->getBody()->getContents());
+            $this->emitUserAdded($newUser);
 
-			return $responseData;
-		} catch (ClientException $e) {
-			if ($e->getResponse()->getStatusCode() === 404) {
-				return NULL;
-			}
-			throw $e;
-		}
-	}
+        } catch (ClientException $exception) {
+            $responseError = json_decode($exception->getResponse()->getBody()->getContents());
+            if (isset($responseError->reason)) {
+                switch ($responseError->reason) {
+                    case 'INVALID_USER':
+                        $result->addError(new Error($responseError->message));
+                        return $result;
+                }
+            }
 
-	/**
-	 * @param string $username Crowd Username
-	 * @param string $providerName Name of the authentication provider, this account should be used with
-	 * @return Account
-	 */
-	public function getLocalAccountForCrowdUser($username, $providerName) {
-		$accountRepository = $this->accountRepository;
-		$this->securityContext->withoutAuthorizationChecks(function() use ($username, $providerName, $accountRepository, &$account) {
-			$account = $accountRepository->findActiveByAccountIdentifierAndAuthenticationProviderName($username, $providerName);
-		});
+            $userData['password']['value'] = '********';
+            $this->systemLogger->error($exception->getMessage(), [
+                'uri' => 'user',
+                'requestData' => $userData,
+                'responseStatus' => $exception->getResponse()->getStatusCode(),
+                'responseBody' => $exception->getResponse()->getBody()->getContents()
+            ]);
+            $result->addError(new Error('There was an unspecified error'));
+        }
+        return $result;
+    }
 
-		if ($account === NULL) {
-			if ($this->getUser($username) === NULL) {
-				return NULL;
-			}
-			$account = new Account();
-			$account->setAuthenticationProviderName($providerName);
-			$account->setAccountIdentifier($username);
-			$roleIdentifier = $this->configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'TYPO3.Flow.security.authentication.providers.' . $providerName . '.providerOptions.authenticateRole');
-			$account->addRole($this->policyService->getRole($roleIdentifier));
-			$this->accountRepository->add($account);
-			$this->persistenceManager->persistAll();
-		}
+    public function setPasswordForUser(string $username, string $password): void
+    {
+        $this->httpClient->put('user/password?username=' . urlencode($username), ['body' => json_encode(['value' => $password])]);
+    }
 
-		return $account;
-	}
+    public function setNameForUser(string $username, string $firstName, string $lastName): void
+    {
+        $this->updateUser($username, ['first-name' => $firstName, 'last-name' => $lastName]);
+    }
 
-	/**
-	 * @param string $firstname
-	 * @param string $lastname
-	 * @param string $email
-	 * @param string $username
-	 * @param string $password
-	 * @return \TYPO3\Flow\Error\Result
-	 */
-	public function addUser($firstname, $lastname, $email, $username, $password) {
-		$result = new \TYPO3\Flow\Error\Result();
+    public function setEmailForUser(string $username, string $email): void
+    {
+        $this->updateUser($username, ['email' => $email]);
+    }
 
-		try {
-			$userData = [
-				'name' => $username,
-				'first-name' => $firstname,
-				'last-name' => $lastname,
-				'email' => $email,
-				'password' => [
-					'value' => $password
-				],
-				'active' => TRUE
-			];
-			$uri = rtrim($this->crowdBaseUri, '/') . '/rest/usermanagement/1/user';
-			$response = $this->httpClient->post($uri, array('body' => json_encode($userData)));
-			$responseData = json_decode($response->getBody()->getContents(), TRUE);
-			// TODO Check response data?
-		} catch (ClientException $e) {
-			$responseError = json_decode($e->getResponse()->getBody()->getContents());
-			if (isset($responseError->reason)) {
-				switch ($responseError->reason) {
-					case 'INVALID_USER':
-						$result->addError(new \TYPO3\Flow\Error\Error($responseError->message));
-						return $result;
-				}
-			}
+    private function updateUser(string $username, array $newValues): void
+    {
+        $user = $this->getUser($username);
+        if ($user === null) {
+            throw new \InvalidArgumentException(sprintf('User "%s" was not found!', $username), 1536160352);
+        }
+        $defaultValues = [
+            'active' => true,
+        ];
+        $data = array_merge($defaultValues, $user->toArray(), $newValues);
+        $this->httpClient->put('user?username=' . urlencode($username), ['body' => json_encode($data)]);
+        $this->emitUserUpdated($user, $newValues);
+    }
 
-			$userData['password']['value'] = '********';
-			$this->systemLogger->logException($e, array(
-				'uri' => $uri,
-				'requestData' => $userData,
-				'responseStatus' => $e->getResponse()->getStatusCode(),
-				'responseBody' => $e->getResponse()->getBody()->getContents()
-			));
-			$result->addError(new \TYPO3\Flow\Error\Error('There was an unspecified error'));
-		}
-		return $result;
-	}
+    /**
+     * Signals that a user has been authenticated
+     *
+     * @param User $user
+     * @return void
+     * @Flow\Signal
+     */
+    protected function emitUserAuthenticated(User $user): void
+    {
+    }
 
-	/**
-	 * @param string $username
-	 * @param string $password
-	 * @return mixed
-	 */
-	public function setPasswordForUser($username, $password) {
-		try {
-			$response = $this->httpClient->put(rtrim($this->crowdBaseUri, '/') . '/rest/usermanagement/1/user/password?username=' . urlencode($username), array('body' => json_encode(array('value' => $password))));
-			$responseData = json_decode($response->getBody()->getContents(), TRUE);
-			return $responseData;
-		} catch (ClientException $e) {
-			return FALSE;
-		}
-	}
+    /**
+     * Signals that a user has been added
+     *
+     * @param User $user
+     * @return void
+     * @Flow\Signal
+     */
+    protected function emitUserAdded(User $user): void
+    {
+    }
+
+    /**
+     * Signals that a user profile has been updated
+     *
+     * @param User $user
+     * @param array $newValues
+     * @return void
+     * @Flow\Signal
+     */
+    protected function emitUserUpdated(User $user, array $newValues): void
+    {
+    }
 }

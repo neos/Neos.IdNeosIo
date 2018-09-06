@@ -1,4 +1,6 @@
 Neos:
   DiscourseCrowdSso:
-    ssoSecret: 'soojusae5jahLei8Ohthoh3iengoeSiusaht7sequeidif6un3im5ahfoopahQu4'
-    discourseSsoUrl: 'http://discuss.neos.io/session/sso_login'
+    ssoSecret: ''
+    baseUri: 'https://discuss.neos.io'
+    apiKey: ''
+    apiUsername: ''

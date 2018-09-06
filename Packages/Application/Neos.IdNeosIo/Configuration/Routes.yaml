@@ -1,6 +1,10 @@
-#                                                          #
-# Default subroutes configuration for the IdNeosIo package #
-#                                                          #
+-
+  uriPattern: 'users/{user}'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'User'
+    '@action':     'show'
+    '@format':     'html'
 
 
 -
@@ -8,53 +12,116 @@
   uriPattern: ''
   defaults:
     '@package':    'Neos.IdNeosIo'
-    '@controller': 'Welcome'
-    '@action':     'welcome'
+    '@controller': 'User'
+    '@action':     'index'
     '@format':     'html'
 
 -
-  name: 'Login Actions'
-  uriPattern: 'login(/{@action})'
+  name: 'Login: Form'
+  uriPattern: 'login'
   defaults:
     '@package':    'Neos.IdNeosIo'
     '@controller': 'Login'
     '@action':     'login'
     '@format':     'html'
+  httpMethods: [GET]
+
+-
+  name: 'Login: Authenticate'
+  uriPattern: 'login'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'Login'
+    '@action':     'authenticate'
+    '@format':     'html'
+  httpMethods: [POST]
+
+-
+  name: 'Login: Discourse SSO authentication'
+  uriPattern: 'discourse/authenticatediscourseuser'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'DiscourseLogin'
+    '@action':     'authenticate'
+    '@format':     'html'
+  appendExceedingArguments: true
+
+-
+  name: 'Logout'
+  uriPattern: 'logout'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'Login'
+    '@action':     'logout'
+    '@format':     'html'
+  httpMethods: [POST]
+
+-
+  name: 'Reset Password: Link Form'
+  uriPattern: 'resetpassword/link'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'ResetPassword'
+    '@action':     'index'
+    '@format':     'html'
+  httpMethods: [GET]
+
+-
+  name: 'Reset Password: Link'
+  uriPattern: 'resetpassword/link'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'ResetPassword'
+    '@action':     'sendResetLink'
+    '@format':     'html'
+  httpMethods: [POST]
+
+-
+  name: 'Reset Password: Reset Form'
+  uriPattern: 'resetpassword'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'ResetPassword'
+    '@action':     'form'
+    '@format':     'html'
+  appendExceedingArguments: true
+  httpMethods: [GET]
+
+-
+  name: 'Reset Password: Reset'
+  uriPattern: 'resetpassword'
+  defaults:
+    '@package':    'Neos.IdNeosIo'
+    '@controller': 'ResetPassword'
+    '@action':     'reset'
+    '@format':     'html'
+  appendExceedingArguments: true
+  httpMethods: [POST]
 
 -
   name: 'Activate account'
-  uriPattern: 'user/activate/{token}'
+  uriPattern: 'user/activate'
   defaults:
     '@package':    'Neos.IdNeosIo'
     '@controller': 'User'
-    '@action':     'create'
+    '@action':     'activate'
     '@format':     'html'
-    'token':       ''
+  appendExceedingArguments: true
 
 -
-  name: 'Reset password link'
-  uriPattern: 'user/onetimelogin/{token}'
+  name: 'Confirm email address'
+  uriPattern: 'user/confirm-email'
   defaults:
     '@package':    'Neos.IdNeosIo'
-    '@controller': 'ResetPassword'
-    '@action':     'onetimeLogin'
+    '@controller': 'User'
+    '@action':     'confirmEmail'
     '@format':     'html'
-    'token':       ''
-
--
-  name: 'Reset Password Actions'
-  uriPattern: 'resetpassword(/{@action})'
-  defaults:
-    '@package':    'Neos.IdNeosIo'
-    '@controller': 'ResetPassword'
-    '@action':     'index'
-    '@format':     'html'
+  appendExceedingArguments: true
 
 -
   name: 'User Profile Actions'
-  uriPattern: 'user(/{@action})'
+  uriPattern: 'user/{@action}'
   defaults:
     '@package':    'Neos.IdNeosIo'
     '@controller': 'User'
-    '@action':     'index'
     '@format':     'html'

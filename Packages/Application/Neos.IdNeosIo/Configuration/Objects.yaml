@@ -1,0 +1,7 @@
+Neos\CrowdClient\Domain\Service\CrowdClient:
+  scope: singleton
+  arguments:
+    1:
+      setting: 'Neos.IdNeosIo.crowdApplicationName'
+    2:
+      setting: 'Neos.IdNeosIo.crowdApplicationPassword'

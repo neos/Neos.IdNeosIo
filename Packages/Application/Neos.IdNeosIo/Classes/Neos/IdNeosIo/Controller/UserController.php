@@ -1,128 +1,155 @@
 <?php
 namespace Neos\IdNeosIo\Controller;
 
-/*                                                          *
- * This script belongs to the Flow package "Neos.IdNeosIo". *
- *                                                          */
-
-use Flownative\DoubleOptIn\Token;
 use Flownative\DoubleOptIn\Helper;
+use Flownative\DoubleOptIn\Token;
+use Flownative\DoubleOptIn\UnknownPresetException;
 use Neos\CrowdClient\Domain\Service\CrowdClient;
-use Neos\IdNeosIo\Domain\Model\UserDto;
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Error\Message;
-use TYPO3\Party\Domain\Service\PartyService;
+use Neos\Error\Messages\Message;
+use Neos\Flow\Mvc\Controller\ActionController;
+use Neos\Flow\Mvc\Exception\ForwardException;
+use Neos\Flow\Mvc\Exception\StopActionException;
+use Neos\Flow\Security\Exception\AccessDeniedException;
+use Neos\IdNeosIo\Domain\Model\AddUserDto;
+use Neos\IdNeosIo\Domain\Model\ChangeEmailDto;
+use Neos\IdNeosIo\Domain\Model\ChangeNameDto;
+use Neos\Flow\Annotations as Flow;
 
-class UserController extends \TYPO3\Flow\Mvc\Controller\ActionController {
+class UserController extends ActionController
+{
 
-	/**
-	 * @var string
-	 * @Flow\Inject(setting="crowdApplicationName")
-	 */
-	protected $crowdApplicationName;
+    /**
+     * @Flow\Inject
+     * @var CrowdClient
+     */
+    protected $crowdClient;
 
-	/**
-	 * @var string
-	 * @Flow\Inject(setting="crowdApplicationPassword")
-	 */
-	protected $crowdApplicationPassword;
+    /**
+     * @Flow\Inject
+     * @var Helper
+     */
+    protected $doubleOptInHelper;
 
-	/**
-	 * @var CrowdClient
-	 */
-	protected $crowdClient;
+    /**
+     * @var \Neos\Flow\Security\Context
+     * @Flow\Inject
+     */
+    protected $securityContext;
 
-	/**
-	 * @var Helper
-	 * @Flow\Inject
-	 */
-	protected $doubleOptInHelper;
+    public function indexAction(): void
+    {
+        $account = $this->securityContext->getAccount();
+        $this->view->assign('crowdUser', $this->crowdClient->getUser($account->getAccountIdentifier()));
+    }
 
-	/**
-	 * @var \TYPO3\Flow\Security\Context
-	 * @Flow\Inject
-	 */
-	protected $securityContext;
+    public function newAction(): void
+    {
+    }
 
-	/**
-	 * @var PartyService
-	 * @Flow\Inject
-	 */
-	protected $partyService;
+    /**
+     * @param AddUserDto $addUser
+     * @return void
+     * @throws StopActionException | UnknownPresetException
+     */
+    public function sendActivationEmailAction(AddUserDto $addUser): void
+    {
+        $token = $this->doubleOptInHelper->generateToken($addUser->getUsername(), 'id.neos.io registration', ['addUser' => $addUser]);
+        $this->doubleOptInHelper->setRequest($this->request);
+        $this->doubleOptInHelper->sendActivationMail($addUser->getEmail(), $token);
 
-	/**
-	 * @return void
-	 */
-	public function initializeObject() {
-		$this->crowdClient = new CrowdClient($this->crowdApplicationName, $this->crowdApplicationPassword);
-	}
+        $this->addFlashMessage('We\'ve sent you an email to %s with a link to activate your account!', '', Message::SEVERITY_NOTICE, [$addUser->getEmail()]);
+        $this->redirect('index');
+    }
 
-	/**
-	 * @return void
-	 */
-	public function indexAction() {
-		$account = $this->securityContext->getAccount();
-		$this->view->assign('account', $account);
-		$this->view->assign('person', $this->partyService->getAssignedPartyOfAccount($account));
-	}
+    /**
+     * @param Token $token
+     * @throws AccessDeniedException | StopActionException | ForwardException
+     */
+    public function activateAction(Token $token = null): void
+    {
+        if ($token === null) {
+            throw new AccessDeniedException('Missing token', 1536157328);
+        }
+        /** @var AddUserDto $addUser */
+        $addUser = $token->getMeta()['addUser'];
+        $result = $this->crowdClient->addUser($addUser->getFirstName(), $addUser->getLastName(), $addUser->getEmail(), $addUser->getUsername(), $addUser->getPassword());
+        if ($result->hasErrors()) {
+            $error = $result->getFirstError();
+            $this->addFlashMessage($error->getMessage(), $error->getTitle(), Message::SEVERITY_ERROR);
+            $this->forward('createError');
+            return;
+        }
+        $this->doubleOptInHelper->invalidateToken($token);
+        $this->addFlashMessage('Your account was created successfully. You can manage your account at id.neos.io. How about you try out your new Neos community account by exploring our forum at discuss.neos.io?', 'Account created', Message::SEVERITY_OK);
+        $this->redirect('index');
+    }
 
-	/**
-	 * @return void
-	 */
-	public function newAction() {
-	}
+    public function editNameAction(): void
+    {
+        $account = $this->securityContext->getAccount();
+        $this->view->assign('crowdUser', $this->crowdClient->getUser($account->getAccountIdentifier()));
+    }
 
-	/**
-	 * @param UserDto $user
-	 * @return void
-	 */
-	public function sendActivationEmailAction(UserDto $user) {
-		$token = $this->doubleOptInHelper->generateToken($user->getEmail(), 'id.neos.io registration', ['user' => $user]);
-		$this->doubleOptInHelper->setRequest($this->request);
-		$this->doubleOptInHelper->sendActivationMail($user->getEmail(), $token);
+    /**
+     * @param ChangeNameDto $changeName
+     * @throws StopActionException | UnknownPresetException
+     */
+    public function updateNameAction(ChangeNameDto $changeName): void
+    {
+        $account = $this->securityContext->getAccount();
 
-		$this->addFlashMessage('We\'ve sent you an email with a link to activate your account!', '', Message::SEVERITY_OK);
-		$this->redirect('index');
-	}
+        $this->crowdClient->setNameForUser($account->getAccountIdentifier(), $changeName->getFirstName(), $changeName->getLastName());
 
-	/**
-	 * @param Token $token
-	 * @return void
-	 */
-	public function createAction(Token $token = NULL) {
-		if ($token === NULL) {
-			$this->addFlashMessage('The activation link is not valid.', '', Message::SEVERITY_ERROR);
-			$this->forward('createError');
-		}
+        $this->addFlashMessage('Your profile has been updated!', '', Message::SEVERITY_OK);
+        $this->redirect('index');
+    }
 
-		$user = $token->getMeta()['user'];
-		$result = $this->crowdClient->addUser($user->getFirstname(), $user->getLastname(), $user->getEmail(), $user->getUsername(), $user->getPassword());
-		if (!$result->hasErrors()) {
-			$this->addFlashMessage('Your account was created successfully. You can now sing in with your credentials.', 'Account created', Message::SEVERITY_OK);
-			$this->redirect('index');
-		} else {
-			$error = $result->getFirstError();
-			$this->addFlashMessage($error->getMessage(), $error->getTitle(), Message::SEVERITY_ERROR);
-			$this->forward('createError');
-		}
-	}
+    public function editEmailAction(): void
+    {
+        $account = $this->securityContext->getAccount();
+        $this->view->assign('crowdUser', $this->crowdClient->getUser($account->getAccountIdentifier()));
+    }
 
-	/**
-	 * @return void
-	 */
-	public function createErrorAction() {
+    /**
+     * @param ChangeEmailDto $changeEmail
+     * @throws UnknownPresetException | StopActionException
+     */
+    public function sendConfirmEmailAction(ChangeEmailDto $changeEmail): void
+    {
+        $account = $this->securityContext->getAccount();
+        $crowdUser = $this->crowdClient->getUser($account->getAccountIdentifier());
 
-	}
+        $token = $this->doubleOptInHelper->generateToken($crowdUser->getName(), 'id.neos.io change email', ['crowdUser' => $crowdUser, 'newEmail' => $changeEmail->getEmail()]);
+        $this->doubleOptInHelper->setRequest($this->request);
+        $this->doubleOptInHelper->sendActivationMail($changeEmail->getEmail(), $token);
+        $this->addFlashMessage('We\'ve sent you an email to %s with a link to confirm your new email address!', '', Message::SEVERITY_NOTICE, [$changeEmail->getEmail()]);
 
-	/**
-	 * A template method for displaying custom error flash messages, or to
-	 * display no flash message at all on errors. Override this to customize
-	 * the flash message in your action controller.
-	 *
-	 * @return \TYPO3\Flow\Error\Message The flash message or FALSE if no flash message should be set
-	 * @api
-	 */
-	protected function getErrorFlashMessage() {
-		return FALSE;
-	}
+        $this->redirect('index');
+    }
+
+    /**
+     * @param Token $token
+     * @throws AccessDeniedException | StopActionException | ForwardException
+     */
+    public function confirmEmailAction(Token $token = null): void
+    {
+        if ($token === null) {
+            throw new AccessDeniedException('Missing token', 1536157334);
+        }
+        /** @var string $newEmail */
+        $newEmail = $token->getMeta()['newEmail'];
+        $this->crowdClient->setEmailForUser($token->getIdentifier(), $newEmail);
+        $this->addFlashMessage('Your email address has been updated!', '', Message::SEVERITY_OK);
+        $this->redirect('index');
+    }
+
+    public function createErrorAction(): void
+    {
+
+    }
+
+    protected function getErrorFlashMessage(): bool
+    {
+        return false;
+    }
 }

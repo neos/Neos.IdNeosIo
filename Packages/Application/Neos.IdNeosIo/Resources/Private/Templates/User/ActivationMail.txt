@@ -1,7 +1,16 @@
-Hello,
+Hello {token.meta.crowdUser.firstName},
 
-please click on the following link to activate:
+welcome to the Neos community!
+
+In order to activate your Neos account please click the following link within 24 hours so that we can verify your email address:
 
 {activationLink -> f:format.raw()}
 
-This email has been sent to {recipientAddress}.
+In case you have not signed up for a Neos account you can ignore this email. We do not store any data without activation.
+
+If you have questions you can get in touch with us via hello@neos.io.
+
+Best regards and happy Neosing,
+the Neos Team
+
+https://neos.io

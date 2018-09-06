@@ -1,49 +1,66 @@
 <?php
 namespace Neos\IdNeosIo\Controller;
 
-/*                                                                         *
- * This script belongs to the TYPO3 Flow package "Neos.IdNeosIo".          *
- *                                                                         */
+use Neos\DiscourseCrowdSso\DiscourseService;
+use Neos\Error\Messages\Error;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Mvc\ActionRequest;
+use Neos\Flow\Mvc\Exception\StopActionException;
+use Neos\Flow\Security\Authentication\Controller\AbstractAuthenticationController;
+use Neos\Flow\Security\Context;
+use Neos\Flow\Security\Exception\AuthenticationRequiredException;
 
-use TYPO3\Flow\Annotations as Flow;
+class LoginController extends AbstractAuthenticationController
+{
 
-class LoginController extends \TYPO3\Flow\Security\Authentication\Controller\AbstractAuthenticationController {
+    /**
+     * @Flow\Inject
+     * @var Context
+     */
+    protected $securityContext;
 
-	/**
-	 * @var \TYPO3\Flow\Security\Context
-	 * @Flow\Inject
-	 */
-	protected $securityContext;
+    /**
+     * @Flow\Inject
+     * @var DiscourseService
+     */
+    protected $discourseService;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function logoutAction() {
-		$this->authenticationManager->logout();
-		$this->redirect('index', 'User');
-	}
+    /**
+     * @throws StopActionException
+     */
+    public function logoutAction(): void
+    {
+        $account = $this->securityContext->getAccount();
+        if ($account !== null) {
+            try {
+                $this->discourseService->logoutUser($account);
+            } catch (\RuntimeException $exception) {
+                $this->logger->debug(sprintf('Could not log out discourse user for account "%s"', $account->getAccountIdentifier()));
+            }
+        }
+        parent::logoutAction();
+        $this->redirect('index', 'User');
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function onAuthenticationSuccess(\TYPO3\Flow\Mvc\ActionRequest $originalRequest = NULL) {
-		if ($originalRequest !== NULL) {
-			$this->redirectToRequest($originalRequest);
-		}
+    /**
+     * @param ActionRequest|null $originalRequest
+     * @throws StopActionException
+     */
+    protected function onAuthenticationSuccess(ActionRequest $originalRequest = null): void
+    {
+        if ($originalRequest !== null) {
+            $this->redirectToRequest($originalRequest);
+        }
 
-		$this->redirect('index', 'User');
-	}
+        $this->redirect('index', 'User');
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function onAuthenticationFailure(\TYPO3\Flow\Security\Exception\AuthenticationRequiredException $exception = NULL) {
-	}
+    protected function onAuthenticationFailure(AuthenticationRequiredException $exception = null): void
+    {
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function getErrorFlashMessage() {
-		return new \TYPO3\Flow\Error\Error('Please check your username and password', NULL, array(), 'Authentication failed');
-	}
+    protected function getErrorFlashMessage(): Error
+    {
+        return new Error('Please check your username and password', null, [], 'Authentication failed');
+    }
 }

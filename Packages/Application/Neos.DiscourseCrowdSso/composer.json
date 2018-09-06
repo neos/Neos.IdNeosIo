@@ -1,9 +1,10 @@
 {
     "name": "neos/discoursecrowdsso",
-    "type": "typo3-flow-package",
-    "description": "Add description here",
+    "type": "neos-package",
+    "description": "Discourse SSO authentication",
     "require": {
-        "typo3/flow": "*"
+        "neos/flow": "^5.1",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "autoload": {
         "psr-0": {

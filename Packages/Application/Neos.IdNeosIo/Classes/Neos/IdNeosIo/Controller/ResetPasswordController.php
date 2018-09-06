@@ -1,150 +1,93 @@
 <?php
 namespace Neos\IdNeosIo\Controller;
 
-/*                                                          *
- * This script belongs to the Flow package "Neos.IdNeosIo". *
- *                                                          */
-
-use Flownative\DoubleOptIn\Token;
 use Flownative\DoubleOptIn\Helper;
+use Flownative\DoubleOptIn\Token;
+use Flownative\DoubleOptIn\UnknownPresetException;
 use Neos\CrowdClient\Domain\Service\CrowdClient;
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Error\Message;
-use TYPO3\Flow\Security\Account;
-use TYPO3\Flow\Security\Authentication\TokenInterface;
-use TYPO3\Flow\Security\Policy\PolicyService;
+use Neos\Error\Messages\Message;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Mvc\Controller\ActionController;
+use Neos\Flow\Mvc\Exception\ForwardException;
+use Neos\Flow\Mvc\Exception\StopActionException;
+use Neos\Flow\Security\Context;
+use Neos\IdNeosIo\Domain\Model\ResetPasswordDto;
 
-class ResetPasswordController extends \TYPO3\Flow\Mvc\Controller\ActionController {
+class ResetPasswordController extends ActionController
+{
 
-	/**
-	 * @var string $crowdApplicationName
-	 * @Flow\Inject(setting="crowdApplicationName")
-	 */
-	protected $crowdApplicationName;
+    /**
+     * @Flow\Inject
+     * @var CrowdClient
+     */
+    protected $crowdClient;
 
-	/**
-	 * @var string $crowdApplicationPassword
-	 * @Flow\Inject(setting="crowdApplicationPassword")
-	 */
-	protected $crowdApplicationPassword;
+    /**
+     * @Flow\Inject
+     * @var Helper
+     */
+    protected $doubleOptInHelper;
 
-	/**
-	 * @var string $authenticationProviderName
-	 * @Flow\Inject(setting="authenticationProviderName")
-	 */
-	protected $authenticationProviderName;
+    /**
+     * @Flow\Inject
+     * @var Context
+     */
+    protected $securityContext;
 
-	/**
-	 * @var CrowdClient
-	 */
-	protected $crowdClient;
+    public function indexAction(string $username = ''): void
+    {
+        $this->view->assign('username', $username);
+    }
 
-	/**
-	 * @var Helper
-	 * @Flow\Inject
-	 */
-	protected $doubleOptInHelper;
+    /**
+     * @param string $username
+     * @throws UnknownPresetException | ForwardException | StopActionException
+     */
+    public function sendResetLinkAction(string $username): void
+    {
+        $crowdUser = $this->crowdClient->getUser($username);
+        if ($crowdUser === null) {
+            $this->addFlashMessage('The given username was not found. Please check your spelling or create a new account.',
+                'User not found', Message::SEVERITY_ERROR);
+            $this->forward('index', null, null, ['username' => $username]);
+            return;
+        }
+        $token = $this->doubleOptInHelper->generateToken($crowdUser->getName(), 'id.neos.io reset password', ['crowdUser' => $crowdUser]);
+        $this->doubleOptInHelper->setRequest($this->request);
+        $this->doubleOptInHelper->sendActivationMail($crowdUser->getEmail(), $token);
 
-	/**
-	 * @var \TYPO3\Flow\Security\Context
-	 * @Flow\Inject
-	 */
-	protected $securityContext;
+        $this->addFlashMessage('We\'ve sent you an email with a link to reset your password.', '', Message::SEVERITY_NOTICE);
+        $this->redirect('login', 'Login');
+    }
 
-	/**
-	 * @return void
-	 */
-	public function initializeObject() {
-		$this->crowdClient = new CrowdClient($this->crowdApplicationName, $this->crowdApplicationPassword);
-	}
+    /**
+     * @param Token $token
+     */
+    public function formAction(Token $token = null): void
+    {
+        if ($token !== null) {
+            $this->view->assign('tokenHash', $token->getHash());
+        }
+    }
 
-	/**
-	 * @param string $username
-	 * @return void
-	 */
-	public function indexAction($username = '') {
-		$this->view->assign('username', $username);
-	}
+    /**
+     * @param ResetPasswordDto $resetPassword
+     * @param Token $token
+     * @throws StopActionException
+     * @Flow\SkipCsrfProtection
+     */
+    public function resetAction(ResetPasswordDto $resetPassword, Token $token = null): void
+    {
+        $this->crowdClient->setPasswordForUser($this->securityContext->getAccount()->getAccountIdentifier(), $resetPassword->getPassword());
+        if ($token !== null) {
+            $this->doubleOptInHelper->invalidateToken($token);
+        }
+        $this->addFlashMessage('Your password has been updated!');
+        $this->redirect('login', 'Login');
+    }
 
-	/**
-	 * @param string $username
-	 * @return void
-	 */
-	public function sendResetLinkAction($username) {
-		$userData = $this->crowdClient->getUser($username);
-		if ($userData !== NULL) {
-			$token = $this->doubleOptInHelper->generateToken($userData['email'], 'id.neos.io reset password', $userData);
-			$this->doubleOptInHelper->setRequest($this->request);
-			$this->doubleOptInHelper->sendActivationMail($userData['email'], $token);
-
-			$this->addFlashMessage('We\'ve sent you an email with a link to reset your password.', 'Email sent');
-			$this->redirect('index', 'User');
-		}
-
-		$this->addFlashMessage('The given username was not found. Please check your spelling or create a new account.', 'User not found', Message::SEVERITY_ERROR);
-		$this->forward('index', NULL, NULL, array('username' => $username));
-	}
-
-	/**
-	 * @param Token $token
-	 * @return void
-	 */
-	public function onetimeLoginAction(Token $token = NULL) {
-		if ($token === NULL) {
-			$this->addFlashMessage('Please request a new email to reset your password.', 'Invalid password reset link.', Message::SEVERITY_ERROR);
-			$this->redirect('index');
-		}
-
-		$username = $token->getMeta()['name'];
-
-		$account = $this->crowdClient->getLocalAccountForCrowdUser($username, $this->authenticationProviderName);
-
-		if ($account === NULL) {
-			$this->addFlashMessage('Sorry, we could not find this user. Please try to reset your password again.', 'User not found', Message::SEVERITY_ERROR);
-			$this->redirect('index');
-		}
-
-		foreach ($this->securityContext->getAuthenticationTokens() as $authenticationToken) {
-			if ($authenticationToken->getAuthenticationProviderName() === $this->authenticationProviderName) {
-				$authenticationToken->setAuthenticationStatus(TokenInterface::AUTHENTICATION_SUCCESSFUL);
-				$authenticationToken->setAccount($account);
-				break;
-			}
-		}
-
-		$this->redirect('resetForm');
-	}
-
-	/**
-	 * @return void
-	 */
-	public function resetFormAction() {
-	}
-
-	/**
-	 * @param string $password
-	 * @param string $passwordConfirmation
-	 * @return void
-	 */
-	public function resetAction($password, $passwordConfirmation) {
-		if ($password === '' || $password !== $passwordConfirmation) {
-			$this->flashMessageContainer->addMessage(new \TYPO3\Flow\Error\Error('Passwords didn\'t match!', 1435750717));
-			return $this->errorAction();
-		}
-		$this->crowdClient->setPasswordForUser($this->securityContext->getAccount()->getAccountIdentifier(), $password);
-		$this->addFlashMessage('Your password has been updated!');
-		$this->redirect('resetForm');
-	}
-
-	/**
-	 * A template method for displaying custom error flash messages, or to
-	 * display no flash message at all on errors. Override this to customize
-	 * the flash message in your action controller.
-	 *
-	 * @return Message The flash message or FALSE if no flash message should be set
-	 * @api
-	 */
-	protected function getErrorFlashMessage() {
-		return FALSE;
-	}
+    protected function getErrorFlashMessage(): bool
+    {
+        return false;
+    }
 }

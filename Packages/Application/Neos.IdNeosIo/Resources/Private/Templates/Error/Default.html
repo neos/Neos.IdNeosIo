@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{statusCode} - {statusMessage}</title>
+	<link rel="stylesheet" href="/_Resources/Static/Packages/Neos.IdNeosIo/Styles/Main.css">
+	<link rel="icon" type="image/png" href="/_Resources/Static/Packages/Neos.IdNeosIo/Images/Favicon/favicon-16x16.png" sizes="16x16">
+	<link rel="icon" type="image/png" href="/_Resources/Static/Packages/Neos.IdNeosIo/Images/Favicon/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="/_Resources/Static/Packages/Neos.IdNeosIo/Images/Favicon/favicon-96x96.png" sizes="96x96">
+</head>
+<body>
+
+<div class="top-navigation-wrap navbar-fixed-top scrolling">
+
+	<nav class="navbar navbar-static-top navbar-default first-level-navigation" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">Neos</a>
+			</div>
+		</div>
+	</nav>
+
+</div>
+<div class="container">
+	<header>
+		<h1>ERROR: {statusMessage} ({statusCode})</h1>
+	</header>
+	<section>
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				<f:if condition="{errorDescription}">
+					<f:then>{errorDescription -> f:format.nl2br()}</f:then>
+					<f:else>{exception.message} (#{exception.code})</f:else>
+				</f:if>
+			</div>
+		</div>
+	</section>
+</div>
+</body>
+</html>

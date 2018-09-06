@@ -1,26 +1,31 @@
-#                                                                        #
-# Security policy for the Neos.DiscourseCrowdSso package                 #
-#                                                                        #
-
 privilegeTargets:
-  'TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+  'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
 
-    Neos_IdNeosIo_Profile:
-      matcher: 'method(Neos\IdNeosIo\Controller\UserController->indexAction())'
+    'Neos.IdNeosIo:Profile':
+      matcher: 'method(Neos\IdNeosIo\Controller\UserController->(index|editName|updateName|editEmail|sendConfirmEmail|confirmEmail)Action())'
 
-    Neos_IdNeosIo_ResetPassword:
-      matcher: 'method(Neos\IdNeosIo\Controller\ResetPasswordController->(resetForm|reset)Action())'
+    'Neos.IdNeosIo:ResetPassword':
+      matcher: 'method(Neos\IdNeosIo\Controller\ResetPasswordController->(form|reset)Action())'
+
+    'Neos.IdNeosIo:ActivateUser':
+      matcher: 'method(Neos\IdNeosIo\Controller\UserController->activateAction())'
+
+    'Neos.IdNeosIo:SsoAuthentication':
+      matcher: 'method(Neos\IdNeosIo\Controller\DiscourseLoginController->authenticateAction())'
 
 roles:
 
   'Neos.IdNeosIo:NeosCommunityMember':
     privileges:
       -
-        privilegeTarget: 'Neos_IdNeosIo_Profile'
+        privilegeTarget: 'Neos.IdNeosIo:Profile'
         permission: GRANT
       -
-        privilegeTarget: 'Neos_DiscourseCrowdSso_Login'
+        privilegeTarget: 'Neos.IdNeosIo:SsoAuthentication'
         permission: GRANT
       -
-        privilegeTarget: 'Neos_IdNeosIo_ResetPassword'
+        privilegeTarget: 'Neos.IdNeosIo:ResetPassword'
+        permission: GRANT
+      -
+        privilegeTarget: 'Neos.IdNeosIo:ActivateUser'
         permission: GRANT

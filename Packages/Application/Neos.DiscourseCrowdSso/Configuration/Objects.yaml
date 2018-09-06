@@ -1,0 +1,10 @@
+Neos\DiscourseCrowdSso\DiscourseService:
+  arguments:
+    1:
+      setting: 'Neos.DiscourseCrowdSso.baseUri'
+    2:
+      setting: 'Neos.DiscourseCrowdSso.ssoSecret'
+    3:
+      setting: 'Neos.DiscourseCrowdSso.apiKey'
+    4:
+      setting: 'Neos.DiscourseCrowdSso.apiUsername'

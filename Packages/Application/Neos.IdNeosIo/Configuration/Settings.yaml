@@ -1,14 +1,40 @@
-TYPO3:
+Neos:
   Flow:
+    error:
+      exceptionHandler:
+        defaultRenderingOptions:
+          templatePathAndFilename: 'resource://Neos.IdNeosIo/Private/Templates/Error/Default.html'
+        renderingGroups:
+          'notFoundExceptions':
+            options:
+              templatePathAndFilename: 'resource://Neos.IdNeosIo/Private/Templates/Error/Default.html'
+          'databaseConnectionExceptions':
+            options:
+              templatePathAndFilename: 'resource://Neos.IdNeosIo/Private/Templates/Error/Default.html'
+          'invalidTokenExceptions':
+            matchingExceptionClassNames:
+              - 'Neos\IdNeosIo\Security\Authentication\InvalidTokenException'
+            options:
+              variables:
+                errorDescription: |
+                  The token hash is invalid or expired!
+                  Make sure that the token link is complete.
     security:
       authentication:
         providers:
-          CrowdProvider:
+          'TokenProvider':
+            provider: 'Neos\IdNeosIo\Security\Authentication\TokenProvider'
+            providerOptions:
+              authenticateRole: 'Neos.IdNeosIo:NeosCommunityMember'
+          'CrowdProvider':
             provider: 'Neos\CrowdClient\Security\Authentication\Provider\CrowdProvider'
             providerOptions:
               crowdApplicationName: 'idneosio'
               crowdApplicationPassword: 'verysecretapplicationpasswordgoeshere'
               authenticateRole: 'Neos.IdNeosIo:NeosCommunityMember'
+            requestPatterns:
+              'Neos.IdNeosIo:NoTokenRequest':
+                pattern: 'Neos\IdNeosIo\Security\RequestPattern\NoTokenRequestPattern'
             entryPoint: 'WebRedirect'
             entryPointOptions:
               routeValues:
@@ -17,7 +43,6 @@ TYPO3:
                 '@action':     'login'
                 '@format':     'html'
 
-Neos:
   IdNeosIo:
     crowdApplicationName: 'idneosio'
     crowdApplicationPassword: 'verysecretapplicationpasswordgoeshere'
@@ -26,19 +51,24 @@ Neos:
 Flownative:
   DoubleOptIn:
     presets:
-      'id.neos.io registration':
+      'default':
         activation:
           uri:
             '@package': 'Neos.IdNeosIo'
-            '@controller': 'User'
             '@format': 'html'
-            '@action': 'create'
             arguments:
               'token': '-tokenhash-'
         mail:
           from:
-            name: 'Neos Community Registration'
+            name: 'Neos Community'
             address: 'no-reply@neos.io'
+
+      'id.neos.io registration':
+        activation:
+          uri:
+            '@controller': 'User'
+            '@action': 'activate'
+        mail:
           subject: 'Activate your Neos community account'
           message:
             plaintext: 'resource://Neos.IdNeosIo/Private/Templates/User/ActivationMail.txt'
@@ -46,16 +76,19 @@ Flownative:
       'id.neos.io reset password':
         activation:
           uri:
-            '@package': 'Neos.IdNeosIo'
             '@controller': 'ResetPassword'
-            '@format': 'html'
-            '@action': 'onetimeLogin'
-            arguments:
-              'token': '-tokenhash-'
+            '@action': 'form'
         mail:
-          from:
-            name: 'Neos Community Login'
-            address: 'no-reply@neos.io'
           subject: 'Reset password for your Neos community account'
           message:
             plaintext: 'resource://Neos.IdNeosIo/Private/Templates/ResetPassword/ResetPasswordMail.txt'
+
+      'id.neos.io change email':
+        activation:
+          uri:
+            '@controller': 'User'
+            '@action': 'confirmEmail'
+        mail:
+          subject: 'Confirm your Neos community email address'
+          message:
+            plaintext: 'resource://Neos.IdNeosIo/Private/Templates/User/ConfirmEmailAddress.txt'
