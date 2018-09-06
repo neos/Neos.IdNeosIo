@@ -1,5 +1,4 @@
 <?php
-
 namespace Neos\DiscourseCrowdSso;
 
 use GuzzleHttp\Exception\RequestException;
@@ -147,10 +146,13 @@ final class DiscourseService
      */
     public function hasUserWithEmail(string $email): bool
     {
-        $response = $this->httpClient->get('/admin/users/list/all.json', ['query' => ['email' => $email, 'api_key' => $this->apiKey, 'api_username' => $this->apiUsername]]);
+        try {
+            $response = $this->httpClient->get('/admin/users/list/all.json', ['query' => ['email' => $email, 'api_key' => $this->apiKey, 'api_username' => $this->apiUsername]]);
+        } catch (RequestException $exception) {
+            throw new \RuntimeException('Could not look up email address with discourse', 1536231736, $exception);
+        }
         $usersData = json_decode($response->getBody()->getContents(), true);
         return $usersData !== [];
     }
-
 
 }
