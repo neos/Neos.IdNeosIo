@@ -1,5 +1,4 @@
 <?php
-
 namespace Neos\CrowdClient\Domain\Dto;
 
 use Neos\Flow\Annotations as Flow;

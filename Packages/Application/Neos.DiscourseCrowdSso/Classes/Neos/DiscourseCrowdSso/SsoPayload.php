@@ -43,7 +43,7 @@ final class SsoPayload implements \JsonSerializable
         return new static($payload);
     }
 
-    public function hasExternalId()
+    public function hasExternalId(): bool
     {
         return $this->has('external_id');
     }

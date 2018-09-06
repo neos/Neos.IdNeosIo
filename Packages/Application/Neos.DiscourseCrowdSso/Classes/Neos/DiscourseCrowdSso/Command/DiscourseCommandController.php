@@ -17,7 +17,7 @@ class DiscourseCommandController extends CommandController
     /**
      * A simple command to test basic access to the Discourse API
      */
-    public function testAccessCommand()
+    public function testAccessCommand(): void
     {
         $this->discourseService->hasUserWithEmail('hello@neos.io');
         $this->outputLine('<success>Success!</success>');

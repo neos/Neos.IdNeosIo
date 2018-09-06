@@ -1,5 +1,4 @@
 <?php
-
 namespace Neos\CrowdClient\Security\Authentication\Provider;
 
 use Neos\CrowdClient\Domain\Service\CrowdClient;
@@ -50,7 +49,7 @@ class CrowdProvider extends AbstractProvider
      * @throws InvalidAuthenticationStatusException
      * @throws NoSuchRoleException
      */
-    public function authenticate(TokenInterface $authenticationToken)
+    public function authenticate(TokenInterface $authenticationToken): void
     {
         if (!($authenticationToken instanceof UsernamePassword)) {
             throw new UnsupportedAuthenticationTokenException('This provider cannot authenticate the given token.', 1217339845);

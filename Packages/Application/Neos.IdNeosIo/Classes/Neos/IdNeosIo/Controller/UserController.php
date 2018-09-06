@@ -1,5 +1,4 @@
 <?php
-
 namespace Neos\IdNeosIo\Controller;
 
 use Flownative\DoubleOptIn\Helper;
@@ -52,7 +51,7 @@ class UserController extends ActionController
      * @return void
      * @throws StopActionException | UnknownPresetException
      */
-    public function sendActivationEmailAction(AddUserDto $addUser)
+    public function sendActivationEmailAction(AddUserDto $addUser): void
     {
         $token = $this->doubleOptInHelper->generateToken($addUser->getUsername(), 'id.neos.io registration', ['addUser' => $addUser]);
         $this->doubleOptInHelper->setRequest($this->request);

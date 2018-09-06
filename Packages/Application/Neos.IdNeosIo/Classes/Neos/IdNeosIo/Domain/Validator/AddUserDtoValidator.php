@@ -23,7 +23,7 @@ class AddUserDtoValidator extends AbstractValidator
      */
     protected $discourseService;
 
-    protected function isValid($value)
+    protected function isValid($value): void
     {
         if (!$value instanceof AddUserDto) {
             $this->addError('Value must be of type AddUserDto', 1436254418);

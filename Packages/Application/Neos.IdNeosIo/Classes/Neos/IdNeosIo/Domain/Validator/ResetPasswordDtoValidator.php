@@ -8,7 +8,7 @@ use Neos\IdNeosIo\Domain\Model\ResetPasswordDto;
 class ResetPasswordDtoValidator extends AbstractValidator
 {
 
-    protected function isValid($value)
+    protected function isValid($value): void
     {
         if (!$value instanceof ResetPasswordDto) {
             $this->addError('Value must be of type ResetPasswordDto', 1533811010);

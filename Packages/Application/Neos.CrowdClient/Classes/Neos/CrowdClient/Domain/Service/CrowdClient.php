@@ -1,5 +1,4 @@
 <?php
-
 namespace Neos\CrowdClient\Domain\Service;
 
 use GuzzleHttp\Exception\ClientException;
@@ -175,12 +174,12 @@ class CrowdClient
         $this->httpClient->put('user/password?username=' . urlencode($username), ['body' => json_encode(['value' => $password])]);
     }
 
-    public function setNameForUser(string $username, string $firstName, string $lastName)
+    public function setNameForUser(string $username, string $firstName, string $lastName): void
     {
         $this->updateUser($username, ['first-name' => $firstName, 'last-name' => $lastName]);
     }
 
-    public function setEmailForUser(string $username, string $email)
+    public function setEmailForUser(string $username, string $email): void
     {
         $this->updateUser($username, ['email' => $email]);
     }
@@ -206,7 +205,7 @@ class CrowdClient
      * @return void
      * @Flow\Signal
      */
-    protected function emitUserAuthenticated(User $user)
+    protected function emitUserAuthenticated(User $user): void
     {
     }
 
@@ -217,7 +216,7 @@ class CrowdClient
      * @return void
      * @Flow\Signal
      */
-    protected function emitUserAdded(User $user)
+    protected function emitUserAdded(User $user): void
     {
     }
 
@@ -229,7 +228,7 @@ class CrowdClient
      * @return void
      * @Flow\Signal
      */
-    protected function emitUserUpdated(User $user, array $newValues)
+    protected function emitUserUpdated(User $user, array $newValues): void
     {
     }
 }

@@ -23,7 +23,7 @@ class ChangeEmailDtoValidator extends AbstractValidator
      */
     protected $discourseService;
 
-    protected function isValid($value)
+    protected function isValid($value): void
     {
         if (!$value instanceof ChangeEmailDto) {
             $this->addError('Value must be of type ChangeEmailDto', 1536227679);

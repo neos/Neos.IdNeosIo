@@ -8,7 +8,7 @@ use Neos\FluidAdaptor\ViewHelpers\FormViewHelper as OriginalFormViewHelper;
  */
 class FormViewHelper extends OriginalFormViewHelper
 {
-    protected function renderCsrfTokenField()
+    protected function renderCsrfTokenField(): string
     {
         return '';
     }

@@ -1,5 +1,4 @@
 <?php
-
 namespace Neos\IdNeosIo\Controller;
 
 use Flownative\DoubleOptIn\Helper;

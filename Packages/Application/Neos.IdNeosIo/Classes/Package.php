@@ -18,7 +18,7 @@ class Package extends BasePackage
     /**
      * @param Bootstrap $bootstrap
      */
-    public function boot(Bootstrap $bootstrap)
+    public function boot(Bootstrap $bootstrap): void
     {
         $dispatcher = $bootstrap->getSignalSlotDispatcher();
 
