@@ -18,6 +18,8 @@ Neos:
 
   DiscourseCrowdSso:
     ssoSecret: '%env:DISCOURSE_CROWD_SSO%'
+    apiKey: '%env:DISCOURSE_API_KEY%'
+    apiUsername: '%env:DISCOURSE_API_USERNAME%'
 
   IdNeosIo:
     crowdApplicationPassword: '%env:CROWD_APPLICATION_PASSWORD%'
