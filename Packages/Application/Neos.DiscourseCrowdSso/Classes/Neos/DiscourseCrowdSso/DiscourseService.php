@@ -93,16 +93,16 @@ final class DiscourseService
         if (!$payload->hasExternalId()) {
             throw new \RuntimeException('Missing "external_id" in payload!', 1534436199);
         }
-        $sso = base64_encode(http_build_query($payload->jsonSerialize()));
+        $sso = base64_encode(http_build_query($payload->toArray()));
         $postParameters = [
             'sso' => $sso,
-            'sig' => hash_hmac('sha256', $sso, $this->ssoSecret),
-            'api_key' => $this->apiKey,
-            'api_username' => $this->apiUsername,
+            'sig' => hash_hmac('sha256', $sso, $this->ssoSecret)
         ];
 
+        $headers = ["Content-Type: multipart/form-data;", "Api-Key: $this->apiKey", "Api-Username: $this->apiUsername",];
+
         try {
-            $this->httpClient->post('/admin/users/sync_sso', ['form_params' => $postParameters]);
+            $this->httpClient->post('/admin/users/sync_sso', ['headers' => $headers, 'form_params' => $postParameters]);
         } catch (RequestException $exception) {
             throw new \RuntimeException('Could not sync User data to discourse', 1534436256, $exception);
         }

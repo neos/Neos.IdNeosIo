@@ -62,4 +62,9 @@ final class SsoPayload implements \JsonSerializable
     {
         return $this->payload;
     }
+
+    public function toArray(): array
+    {
+        return $this->payload;
+    }
 }
