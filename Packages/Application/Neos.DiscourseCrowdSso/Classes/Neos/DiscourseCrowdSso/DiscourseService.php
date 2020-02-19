@@ -99,7 +99,7 @@ final class DiscourseService
             'sig' => hash_hmac('sha256', $sso, $this->ssoSecret)
         ];
 
-        $headers = ["Content-Type: multipart/form-data;", "Api-Key: $this->apiKey", "Api-Username: $this->apiUsername",];
+        $headers = ["Content-Type: multipart/form-data;", "Api-Key: $this->apiKey", "Api-Username: $this->apiUsername"];
 
         try {
             $this->httpClient->post('/admin/users/sync_sso', ['headers' => $headers, 'form_params' => $postParameters]);
@@ -148,7 +148,11 @@ final class DiscourseService
     public function hasUserWithEmail(string $email): bool
     {
         try {
-            $response = $this->httpClient->get('/admin/users/list/all.json', ['query' => ['email' => $email, 'api_key' => $this->apiKey, 'api_username' => $this->apiUsername]]);
+            $headers = [
+                "Api-Key: $this->apiKey",
+                "Api-Username: $this->apiUsername"
+            ];
+            $response = $this->httpClient->get('/admin/users/list/all.json', ['headers' => $headers, 'query' => ['email' => $email]]);
         } catch (RequestException $exception) {
             throw new \RuntimeException('Could not look up email address with discourse', 1536231736, $exception);
         }
