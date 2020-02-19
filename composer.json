@@ -11,7 +11,8 @@
         "neos/flow": "^5.1",
         "guzzlehttp/guzzle": "^6.3",
         "flownative/flow-doubleoptin": "^2.1",
-        "neos/swiftmailer": "^6.0"
+        "neos/swiftmailer": "^6.0",
+        "flownative/google-cloudstorage": "4.*"
     },
     "suggest": {
         "ext-pdo_sqlite": "For running functional tests out-of-the-box this is required"
