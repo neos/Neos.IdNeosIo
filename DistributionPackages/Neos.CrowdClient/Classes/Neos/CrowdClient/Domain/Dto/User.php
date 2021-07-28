@@ -41,7 +41,7 @@ final class User
         $this->email = $email;
     }
 
-    public static function fromCrowdResponse(string $crowdResponse): self
+    public static function fromCrowdResponse(string $crowdResponse): ?self
     {
         $userData = json_decode($crowdResponse, true);
         if (!is_array($userData)) {
