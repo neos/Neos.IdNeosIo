@@ -3,7 +3,12 @@
     "type": "neos-package",
     "description": "Controllers and UI for the id.neos.io website",
     "require": {
-        "neos/flow": "^5.1"
+        "neos/flow": "^5.1",
+        "neos/crowdclient": "*",
+        "neos/discoursecrowdsso": "*",
+        "guzzlehttp/guzzle": "^6.3",
+        "flownative/flow-doubleoptin": "^2.1",
+        "neos/swiftmailer": "^6.0"
     },
     "autoload": {
         "psr-0": {

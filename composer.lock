@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0171f67f2dc670966cb69fbbc56abfcc",
+    "content-hash": "bf00ddc2f337fc1e1fa4be2d3582840d",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2660,6 +2660,51 @@
             "time": "2020-11-27T08:16:46+00:00"
         },
         {
+            "name": "neos/crowdclient",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "DistributionPackages/Neos.CrowdClient",
+                "reference": "2b76dfcdaaee971a0491a1c41a6b92924b2a0c9d"
+            },
+            "require": {
+                "neos/flow": "^5.1"
+            },
+            "type": "neos-package",
+            "autoload": {
+                "psr-0": {
+                    "Neos\\CrowdClient": "Classes"
+                }
+            },
+            "description": "Atlassian Crowd Client",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "neos/discoursecrowdsso",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "DistributionPackages/Neos.DiscourseCrowdSso",
+                "reference": "5aa29a37f312691fa687ecb84bb96e01f57eeba2"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3",
+                "neos/flow": "^5.1"
+            },
+            "type": "neos-package",
+            "autoload": {
+                "psr-0": {
+                    "Neos\\DiscourseCrowdSso": "Classes"
+                }
+            },
+            "description": "Discourse SSO authentication",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "neos/eel",
             "version": "5.3.27",
             "source": {
@@ -2944,6 +2989,33 @@
                 }
             ],
             "time": "2021-04-04T11:10:31+00:00"
+        },
+        {
+            "name": "neos/idneosio",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "DistributionPackages/Neos.IdNeosIo",
+                "reference": "4471525b398aaaf84e4963e67d9a9ecf35fbb413"
+            },
+            "require": {
+                "flownative/flow-doubleoptin": "^2.1",
+                "guzzlehttp/guzzle": "^6.3",
+                "neos/crowdclient": "*",
+                "neos/discoursecrowdsso": "*",
+                "neos/flow": "^5.1",
+                "neos/swiftmailer": "^6.0"
+            },
+            "type": "neos-package",
+            "autoload": {
+                "psr-0": {
+                    "Neos\\IdNeosIo": "Classes"
+                }
+            },
+            "description": "Controllers and UI for the id.neos.io website",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "neos/swiftmailer",
@@ -5336,12 +5408,12 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1"
+        "php": "^7.4"
     },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"

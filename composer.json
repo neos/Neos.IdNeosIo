@@ -1,19 +1,24 @@
 {
-    "name": "neos/idneosio",
+    "name": "neos/idneosio-distribution",
     "description" : "Distribution for id.neos.io",
     "license": "GPL-3.0+",
     "config": {
         "vendor-dir": "Packages/Libraries",
         "bin-dir": "bin"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "php": "^7.1",
-        "neos/flow": "^5.1",
-        "guzzlehttp/guzzle": "^6.3",
-        "flownative/flow-doubleoptin": "^2.1",
-        "neos/swiftmailer": "^6.0",
+        "php": "^7.4",
+        "neos/idneosio": "*",
         "flownative/google-cloudstorage": "4.*"
     },
+    "repositories": [
+      {
+        "type": "path",
+        "url": "DistributionPackages/*"
+      }
+    ],
     "suggest": {
         "ext-pdo_sqlite": "For running functional tests out-of-the-box this is required"
     },

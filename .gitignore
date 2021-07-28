@@ -3,10 +3,7 @@
 /Configuration/Production
 /Configuration/Testing
 /Data/
-/Packages/Application/Neos.Swiftmailer/
-/Packages/Application/Flownative.DoubleOptIn/
-/Packages/Framework/
-/Packages/Libraries/
+/Packages/
 /Web/
 /bin/
 /Readme.rst
@@ -14,6 +11,6 @@
 /flow
 /flow.bat
 .editorconfig
-Packages/Application/Neos.IdNeosIo/Resources/Private/Styles/.sass-cache
+DistributionPackages/Neos.IdNeosIo/Resources/Private/Styles/.sass-cache
 Configuration/README
 Configuration/Settings.yaml.example
