@@ -1,10 +1,4 @@
-<p align="center">
-	<a href="http://neos.io">
-		<img src="DistributionPackages/Neos.IdNeosIo/Resources/Public/Images/logo.svg" width="150px" height="150px">
-	</a>
-</p>
-
-> The official id.neos.io website package.
+# id.neos.io site package
 
 ## Local Setup & Installation
 
