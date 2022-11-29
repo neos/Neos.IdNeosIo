@@ -1,10 +1,10 @@
 <?php
 namespace Neos\DiscourseCrowdSso;
 
-use GuzzleHttp\Exception\RequestException;
-use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Http\Uri;
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Uri;
+use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Security\Account;
 
 /**

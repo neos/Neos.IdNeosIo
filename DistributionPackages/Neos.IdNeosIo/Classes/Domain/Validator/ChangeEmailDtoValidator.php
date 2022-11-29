@@ -30,7 +30,7 @@ class ChangeEmailDtoValidator extends AbstractValidator
         }
 
         if (!empty($value->getEmail()) && $this->discourseService->hasUserWithEmail($value->getEmail())) {
-            $this->result->forProperty('email')->addError(new Error('This email address is already used on discuss.neos.io', 1536227696));
+            $this->pushResult()->forProperty('email')->addError(new Error('This email address is already used on discuss.neos.io', 1536227696));
         }
     }
 
