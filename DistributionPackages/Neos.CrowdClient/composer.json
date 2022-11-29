@@ -3,7 +3,7 @@
     "type": "neos-package",
     "description": "Atlassian Crowd Client",
     "require": {
-        "neos/flow": "^5.1"
+        "neos/flow": "^8.1"
     },
     "autoload": {
         "psr-0": {

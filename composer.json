@@ -12,9 +12,9 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.4",
+        "php": "^8.1",
         "neos/idneosio": "*",
-        "flownative/google-cloudstorage": "4.*"
+        "flownative/google-cloudstorage": "^5.3"
     },
     "repositories": [
       {
