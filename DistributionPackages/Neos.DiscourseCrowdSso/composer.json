@@ -7,8 +7,8 @@
         "guzzlehttp/guzzle": "^6.5.8 || ^7.4.5"
     },
     "autoload": {
-        "psr-0": {
-            "Neos\\DiscourseCrowdSso": "Classes"
+        "psr-4": {
+            "Neos\\DiscourseCrowdSso\\": "Classes"
         }
     },
     "extra": {

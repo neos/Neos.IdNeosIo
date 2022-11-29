@@ -11,8 +11,8 @@
         "neos/swiftmailer": "^7.3"
     },
     "autoload": {
-        "psr-0": {
-            "Neos\\IdNeosIo": "Classes"
+        "psr-4": {
+            "Neos\\IdNeosIo\\": "Classes"
         }
     },
     "extra": {

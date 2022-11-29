@@ -6,8 +6,8 @@
         "neos/flow": "^8.1"
     },
     "autoload": {
-        "psr-0": {
-            "Neos\\CrowdClient": "Classes"
+        "psr-4": {
+            "Neos\\CrowdClient\\": "Classes"
         }
     },
     "extra": {
