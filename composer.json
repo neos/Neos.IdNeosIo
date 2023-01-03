@@ -16,6 +16,9 @@
         "neos/idneosio": "*",
         "flownative/google-cloudstorage": "^5.3"
     },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    },
     "repositories": [
       {
         "type": "path",
