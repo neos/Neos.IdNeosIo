@@ -3438,6 +3438,51 @@
             "time": "2022-04-06T20:54:38+00:00"
         },
         {
+            "name": "neos/fluid-adaptor",
+            "version": "8.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/neos/fluidadaptor.git",
+                "reference": "931efa19bb7eb5b6ec40bd0c8f86624003ccd9ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/neos/fluidadaptor/zipball/931efa19bb7eb5b6ec40bd0c8f86624003ccd9ce",
+                "reference": "931efa19bb7eb5b6ec40bd0c8f86624003ccd9ce",
+                "shasum": ""
+            },
+            "require": {
+                "neos/cache": "*",
+                "neos/flow": "~8.2.0",
+                "neos/utility-files": "*",
+                "neos/utility-objecthandling": "*",
+                "php": "^8.0",
+                "psr/log": "^2.0 || ^3.0",
+                "typo3fluid/fluid": "^2.7.0"
+            },
+            "type": "neos-framework",
+            "autoload": {
+                "psr-4": {
+                    "Neos\\FluidAdaptor\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Fluid Templating Framework Adaptor",
+            "support": {
+                "source": "https://github.com/neos/fluidadaptor/tree/8.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://shop.neos.io/neosfunding/",
+                    "type": "custom"
+                }
+            ],
+            "time": "2022-10-26T13:05:04+00:00"
+        },
+        {
             "name": "neos/http-factories",
             "version": "8.2.0",
             "source": {
@@ -3491,7 +3536,7 @@
             "dist": {
                 "type": "path",
                 "url": "DistributionPackages/Neos.IdNeosIo",
-                "reference": "3b6a26e79fdfa524e7b3e581f813aedbcfae00fc"
+                "reference": "77061259a256c80aa82db1a58826d4cef4e27298"
             },
             "require": {
                 "flownative/flow-doubleoptin": "^3.1",
@@ -3499,6 +3544,7 @@
                 "neos/crowdclient": "*",
                 "neos/discoursecrowdsso": "*",
                 "neos/flow": "^8.1",
+                "neos/fluid-adaptor": "^8.1",
                 "neos/swiftmailer": "^7.3"
             },
             "type": "neos-package",
@@ -6301,6 +6347,55 @@
                 }
             ],
             "time": "2022-12-13T09:57:04+00:00"
+        },
+        {
+            "name": "typo3fluid/fluid",
+            "version": "2.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3/Fluid.git",
+                "reference": "50ee1ee19ee00947c92bcb554bbea4fb5463b468"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3/Fluid/zipball/50ee1ee19ee00947c92bcb554bbea4fb5463b468",
+                "reference": "50ee1ee19ee00947c92bcb554bbea4fb5463b468",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "ext-mbstring": "*",
+                "friendsofphp/php-cs-fixer": "^3.4",
+                "phpstan/phpstan": "^1.7",
+                "phpstan/phpstan-phpunit": "^1.1",
+                "phpunit/phpunit": "^8.5.26 || ^9.5"
+            },
+            "suggest": {
+                "ext-json": "PHP JSON is needed when using JSONVariableProvider: A relatively rare use case"
+            },
+            "bin": [
+                "bin/fluid"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TYPO3Fluid\\Fluid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "description": "The TYPO3 Fluid template rendering engine",
+            "homepage": "https://github.com/TYPO3/Fluid",
+            "support": {
+                "docs": "https://docs.typo3.org/other/typo3fluid/fluid/main/en-us/",
+                "issues": "https://github.com/TYPO3/Fluid/issues",
+                "source": "https://github.com/TYPO3/Fluid"
+            },
+            "time": "2022-07-28T11:24:11+00:00"
         }
     ],
     "packages-dev": [
