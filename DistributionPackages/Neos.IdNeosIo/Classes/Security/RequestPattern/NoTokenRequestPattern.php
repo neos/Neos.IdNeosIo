@@ -17,6 +17,6 @@ class NoTokenRequestPattern implements RequestPatternInterface
             return false;
         }
         $httpRequest = $request->getHttpRequest();
-        return !$httpRequest->hasArgument('token');
+        return !isset($httpRequest->getQueryParams()['token']);
     }
 }
