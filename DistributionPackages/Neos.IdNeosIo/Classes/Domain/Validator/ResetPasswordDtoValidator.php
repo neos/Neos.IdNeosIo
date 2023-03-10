@@ -15,7 +15,7 @@ class ResetPasswordDtoValidator extends AbstractValidator
         }
 
         if ($value->getPassword() !== $value->getPasswordConfirmation()) {
-            $this->result->forProperty('passwordConfirmation')->addError(new Error('Password does not match confirmation', 1533810994));
+            $this->pushResult()->forProperty('passwordConfirmation')->addError(new Error('Password does not match confirmation', 1533810994));
         }
     }
 

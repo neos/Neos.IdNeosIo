@@ -30,15 +30,15 @@ class AddUserDtoValidator extends AbstractValidator
         }
 
         if (!empty($value->getEmail()) && $this->discourseService->hasUserWithEmail($value->getEmail())) {
-            $this->result->forProperty('email')->addError(new Error('This email address is already used on discuss.neos.io', 1536227703));
+            $this->pushResult()->forProperty('email')->addError(new Error('This email address is already used on discuss.neos.io', 1536227703));
         }
 
         if ($value->getPassword() !== $value->getPasswordConfirmation()) {
-            $this->result->forProperty('passwordConfirmation')->addError(new Error('Password does not match confirmation', 1436254655));
+            $this->pushResult()->forProperty('passwordConfirmation')->addError(new Error('Password does not match confirmation', 1436254655));
         }
 
         if ($this->crowdClient->getUser($value->getUsername()) !== null) {
-            $this->result->forProperty('username')->addError(new Error('The chosen username is not available', 1436267801));
+            $this->pushResult()->forProperty('username')->addError(new Error('The chosen username is not available', 1436267801));
         }
     }
 

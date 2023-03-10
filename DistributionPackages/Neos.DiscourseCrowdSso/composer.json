@@ -3,12 +3,26 @@
     "type": "neos-package",
     "description": "Discourse SSO authentication",
     "require": {
-        "neos/flow": "^5.1",
-        "guzzlehttp/guzzle": "^6.3"
+        "neos/flow": "^8.1",
+        "guzzlehttp/guzzle": "^6.5.8 || ^7.4.5"
     },
     "autoload": {
-        "psr-0": {
-            "Neos\\DiscourseCrowdSso": "Classes"
+        "psr-4": {
+            "Neos\\DiscourseCrowdSso\\": "Classes"
         }
+    },
+    "extra": {
+        "applied-flow-migrations": [
+            "Neos.SwiftMailer-20161130105617",
+            "Neos.Flow-20180415105700",
+            "Neos.Flow-20190425144900",
+            "Neos.Flow-20190515215000",
+            "Neos.Flow-20200813181400",
+            "Neos.Flow-20201003165200",
+            "Neos.Flow-20201109224100",
+            "Neos.Flow-20201205172733",
+            "Neos.Flow-20201207104500",
+            "Neos.Flow-20220318174300"
+        ]
     }
 }

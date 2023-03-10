@@ -3,16 +3,31 @@
     "type": "neos-package",
     "description": "Controllers and UI for the id.neos.io website",
     "require": {
-        "neos/flow": "^5.1",
+        "neos/flow": "^8.1",
         "neos/crowdclient": "*",
         "neos/discoursecrowdsso": "*",
-        "guzzlehttp/guzzle": "^6.3",
-        "flownative/flow-doubleoptin": "^2.1",
-        "neos/swiftmailer": "^6.0"
+        "guzzlehttp/guzzle": "^6.5.8 || ^7.4.5",
+        "flownative/flow-doubleoptin": "^3.1",
+        "neos/swiftmailer": "^7.3",
+        "neos/fluid-adaptor": "^8.1"
     },
     "autoload": {
-        "psr-0": {
-            "Neos\\IdNeosIo": "Classes"
+        "psr-4": {
+            "Neos\\IdNeosIo\\": "Classes"
         }
+    },
+    "extra": {
+        "applied-flow-migrations": [
+            "Neos.SwiftMailer-20161130105617",
+            "Neos.Flow-20180415105700",
+            "Neos.Flow-20190425144900",
+            "Neos.Flow-20190515215000",
+            "Neos.Flow-20200813181400",
+            "Neos.Flow-20201003165200",
+            "Neos.Flow-20201109224100",
+            "Neos.Flow-20201205172733",
+            "Neos.Flow-20201207104500",
+            "Neos.Flow-20220318174300"
+        ]
     }
 }

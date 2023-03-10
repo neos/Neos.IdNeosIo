@@ -18,10 +18,10 @@ class TokenHashToken extends AbstractToken implements SessionlessTokenInterface 
     public function updateCredentials(ActionRequest $actionRequest): void
     {
         $httpRequest = $actionRequest->getHttpRequest();
-        if (!$httpRequest->hasArgument('token')) {
+        if (!isset($httpRequest->getQueryParams()['token'])) {
             return;
         }
-        $this->credentials = ['tokenHash' => $httpRequest->getArgument('token')];
+        $this->credentials = ['tokenHash' => $httpRequest->getQueryParams()['token']];
         $this->setAuthenticationStatus(self::AUTHENTICATION_NEEDED);
     }
 }

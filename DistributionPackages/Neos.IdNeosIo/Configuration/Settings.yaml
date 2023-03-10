@@ -1,3 +1,4 @@
+
 Neos:
   Flow:
     error:
@@ -5,89 +6,85 @@ Neos:
         defaultRenderingOptions:
           templatePathAndFilename: 'resource://Neos.IdNeosIo/Private/Templates/Error/Default.html'
         renderingGroups:
-          'notFoundExceptions':
+          notFoundExceptions:
             options:
-              templatePathAndFilename: 'resource://Neos.IdNeosIo/Private/Templates/Error/Default.html'
-          'databaseConnectionExceptions':
+              viewOptions:
+                templatePathAndFilename: 'resource://Neos.IdNeosIo/Private/Templates/Error/Default.html'
+          databaseConnectionExceptions:
             options:
-              templatePathAndFilename: 'resource://Neos.IdNeosIo/Private/Templates/Error/Default.html'
-          'invalidTokenExceptions':
+              viewOptions:
+                templatePathAndFilename: 'resource://Neos.IdNeosIo/Private/Templates/Error/Default.html'
+          invalidTokenExceptions:
             matchingExceptionClassNames:
-              - 'Neos\IdNeosIo\Security\Authentication\InvalidTokenException'
+              - Neos\IdNeosIo\Security\Authentication\InvalidTokenException
             options:
               variables:
-                errorDescription: |
-                  The token hash is invalid or expired!
-                  Make sure that the token link is complete.
+                errorDescription: "The token hash is invalid or expired!\nMake sure that the token link is complete.\n"
+              viewOptions: {  }
     security:
       authentication:
         providers:
-          'TokenProvider':
-            provider: 'Neos\IdNeosIo\Security\Authentication\TokenProvider'
+          TokenProvider:
+            provider: Neos\IdNeosIo\Security\Authentication\TokenProvider
             providerOptions:
               authenticateRole: 'Neos.IdNeosIo:NeosCommunityMember'
-          'CrowdProvider':
-            provider: 'Neos\CrowdClient\Security\Authentication\Provider\CrowdProvider'
+          CrowdProvider:
+            provider: Neos\CrowdClient\Security\Authentication\Provider\CrowdProvider
             providerOptions:
-              crowdApplicationName: 'idneosio'
-              crowdApplicationPassword: 'verysecretapplicationpasswordgoeshere'
+              crowdApplicationName: idneosio
+              crowdApplicationPassword: verysecretapplicationpasswordgoeshere
               authenticateRole: 'Neos.IdNeosIo:NeosCommunityMember'
             requestPatterns:
               'Neos.IdNeosIo:NoTokenRequest':
-                pattern: 'Neos\IdNeosIo\Security\RequestPattern\NoTokenRequestPattern'
-            entryPoint: 'WebRedirect'
+                pattern: Neos\IdNeosIo\Security\RequestPattern\NoTokenRequestPattern
+            entryPoint: WebRedirect
             entryPointOptions:
               routeValues:
-                '@package':    'Neos.IdNeosIo'
-                '@controller': 'Login'
-                '@action':     'login'
-                '@format':     'html'
-
+                '@package': Neos.IdNeosIo
+                '@controller': Login
+                '@action': login
+                '@format': html
   IdNeosIo:
-    crowdApplicationName: 'idneosio'
-    crowdApplicationPassword: 'verysecretapplicationpasswordgoeshere'
-    authenticationProviderName: 'CrowdProvider'
-
+    crowdApplicationName: idneosio
+    crowdApplicationPassword: verysecretapplicationpasswordgoeshere
+    authenticationProviderName: CrowdProvider
 Flownative:
   DoubleOptIn:
     presets:
-      'default':
+      default:
         activation:
           uri:
-            '@package': 'Neos.IdNeosIo'
-            '@format': 'html'
+            '@package': Neos.IdNeosIo
+            '@format': html
             arguments:
-              'token': '-tokenhash-'
+              token: '-tokenhash-'
         mail:
           from:
             name: 'Neos Community'
-            address: 'no-reply@neos.io'
-
+            address: no-reply@neos.io
       'id.neos.io registration':
         activation:
           uri:
-            '@controller': 'User'
-            '@action': 'activate'
+            '@controller': User
+            '@action': activate
         mail:
           subject: 'Activate your Neos community account'
           message:
             plaintext: 'resource://Neos.IdNeosIo/Private/Templates/User/ActivationMail.txt'
-
       'id.neos.io reset password':
         activation:
           uri:
-            '@controller': 'ResetPassword'
-            '@action': 'form'
+            '@controller': ResetPassword
+            '@action': form
         mail:
           subject: 'Reset password for your Neos community account'
           message:
             plaintext: 'resource://Neos.IdNeosIo/Private/Templates/ResetPassword/ResetPasswordMail.txt'
-
       'id.neos.io change email':
         activation:
           uri:
-            '@controller': 'User'
-            '@action': 'confirmEmail'
+            '@controller': User
+            '@action': confirmEmail
         mail:
           subject: 'Confirm your Neos community email address'
           message:
