@@ -14,3 +14,4 @@
 DistributionPackages/Neos.IdNeosIo/Resources/Private/Styles/.sass-cache
 Configuration/README
 Configuration/Settings.yaml.example
+.env
