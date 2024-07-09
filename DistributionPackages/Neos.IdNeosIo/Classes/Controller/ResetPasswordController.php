@@ -16,7 +16,6 @@ use Neos\IdNeosIo\Domain\Model\ResetPasswordDto;
 
 class ResetPasswordController extends ActionController
 {
-
     /**
      * @Flow\Inject
      * @var CrowdClient
@@ -41,7 +40,6 @@ class ResetPasswordController extends ActionController
     }
 
     /**
-     * @param string $username
      * @throws UnknownPresetException | ForwardException | StopActionException
      */
     public function sendResetLinkAction(string $username): void
@@ -60,9 +58,6 @@ class ResetPasswordController extends ActionController
         $this->redirect('login', 'Login');
     }
 
-    /**
-     * @param Token|null $token
-     */
     public function formAction(Token $token = null): void
     {
         if ($token !== null) {
@@ -71,8 +66,6 @@ class ResetPasswordController extends ActionController
     }
 
     /**
-     * @param ResetPasswordDto $resetPassword
-     * @param Token|null $token
      * @throws StopActionException
      * @throws \JsonException
      * @Flow\SkipCsrfProtection

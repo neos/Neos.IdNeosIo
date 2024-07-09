@@ -8,7 +8,6 @@ use Neos\Flow\Cli\CommandController;
 
 class DiscourseCommandController extends CommandController
 {
-
     /**
      * @Flow\Inject
      * @var DiscourseService

@@ -6,13 +6,11 @@ use Neos\Flow\Annotations as Flow;
 
 class ChangeEmailDto
 {
-
     /**
      * @Flow\Validate(type="NotEmpty")
      * @Flow\Validate(type="EmailAddress")
-     * @var string
      */
-    protected $email;
+    protected string $email;
 
     public function __construct(string $email)
     {
@@ -23,5 +21,4 @@ class ChangeEmailDto
     {
         return $this->email;
     }
-
 }

@@ -19,17 +19,13 @@ use Neos\Flow\Security\Policy\PolicyService;
  */
 class CrowdProvider extends AbstractProvider
 {
-
     /**
      * @Flow\Inject
      * @var PolicyService
      */
     protected $policyService;
 
-    /**
-     * @var CrowdClient
-     */
-    protected $crowdClient;
+    protected CrowdClient $crowdClient;
 
     public function initializeObject(): void
     {
@@ -44,8 +40,6 @@ class CrowdProvider extends AbstractProvider
     /**
      * Authenticates against a crowd instance.
      *
-     * @param TokenInterface $authenticationToken The token to be authenticated
-     * @return void
      * @throws UnsupportedAuthenticationTokenException
      * @throws InvalidAuthenticationStatusException
      * @throws NoSuchRoleException

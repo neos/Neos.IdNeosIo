@@ -13,7 +13,6 @@ use Neos\Flow\Security\Context;
 
 class DiscourseLoginController extends ActionController
 {
-
     /**
      * @Flow\Inject
      * @var Context
@@ -33,9 +32,6 @@ class DiscourseLoginController extends ActionController
     protected $discourseService;
 
     /**
-     * @param string $sso
-     * @param string $sig
-     * @return void
      * @throws StopActionException | UnsupportedRequestTypeException
      * @Flow\SkipCsrfProtection
      */

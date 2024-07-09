@@ -18,7 +18,6 @@ use Neos\Flow\Security\Policy\PolicyService;
  */
 class TokenProvider extends AbstractProvider
 {
-
     /**
      * @Flow\Inject
      * @var Helper

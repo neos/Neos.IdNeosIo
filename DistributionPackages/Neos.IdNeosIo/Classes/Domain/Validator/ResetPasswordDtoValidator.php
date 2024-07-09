@@ -8,7 +8,9 @@ use Neos\IdNeosIo\Domain\Model\ResetPasswordDto;
 
 class ResetPasswordDtoValidator extends AbstractValidator
 {
-
+    /**
+     * @param mixed $value
+     */
     protected function isValid($value): void
     {
         if (!$value instanceof ResetPasswordDto) {

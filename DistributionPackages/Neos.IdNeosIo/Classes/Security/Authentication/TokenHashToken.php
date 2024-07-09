@@ -12,9 +12,7 @@ use Neos\Flow\Security\Exception\InvalidAuthenticationStatusException;
  */
 class TokenHashToken extends AbstractToken implements SessionlessTokenInterface
 {
-
     /**
-     * @param ActionRequest $actionRequest
      * @throws InvalidAuthenticationStatusException
      */
     public function updateCredentials(ActionRequest $actionRequest): void

@@ -6,44 +6,35 @@ use Neos\Flow\Annotations as Flow;
 
 class AddUserDto
 {
+    /**
+     * @Flow\Validate(type="NotEmpty")
+     */
+    protected string $firstName;
 
     /**
      * @Flow\Validate(type="NotEmpty")
-     * @var string
      */
-    protected $firstName;
-
-    /**
-     * @Flow\Validate(type="NotEmpty")
-     * @var string
-     */
-    protected $lastName;
+    protected string $lastName;
 
     /**
      * @Flow\Validate(type="NotEmpty")
      * @Flow\Validate(type="EmailAddress")
-     * @var string
      */
-    protected $email;
+    protected string $email;
 
     /**
      * @Flow\Validate(type="NotEmpty")
      * @Flow\Validate(type="StringLength", options={"minimum"=4})
-     * @var string
      */
-    protected $username;
+    protected string $username;
 
     /**
      * @Flow\Validate(type="NotEmpty")
      * @Flow\Validate(type="StringLength", options={"minimum"=8})
-     * @var string
      */
-    protected $password;
+    protected string $password;
 
-    /**
-     * @var string
-     */
-    protected $passwordConfirmation;
+    protected string $passwordConfirmation;
 
     public function __construct(string $firstName, string $lastName, string $email, string $username, string $password, string $passwordConfirmation)
     {

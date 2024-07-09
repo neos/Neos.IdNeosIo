@@ -19,7 +19,6 @@ use Neos\IdNeosIo\Domain\Model\ChangeNameDto;
 
 class UserController extends ActionController
 {
-
     /**
      * @Flow\Inject
      * @var CrowdClient

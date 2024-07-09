@@ -6,18 +6,15 @@ use Neos\Flow\Annotations as Flow;
 
 class ChangeNameDto
 {
+    /**
+     * @Flow\Validate(type="NotEmpty")
+     */
+    protected string $firstName;
 
     /**
      * @Flow\Validate(type="NotEmpty")
-     * @var string
      */
-    protected $firstName;
-
-    /**
-     * @Flow\Validate(type="NotEmpty")
-     * @var string
-     */
-    protected $lastName;
+    protected string $lastName;
 
     public function __construct(string $firstName, string $lastName)
     {

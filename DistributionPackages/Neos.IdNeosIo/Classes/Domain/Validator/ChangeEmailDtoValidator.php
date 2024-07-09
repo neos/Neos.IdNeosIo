@@ -16,6 +16,9 @@ class ChangeEmailDtoValidator extends AbstractValidator
      */
     protected $discourseService;
 
+    /**
+     * @param mixed $value
+     */
     protected function isValid($value): void
     {
         if (!$value instanceof ChangeEmailDto) {

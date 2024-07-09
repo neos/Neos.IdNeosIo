@@ -11,7 +11,6 @@ use Neos\IdNeosIo\Domain\Model\AddUserDto;
 
 class AddUserDtoValidator extends AbstractValidator
 {
-
     /**
      * @Flow\Inject
      * @var CrowdClient
@@ -24,6 +23,9 @@ class AddUserDtoValidator extends AbstractValidator
      */
     protected $discourseService;
 
+    /**
+     * @param mixed $value
+     */
     protected function isValid($value): void
     {
         if (!$value instanceof AddUserDto) {

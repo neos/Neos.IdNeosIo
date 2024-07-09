@@ -11,28 +11,16 @@ use Neos\Flow\Annotations as Flow;
  */
 final class User
 {
-
     /**
      * This refers to the "username"
-     *
-     * @var string
      */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $firstName;
+    private string $firstName;
 
-    /**
-     * @var string
-     */
-    private $lastName;
+    private string $lastName;
 
-    /**
-     * @var string
-     */
-    private $email;
+    private string $email;
 
     private function __construct(string $name, string $fistName, string $lastName, string $email)
     {

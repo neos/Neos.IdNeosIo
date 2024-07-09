@@ -20,17 +20,13 @@ use Psr\Log\LoggerInterface;
  */
 class CrowdClient
 {
-
     /**
-     * @var ConfigurationManager
      * @Flow\Inject
+     * @var ConfigurationManager
      */
     protected $configurationManager;
 
-    /**
-     * @var HttpClient
-     */
-    protected $httpClient;
+    protected HttpClient $httpClient;
 
     /**
      * @var string $crowdBaseUri
@@ -38,15 +34,9 @@ class CrowdClient
      */
     protected $crowdBaseUri;
 
-    /**
-     * @var string
-     */
-    protected $applicationName;
+    protected string $applicationName;
 
-    /**
-     * @var string
-     */
-    protected $applicationPassword;
+    protected string $applicationPassword;
 
     /**
      * @Flow\Inject

@@ -13,7 +13,6 @@ use Neos\Flow\Security\Exception\AuthenticationRequiredException;
 
 class LoginController extends AbstractAuthenticationController
 {
-
     /**
      * @Flow\Inject
      * @var Context
@@ -44,7 +43,6 @@ class LoginController extends AbstractAuthenticationController
     }
 
     /**
-     * @param ActionRequest|null $originalRequest
      * @throws StopActionException
      */
     protected function onAuthenticationSuccess(ActionRequest $originalRequest = null): void
