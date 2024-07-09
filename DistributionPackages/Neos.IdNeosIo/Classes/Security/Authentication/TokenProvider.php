@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\IdNeosIo\Security\Authentication;
 
 use Flownative\DoubleOptIn\Helper;

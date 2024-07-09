@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\IdNeosIo\Security\RequestPattern;
 
 use Neos\Flow\Mvc\ActionRequest;

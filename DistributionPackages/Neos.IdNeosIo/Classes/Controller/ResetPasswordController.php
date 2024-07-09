@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\IdNeosIo\Controller;
 
 use Flownative\DoubleOptIn\Helper;
@@ -50,7 +51,6 @@ class ResetPasswordController extends ActionController
             $this->addFlashMessage('The given username was not found. Please check your spelling or create a new account.',
                 'User not found', Message::SEVERITY_ERROR);
             $this->forward('index', null, null, ['username' => $username]);
-            return;
         }
         $token = $this->doubleOptInHelper->generateToken($crowdUser->getName(), 'id.neos.io reset password', ['crowdUser' => $crowdUser]);
         $this->doubleOptInHelper->setRequest($this->request);
@@ -61,7 +61,7 @@ class ResetPasswordController extends ActionController
     }
 
     /**
-     * @param Token $token
+     * @param Token|null $token
      */
     public function formAction(Token $token = null): void
     {
@@ -72,8 +72,9 @@ class ResetPasswordController extends ActionController
 
     /**
      * @param ResetPasswordDto $resetPassword
-     * @param Token $token
+     * @param Token|null $token
      * @throws StopActionException
+     * @throws \JsonException
      * @Flow\SkipCsrfProtection
      */
     public function resetAction(ResetPasswordDto $resetPassword, Token $token = null): void

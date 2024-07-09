@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\DiscourseCrowdSso;
 
 use GuzzleHttp\Client as HttpClient;
@@ -62,17 +63,17 @@ final class DiscourseService
      * @param SsoPayload $payload outgoing SSO payload
      * @return Uri The URI to redirect the user to
      */
-    public function authenticate(string $sso, string $sig, SsoPayload $payload): Uri
+    public function authenticate(string $incomingSsoPayload, string $ssoSignature, SsoPayload $outgoingSsoPayload): Uri
     {
-        if ($sig !== hash_hmac('sha256', $sso, $this->ssoSecret)) {
+        if ($ssoSignature !== hash_hmac('sha256', $incomingSsoPayload, $this->ssoSecret)) {
             throw new \RuntimeException('Invalid SSO signature!', 1534422486);
         }
-        parse_str(base64_decode($sso), $incomingPayload);
-        if (!isset($incomingPayload['nonce']) || empty($incomingPayload['nonce'])) {
+        parse_str(base64_decode($incomingSsoPayload), $incomingPayload);
+        if (empty($incomingPayload['nonce'])) {
             throw new \RuntimeException('Missing SSO nonce!', 1534429668);
         }
 
-        $outgoingPayload = $payload->withNonce($incomingPayload['nonce']);
+        $outgoingPayload = $outgoingSsoPayload->withNonce($incomingPayload['nonce']);
         $outgoingPayloadEncoded = base64_encode(http_build_query($outgoingPayload->jsonSerialize()));
         $queryParameters = [
             'sso' => $outgoingPayloadEncoded,
@@ -127,7 +128,7 @@ final class DiscourseService
         } catch (RequestException $exception) {
             throw new \RuntimeException('Could not fetch discourse User', 1534490588, $exception);
         }
-        $userData = json_decode($userResponse->getBody()->getContents(), true);
+        $userData = json_decode($userResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         if (!isset($userData['user']['id'])) {
             throw new \RuntimeException('Missing user.id from /users/<username>.json response', 1534490654);
         }
@@ -160,7 +161,7 @@ final class DiscourseService
         } catch (RequestException $exception) {
             throw new \RuntimeException('Could not look up email address with discourse', 1536231736, $exception);
         }
-        $usersData = json_decode($response->getBody()->getContents(), true);
+        $usersData = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         return $usersData !== [];
     }
 

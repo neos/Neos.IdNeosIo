@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\IdNeosIo\Domain\Validator;
 
 use Neos\Error\Messages\Error;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\IdNeosIo\Domain\Model;
 
 use Neos\Flow\Annotations as Flow;

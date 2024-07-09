@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\CrowdClient\Security\Authentication\Provider;
 
 use Neos\CrowdClient\Domain\Service\CrowdClient;
@@ -57,7 +58,7 @@ class CrowdProvider extends AbstractProvider
 
         $credentials = $authenticationToken->getCredentials();
 
-        if (!isset($credentials['username']) || !isset($credentials['password'])) {
+        if (!isset($credentials['username'], $credentials['password'])) {
             $authenticationToken->setAuthenticationStatus(TokenInterface::NO_CREDENTIALS_GIVEN);
             return;
         }

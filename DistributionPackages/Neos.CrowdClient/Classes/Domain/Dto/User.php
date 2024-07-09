@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\CrowdClient\Domain\Dto;
 
 use Neos\Flow\Annotations as Flow;
@@ -43,7 +44,7 @@ final class User
 
     public static function fromCrowdResponse(string $crowdResponse): ?self
     {
-        $userData = json_decode($crowdResponse, true);
+        $userData = json_decode($crowdResponse, true, 512, JSON_THROW_ON_ERROR);
         if (!is_array($userData)) {
             return null;
         }
@@ -67,7 +68,7 @@ final class User
 
     public function getFullName(): string
     {
-        return "{$this->firstName} {$this->lastName}";
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     public function getEmail(): string

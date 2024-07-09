@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\IdNeosIo\Domain\Model;
 
 use Neos\Flow\Annotations as Flow;
@@ -17,11 +18,6 @@ class ChangeNameDto
      * @var string
      */
     protected $lastName;
-
-    /**
-     * @var string
-     */
-    protected $passwordConfirmation;
 
     public function __construct(string $firstName, string $lastName)
     {

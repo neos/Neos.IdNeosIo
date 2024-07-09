@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\DiscourseCrowdSso\Command;
 
 use Neos\DiscourseCrowdSso\DiscourseService;

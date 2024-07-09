@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\IdNeosIo\Controller;
 
 use Flownative\DoubleOptIn\Helper;
@@ -6,14 +7,15 @@ use Flownative\DoubleOptIn\Token;
 use Flownative\DoubleOptIn\UnknownPresetException;
 use Neos\CrowdClient\Domain\Service\CrowdClient;
 use Neos\Error\Messages\Message;
+use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
 use Neos\Flow\Mvc\Exception\ForwardException;
 use Neos\Flow\Mvc\Exception\StopActionException;
+use Neos\Flow\Security\Context;
 use Neos\Flow\Security\Exception\AccessDeniedException;
 use Neos\IdNeosIo\Domain\Model\AddUserDto;
 use Neos\IdNeosIo\Domain\Model\ChangeEmailDto;
 use Neos\IdNeosIo\Domain\Model\ChangeNameDto;
-use Neos\Flow\Annotations as Flow;
 
 class UserController extends ActionController
 {
@@ -31,7 +33,7 @@ class UserController extends ActionController
     protected $doubleOptInHelper;
 
     /**
-     * @var \Neos\Flow\Security\Context
+     * @var Context
      * @Flow\Inject
      */
     protected $securityContext;
@@ -62,8 +64,11 @@ class UserController extends ActionController
     }
 
     /**
-     * @param Token $token
-     * @throws AccessDeniedException | StopActionException | ForwardException
+     * @param Token|null $token
+     * @throws AccessDeniedException
+     * @throws ForwardException
+     * @throws StopActionException
+     * @throws \JsonException
      */
     public function activateAction(Token $token = null): void
     {
@@ -77,10 +82,9 @@ class UserController extends ActionController
             $error = $result->getFirstError();
             $this->addFlashMessage($error->getMessage(), $error->getTitle(), Message::SEVERITY_ERROR);
             $this->forward('createError');
-            return;
         }
         $this->doubleOptInHelper->invalidateToken($token);
-        $this->addFlashMessage('Your account was created successfully. You can manage your account at id.neos.io. How about you try out your new Neos community account by exploring our forum at discuss.neos.io?', 'Account created', Message::SEVERITY_OK);
+        $this->addFlashMessage('Your account was created successfully. You can manage your account at id.neos.io. How about you try out your new Neos community account by exploring our forum at discuss.neos.io?', 'Account created');
         $this->redirect('index');
     }
 
@@ -92,7 +96,7 @@ class UserController extends ActionController
 
     /**
      * @param ChangeNameDto $changeName
-     * @throws StopActionException | UnknownPresetException
+     * @throws StopActionException
      */
     public function updateNameAction(ChangeNameDto $changeName): void
     {
@@ -100,7 +104,7 @@ class UserController extends ActionController
 
         $this->crowdClient->setNameForUser($account->getAccountIdentifier(), $changeName->getFirstName(), $changeName->getLastName());
 
-        $this->addFlashMessage('Your profile has been updated!', '', Message::SEVERITY_OK);
+        $this->addFlashMessage('Your profile has been updated!');
         $this->redirect('index');
     }
 
@@ -128,8 +132,9 @@ class UserController extends ActionController
     }
 
     /**
-     * @param Token $token
-     * @throws AccessDeniedException | StopActionException | ForwardException
+     * @param Token|null $token
+     * @throws AccessDeniedException
+     * @throws StopActionException
      */
     public function confirmEmailAction(Token $token = null): void
     {
@@ -139,7 +144,7 @@ class UserController extends ActionController
         /** @var string $newEmail */
         $newEmail = $token->getMeta()['newEmail'];
         $this->crowdClient->setEmailForUser($token->getIdentifier(), $newEmail);
-        $this->addFlashMessage('Your email address has been updated!', '', Message::SEVERITY_OK);
+        $this->addFlashMessage('Your email address has been updated!');
         $this->redirect('index');
     }
 
