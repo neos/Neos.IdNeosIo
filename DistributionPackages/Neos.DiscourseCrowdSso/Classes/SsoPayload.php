@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\DiscourseCrowdSso;
 
 use Neos\Flow\Annotations as Flow;
@@ -12,12 +14,9 @@ final class SsoPayload implements \JsonSerializable
     /**
      * @see https://meta.discourse.org/t/official-single-sign-on-for-discourse-sso/13045
      */
-    const ALLOWED_CUSTOM_FIELDS = ['email', 'name', 'avatar_url', 'avatar_force_update', 'bio', 'admin', 'moderator', 'suppress_welcome_message'];
+    private const array ALLOWED_CUSTOM_FIELDS = ['email', 'name', 'avatar_url', 'avatar_force_update', 'bio', 'admin', 'moderator', 'suppress_welcome_message'];
 
-    /**
-     * @var array
-     */
-    private $payload;
+    private array $payload;
 
     private function __construct(array $payload)
     {

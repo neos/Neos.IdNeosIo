@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\IdNeosIo\Security\Authentication;
 
 use Flownative\DoubleOptIn\Helper;
@@ -17,7 +19,6 @@ use Neos\Flow\Security\Policy\PolicyService;
  */
 class TokenProvider extends AbstractProvider
 {
-
     /**
      * @Flow\Inject
      * @var Helper

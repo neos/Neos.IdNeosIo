@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\IdNeosIo;
 
 use Neos\CrowdClient\Domain\Dto\User;
@@ -25,7 +27,7 @@ class Package extends BasePackage
         # Synchronize Crowd User Profile changes to discourse
         $dispatcher->connect(
             CrowdClient::class, 'userUpdated',
-            function(User $crowdUser, array $newValues) use ($bootstrap) {
+            function (User $crowdUser, array $newValues) use ($bootstrap) {
                 $objectManager = $bootstrap->getObjectManager();
 
                 /** @var LoggerInterface $logger */
@@ -41,7 +43,7 @@ class Package extends BasePackage
                 /** @var DiscourseService $discourseService */
                 $discourseService = $objectManager->get(DiscourseService::class);
                 $customFields = [
-                    'name' => isset($newValues['first-name']) && isset($newValues['last-name']) ? $newValues['first-name'] . ' ' . $newValues['last-name'] : $crowdUser->getFullName(),
+                    'name' => isset($newValues['first-name'], $newValues['last-name']) ? $newValues['first-name'] . ' ' . $newValues['last-name'] : $crowdUser->getFullName(),
                     'email' => $newValues['email'] ?? $crowdUser->getEmail(),
                 ];
                 try {

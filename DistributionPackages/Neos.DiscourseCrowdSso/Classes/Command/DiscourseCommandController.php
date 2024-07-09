@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\DiscourseCrowdSso\Command;
 
 use Neos\DiscourseCrowdSso\DiscourseService;
@@ -7,7 +9,6 @@ use Neos\Flow\Cli\CommandController;
 
 class DiscourseCommandController extends CommandController
 {
-
     /**
      * @Flow\Inject
      * @var DiscourseService

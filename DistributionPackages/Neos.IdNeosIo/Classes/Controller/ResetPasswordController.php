@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\IdNeosIo\Controller;
 
 use Flownative\DoubleOptIn\Helper;
@@ -15,7 +17,6 @@ use Neos\IdNeosIo\Domain\Model\ResetPasswordDto;
 
 class ResetPasswordController extends ActionController
 {
-
     /**
      * @Flow\Inject
      * @var CrowdClient
@@ -40,7 +41,6 @@ class ResetPasswordController extends ActionController
     }
 
     /**
-     * @param string $username
      * @throws UnknownPresetException | ForwardException | StopActionException
      */
     public function sendResetLinkAction(string $username): void
@@ -50,7 +50,6 @@ class ResetPasswordController extends ActionController
             $this->addFlashMessage('The given username was not found. Please check your spelling or create a new account.',
                 'User not found', Message::SEVERITY_ERROR);
             $this->forward('index', null, null, ['username' => $username]);
-            return;
         }
         $token = $this->doubleOptInHelper->generateToken($crowdUser->getName(), 'id.neos.io reset password', ['crowdUser' => $crowdUser]);
         $this->doubleOptInHelper->setRequest($this->request);
@@ -60,9 +59,6 @@ class ResetPasswordController extends ActionController
         $this->redirect('login', 'Login');
     }
 
-    /**
-     * @param Token $token
-     */
     public function formAction(Token $token = null): void
     {
         if ($token !== null) {
@@ -71,9 +67,8 @@ class ResetPasswordController extends ActionController
     }
 
     /**
-     * @param ResetPasswordDto $resetPassword
-     * @param Token $token
      * @throws StopActionException
+     * @throws \JsonException
      * @Flow\SkipCsrfProtection
      */
     public function resetAction(ResetPasswordDto $resetPassword, Token $token = null): void

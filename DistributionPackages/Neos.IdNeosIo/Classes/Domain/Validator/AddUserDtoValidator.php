@@ -1,16 +1,17 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\IdNeosIo\Domain\Validator;
 
 use Neos\CrowdClient\Domain\Service\CrowdClient;
 use Neos\DiscourseCrowdSso\DiscourseService;
 use Neos\Error\Messages\Error;
-use Neos\Flow\Validation\Validator\AbstractValidator;
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Validation\Validator\AbstractValidator;
 use Neos\IdNeosIo\Domain\Model\AddUserDto;
 
 class AddUserDtoValidator extends AbstractValidator
 {
-
     /**
      * @Flow\Inject
      * @var CrowdClient
@@ -23,6 +24,9 @@ class AddUserDtoValidator extends AbstractValidator
      */
     protected $discourseService;
 
+    /**
+     * @param mixed $value
+     */
     protected function isValid($value): void
     {
         if (!$value instanceof AddUserDto) {

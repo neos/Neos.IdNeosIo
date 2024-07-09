@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\IdNeosIo\Security\Authentication;
 
 use Neos\Flow\Mvc\ActionRequest;
@@ -9,10 +11,9 @@ use Neos\Flow\Security\Exception\InvalidAuthenticationStatusException;
 /**
  * A Flow authentication token representing a Flownative.DoubleOptIn Token
  */
-class TokenHashToken extends AbstractToken implements SessionlessTokenInterface {
-
+class TokenHashToken extends AbstractToken implements SessionlessTokenInterface
+{
     /**
-     * @param ActionRequest $actionRequest
      * @throws InvalidAuthenticationStatusException
      */
     public function updateCredentials(ActionRequest $actionRequest): void
