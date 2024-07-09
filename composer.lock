@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "012e6834880ebbac1ba651035fd6ef87",
+    "content-hash": "7b4e94472dfdd13a5ede351a9fc9d675",
     "packages": [
         {
             "name": "brick/math",
@@ -3441,10 +3441,10 @@
             "dist": {
                 "type": "path",
                 "url": "DistributionPackages/Neos.CrowdClient",
-                "reference": "fb74283d1cc6e86698da36531d9325b34f0c73ae"
+                "reference": "a5aca448841998b32ee73ddcc1907a445c8f0522"
             },
             "require": {
-                "neos/flow": "^8.1"
+                "neos/flow": "^8.3"
             },
             "type": "neos-package",
             "extra": {
@@ -3477,11 +3477,11 @@
             "dist": {
                 "type": "path",
                 "url": "DistributionPackages/Neos.DiscourseCrowdSso",
-                "reference": "0aefe3060567c92b0b47fb2df0748fa8b4fe8f4d"
+                "reference": "72d45988151703b4876233a8e5f95021829954a2"
             },
             "require": {
-                "guzzlehttp/guzzle": "^6.5.8 || ^7.4.5",
-                "neos/flow": "^8.1"
+                "guzzlehttp/guzzle": "^7.8",
+                "neos/flow": "^8.3"
             },
             "type": "neos-package",
             "extra": {
@@ -3861,15 +3861,15 @@
             "dist": {
                 "type": "path",
                 "url": "DistributionPackages/Neos.IdNeosIo",
-                "reference": "77061259a256c80aa82db1a58826d4cef4e27298"
+                "reference": "4b812c4acc8061491fb8c0d2465bf8e1b25a1294"
             },
             "require": {
                 "flownative/flow-doubleoptin": "^3.1",
-                "guzzlehttp/guzzle": "^6.5.8 || ^7.4.5",
+                "guzzlehttp/guzzle": "^7.8",
                 "neos/crowdclient": "*",
                 "neos/discoursecrowdsso": "*",
-                "neos/flow": "^8.1",
-                "neos/fluid-adaptor": "^8.1",
+                "neos/flow": "^8.3",
+                "neos/fluid-adaptor": "^8.3",
                 "neos/swiftmailer": "^7.3"
             },
             "type": "neos-package",
@@ -7508,7 +7508,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1"
+        "php": "^8.3"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

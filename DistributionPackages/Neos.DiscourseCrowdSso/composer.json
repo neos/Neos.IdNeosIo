@@ -3,8 +3,8 @@
     "type": "neos-package",
     "description": "Discourse SSO authentication",
     "require": {
-        "neos/flow": "^8.1",
-        "guzzlehttp/guzzle": "^6.5.8 || ^7.4.5"
+        "neos/flow": "^8.3",
+        "guzzlehttp/guzzle": "^7.8"
     },
     "autoload": {
         "psr-4": {
