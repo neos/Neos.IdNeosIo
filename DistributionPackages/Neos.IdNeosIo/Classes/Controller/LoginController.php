@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\IdNeosIo\Controller;
 
 use Neos\DiscourseCrowdSso\DiscourseService;
@@ -12,7 +14,6 @@ use Neos\Flow\Security\Exception\AuthenticationRequiredException;
 
 class LoginController extends AbstractAuthenticationController
 {
-
     /**
      * @Flow\Inject
      * @var Context
@@ -35,7 +36,7 @@ class LoginController extends AbstractAuthenticationController
             try {
                 $this->discourseService->logoutUser($account);
             } catch (\RuntimeException $exception) {
-                $this->logger->debug(sprintf('Could not log out discourse user for account "%s"', $account->getAccountIdentifier()));
+                $this->logger->debug(sprintf('Could not log out discourse user for account "%s", exception: %s', $account->getAccountIdentifier(), $exception->getMessage()));
             }
         }
         parent::logoutAction();
@@ -43,7 +44,6 @@ class LoginController extends AbstractAuthenticationController
     }
 
     /**
-     * @param ActionRequest|null $originalRequest
      * @throws StopActionException
      */
     protected function onAuthenticationSuccess(ActionRequest $originalRequest = null): void

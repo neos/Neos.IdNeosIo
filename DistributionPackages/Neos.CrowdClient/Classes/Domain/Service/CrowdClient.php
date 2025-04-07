@@ -1,12 +1,15 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\CrowdClient\Domain\Service;
 
+use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use Neos\CrowdClient\Domain\Dto\User;
 use Neos\Error\Messages\Error;
 use Neos\Error\Messages\Result;
 use Neos\Flow\Annotations as Flow;
-use GuzzleHttp\Client as HttpClient;
 use Neos\Flow\Configuration\ConfigurationManager;
 use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\Flow\Security\Context;
@@ -18,17 +21,13 @@ use Psr\Log\LoggerInterface;
  */
 class CrowdClient
 {
-
     /**
-     * @var ConfigurationManager
      * @Flow\Inject
+     * @var ConfigurationManager
      */
     protected $configurationManager;
 
-    /**
-     * @var HttpClient
-     */
-    protected $httpClient;
+    protected HttpClient $httpClient;
 
     /**
      * @var string $crowdBaseUri
@@ -36,15 +35,9 @@ class CrowdClient
      */
     protected $crowdBaseUri;
 
-    /**
-     * @var string
-     */
-    protected $applicationName;
+    protected string $applicationName;
 
-    /**
-     * @var string
-     */
-    protected $applicationPassword;
+    protected string $applicationPassword;
 
     /**
      * @Flow\Inject
@@ -92,12 +85,12 @@ class CrowdClient
     public function authenticate(string $username, string $password): ?User
     {
         try {
-            $response = $this->httpClient->post('authentication?username=' . urlencode($username), ['body' => json_encode(['value' => $password])]);
+            $response = $this->httpClient->post('authentication?username=' . urlencode($username), ['body' => json_encode(['value' => $password], JSON_THROW_ON_ERROR)]);
             $authenticatedUser = User::fromCrowdResponse($response->getBody()->getContents());
             $this->emitUserAuthenticated($authenticatedUser);
             return $authenticatedUser;
         } catch (ClientException $exception) {
-            $responseError = json_decode($exception->getResponse()->getBody()->getContents());
+            $responseError = json_decode($exception->getResponse()->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR);
             if (isset($responseError->reason)) {
                 switch ($responseError->reason) {
                     case 'INVALID_USER_AUTHENTICATION':
@@ -113,9 +106,11 @@ class CrowdClient
 
     /**
      * @param string $username
-     * @return User The Crowd User DTO or NULL if the user was not found
+     * @return User|null The Crowd User DTO or NULL if the user was not found
+     * @throws GuzzleException
+     * @throws \JsonException
      */
-    public function getUser($username): ?User
+    public function getUser(string $username): ?User
     {
         try {
             $response = $this->httpClient->get('user?username=' . urlencode($username));
@@ -143,18 +138,15 @@ class CrowdClient
                 ],
                 'active' => true
             ];
-            $response = $this->httpClient->post('user', ['body' => json_encode($userData)]);
+            $response = $this->httpClient->post('user', ['body' => json_encode($userData, JSON_THROW_ON_ERROR)]);
             $newUser = User::fromCrowdResponse($response->getBody()->getContents());
             $this->emitUserAdded($newUser);
 
         } catch (ClientException $exception) {
-            $responseError = json_decode($exception->getResponse()->getBody()->getContents());
-            if (isset($responseError->reason)) {
-                switch ($responseError->reason) {
-                    case 'INVALID_USER':
-                        $result->addError(new Error($responseError->message));
-                        return $result;
-                }
+            $responseError = json_decode($exception->getResponse()->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR);
+            if (isset($responseError->reason) && $responseError->reason === 'INVALID_USER') {
+                $result->addError(new Error($responseError->message));
+                return $result;
             }
 
             $userData['password']['value'] = '********';
@@ -171,7 +163,7 @@ class CrowdClient
 
     public function setPasswordForUser(string $username, string $password): void
     {
-        $this->httpClient->put('user/password?username=' . urlencode($username), ['body' => json_encode(['value' => $password])]);
+        $this->httpClient->put('user/password?username=' . urlencode($username), ['body' => json_encode(['value' => $password], JSON_THROW_ON_ERROR)]);
     }
 
     public function setNameForUser(string $username, string $firstName, string $lastName): void
@@ -194,7 +186,7 @@ class CrowdClient
             'active' => true,
         ];
         $data = array_merge($defaultValues, $user->toArray(), $newValues);
-        $this->httpClient->put('user?username=' . urlencode($username), ['body' => json_encode($data)]);
+        $this->httpClient->put('user?username=' . urlencode($username), ['body' => json_encode($data, JSON_THROW_ON_ERROR)]);
         $this->emitUserUpdated($user, $newValues);
     }
 

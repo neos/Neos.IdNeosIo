@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\DiscourseCrowdSso;
 
 use GuzzleHttp\Client as HttpClient;
@@ -12,31 +14,15 @@ use Neos\Flow\Security\Account;
  */
 final class DiscourseService
 {
+    private string $discourseBaseUri;
 
-    /**
-     * @var string
-     */
-    private $discourseBaseUri;
+    private string $ssoSecret;
 
-    /**
-     * @var string
-     */
-    private $ssoSecret;
+    private string $apiKey;
 
-    /**
-     * @var string
-     */
-    private $apiKey;
+    private string $apiUsername;
 
-    /**
-     * @var string
-     */
-    private $apiUsername;
-
-    /**
-     * @var HttpClient
-     */
-    private $httpClient;
+    private HttpClient $httpClient;
 
     public function __construct(string $discourseBaseUri, string $ssoSecret, string $apiKey, string $apiUsername)
     {
@@ -56,23 +42,18 @@ final class DiscourseService
     /**
      * Authenticates a Discourse SSO request and returns the proper redirect URI
      * @see https://meta.discourse.org/t/official-single-sign-on-for-discourse-sso/13045
-     *
-     * @param string $sso incoming SSO payload
-     * @param string $sig SSO signature
-     * @param SsoPayload $payload outgoing SSO payload
-     * @return Uri The URI to redirect the user to
      */
-    public function authenticate(string $sso, string $sig, SsoPayload $payload): Uri
+    public function authenticate(string $incomingSsoPayload, string $ssoSignature, SsoPayload $outgoingSsoPayload): Uri
     {
-        if ($sig !== hash_hmac('sha256', $sso, $this->ssoSecret)) {
+        if ($ssoSignature !== hash_hmac('sha256', $incomingSsoPayload, $this->ssoSecret)) {
             throw new \RuntimeException('Invalid SSO signature!', 1534422486);
         }
-        parse_str(base64_decode($sso), $incomingPayload);
-        if (!isset($incomingPayload['nonce']) || empty($incomingPayload['nonce'])) {
+        parse_str(base64_decode($incomingSsoPayload), $incomingPayload);
+        if (empty($incomingPayload['nonce'])) {
             throw new \RuntimeException('Missing SSO nonce!', 1534429668);
         }
 
-        $outgoingPayload = $payload->withNonce($incomingPayload['nonce']);
+        $outgoingPayload = $outgoingSsoPayload->withNonce($incomingPayload['nonce']);
         $outgoingPayloadEncoded = base64_encode(http_build_query($outgoingPayload->jsonSerialize()));
         $queryParameters = [
             'sso' => $outgoingPayloadEncoded,
@@ -85,8 +66,6 @@ final class DiscourseService
 
     /**
      * Synchronizes user data back to the discourse SSO endpoint
-     *
-     * @param SsoPayload $payload
      */
     public function synchronizeUser(SsoPayload $payload): void
     {
@@ -114,8 +93,6 @@ final class DiscourseService
 
     /**
      * Logs out the user associated with the given $account
-     *
-     * @param Account $account
      */
     public function logoutUser(Account $account): void
     {
@@ -127,7 +104,7 @@ final class DiscourseService
         } catch (RequestException $exception) {
             throw new \RuntimeException('Could not fetch discourse User', 1534490588, $exception);
         }
-        $userData = json_decode($userResponse->getBody()->getContents(), true);
+        $userData = json_decode($userResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         if (!isset($userData['user']['id'])) {
             throw new \RuntimeException('Missing user.id from /users/<username>.json response', 1534490654);
         }
@@ -145,9 +122,6 @@ final class DiscourseService
      *
      * This check is useful to prevent that a user signs up with an email address that is already in use
      * which would lead to an exception when trying to synchronize the user data
-     *
-     * @param string $email
-     * @return bool
      */
     public function hasUserWithEmail(string $email): bool
     {
@@ -160,7 +134,7 @@ final class DiscourseService
         } catch (RequestException $exception) {
             throw new \RuntimeException('Could not look up email address with discourse', 1536231736, $exception);
         }
-        $usersData = json_decode($response->getBody()->getContents(), true);
+        $usersData = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         return $usersData !== [];
     }
 

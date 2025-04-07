@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\IdNeosIo\Domain\Model;
 
 use Neos\Flow\Annotations as Flow;
@@ -8,24 +10,18 @@ use Neos\Flow\Annotations as Flow;
  */
 final class ResetPasswordDto
 {
-
     /**
      * @Flow\Validate(type="StringLength", options={"minimum"=8})
-     * @var string
      */
-    protected $password;
+    protected string $password;
 
-    /**
-     * @var string
-     */
-    protected $passwordConfirmation;
+    protected string $passwordConfirmation;
 
     public function __construct(string $password, string $passwordConfirmation)
     {
         $this->password = $password;
         $this->passwordConfirmation = $passwordConfirmation;
     }
-
 
     public function getPassword(): string
     {

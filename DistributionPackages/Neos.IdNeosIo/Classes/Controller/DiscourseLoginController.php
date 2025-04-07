@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\IdNeosIo\Controller;
 
 use Neos\CrowdClient\Domain\Service\CrowdClient;
@@ -12,7 +14,6 @@ use Neos\Flow\Security\Context;
 
 class DiscourseLoginController extends ActionController
 {
-
     /**
      * @Flow\Inject
      * @var Context
@@ -32,9 +33,6 @@ class DiscourseLoginController extends ActionController
     protected $discourseService;
 
     /**
-     * @param string $sso
-     * @param string $sig
-     * @return void
      * @throws StopActionException | UnsupportedRequestTypeException
      * @Flow\SkipCsrfProtection
      */
@@ -42,7 +40,7 @@ class DiscourseLoginController extends ActionController
     {
         if ($sso === '' && $sig === '') {
             $argumentsOfInterceptedRequest = $this->securityContext->getInterceptedRequest()->getArguments();
-            if (!isset($argumentsOfInterceptedRequest['sso']) || !isset($argumentsOfInterceptedRequest['sig'])) {
+            if (!isset($argumentsOfInterceptedRequest['sso'], $argumentsOfInterceptedRequest['sig'])) {
                 throw new \RuntimeException('This page needs to be called with valid sso and sig arguments from discourse!', 1534422436);
             }
             $sso = $argumentsOfInterceptedRequest['sso'];

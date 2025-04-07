@@ -1,27 +1,21 @@
 <?php
+declare(strict_types=1);
+
 namespace Neos\IdNeosIo\Domain\Model;
 
 use Neos\Flow\Annotations as Flow;
 
 class ChangeNameDto
 {
+    /**
+     * @Flow\Validate(type="NotEmpty")
+     */
+    protected string $firstName;
 
     /**
      * @Flow\Validate(type="NotEmpty")
-     * @var string
      */
-    protected $firstName;
-
-    /**
-     * @Flow\Validate(type="NotEmpty")
-     * @var string
-     */
-    protected $lastName;
-
-    /**
-     * @var string
-     */
-    protected $passwordConfirmation;
+    protected string $lastName;
 
     public function __construct(string $firstName, string $lastName)
     {
